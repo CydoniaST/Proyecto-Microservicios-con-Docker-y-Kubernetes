@@ -4,18 +4,18 @@ public class Aerogenerator {
 
     private String Id;
 
-    private Int Latitude;
+    private int Latitude;
 
-    private Int Longitude;
+    private int Longitude;
 
-    private Double BladeLength;
+    private double BladeLength;
 
-    private Double Height;
+    private double Height;
 
-    private  Double Power;
+    private  double Power;
 
 
-  public Aerogenerator(String Id, Int Latitude, Int Longitude, Double BladeLength, Double Height, Double Power){
+  public Aerogenerator(String Id, int Latitude, int Longitude, double BladeLength, double Height, double Power){
     this.Id = Id;
     this.Latitude= Latitude;
     this.Longitude= Longitude;
@@ -29,45 +29,45 @@ public class Aerogenerator {
         return Id;
     }
 
-    public  Int getLatitude(){
+    public  int getLatitude(){
         return Latitude;
     }
 
-    public  Int Longitude(){
+    public  int Longitude(){
         return Longitude;
     }
 
-    public Double getBladeLength(){
+    public double getBladeLength(){
         return BladeLength;
     }
 
-    public Double getHeigh(){
+    public double getHeigh(){
         return Height;
     }
     
-    public Double getPower(){
+    public double getPower(){
         return Power;
     }
      public void setId(String Id) {
         this.Id = Id;
     }
 
-      public void setId(Int Latitude) {
+      public void setId(int Latitude) {
         this.Latituded = Latitude;
     }
-      public void setId(Int Longitude) {
+      public void setId(int Longitude) {
         this.Longitude = Longitude;
     }
-      public void setId(Int Longitude) {
+      public void setId(int Longitude) {
         this.Longitude = Longitude;
     }
-  public void setId(Double BladeLength) {
+  public void setId(double BladeLength) {
         this.BladeLength = BladeLength;
     }  
-     public void setId(Double Height) {
+     public void setId(double Height) {
         this.Height = Height;
     }    
-     public void setId(Double Power) {
+     public void setId(double Power) {
         this.Power = Power;
     }    
 
