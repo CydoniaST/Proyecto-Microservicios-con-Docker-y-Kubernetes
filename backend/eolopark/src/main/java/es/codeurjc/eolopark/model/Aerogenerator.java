@@ -13,7 +13,7 @@ public class Aerogenerator {
     private double Height;
 
     private  double Power;
-
+//cambio
 
   public Aerogenerator(String Id, int Latitude, int Longitude, double BladeLength, double Height, double Power){
     this.Id = Id;
