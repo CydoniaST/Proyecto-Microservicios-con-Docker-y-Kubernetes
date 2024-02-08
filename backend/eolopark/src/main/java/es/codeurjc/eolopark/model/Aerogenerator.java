@@ -4,18 +4,17 @@ public class Aerogenerator {
 
     private String Id;
 
-    private int Latitude;
+    private double Latitude;
 
-    private int Longitude;
+    private double Longitude;
 
     private double BladeLength;
 
     private double Height;
 
     private  double Power;
-//cambio
 
-  public Aerogenerator(String Id, int Latitude, int Longitude, double BladeLength, double Height, double Power){
+  public Aerogenerator(String Id, double Latitude, double Longitude, double BladeLength, double Height, double Power){
     this.Id = Id;
     this.Latitude= Latitude;
     this.Longitude= Longitude;
@@ -52,22 +51,20 @@ public class Aerogenerator {
         this.Id = Id;
     }
 
-      public void setId(int Latitude) {
+      public void setLatitude(int Latitude) {
         this.Latituded = Latitude;
     }
-      public void setId(int Longitude) {
+      public void setLongitude(int Longitude) {
         this.Longitude = Longitude;
     }
-      public void setId(int Longitude) {
-        this.Longitude = Longitude;
-    }
-  public void setId(double BladeLength) {
+    
+    public void setBladeLength(double BladeLength) {
         this.BladeLength = BladeLength;
     }  
-     public void setId(double Height) {
+     public void setHeight(double Height) {
         this.Height = Height;
     }    
-     public void setId(double Power) {
+     public void setPower(double Power) {
         this.Power = Power;
     }    
 
