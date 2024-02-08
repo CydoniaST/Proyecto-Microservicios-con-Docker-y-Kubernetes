@@ -8,6 +8,7 @@ public class EoloparkApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EoloparkApplication.class, args);
+		
 	}
 
 }
