@@ -14,7 +14,7 @@ public class EoloPark {
     private Long id;
 
     @OneToMany(mappedBy = "eoloPark", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
+    private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 
     private String name;
 
@@ -27,10 +27,10 @@ public class EoloPark {
     private double area;
 
     private TerrainType terrainType;
-
+    /*
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
-
+*/
 
     private Long createdByUserId;
     public Long getCreatedByUserId() {
@@ -76,8 +76,8 @@ public class EoloPark {
     public TerrainType getTerrainType() {
         return terrainType;
     }
-
-    /*public List<Aerogenerator> getAerogenerators() {
+/*
+    public List<Aerogenerator> getAerogenerators() {
         return aerogeneratorList;
     }*/
 

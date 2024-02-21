@@ -1,0 +1,90 @@
+package es.codeurjc.eolopark.configuration;
+
+import es.codeurjc.eolopark.Servicios.RepositoryUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfiguration{
+	
+    //esto en esta clase no sirve
+	@Value("${security.admin}") //Para que lo lea desde el fichero propierties
+    private String adminUsername;
+
+    @Value("${security.adminEncodedPassword}")
+    private String adminEncodedPassword;
+
+	
+	@Autowired
+    public RepositoryUserDetailsService userDetailService; //inyeccion de independencias
+
+	
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {    //Declarar ese tipo de variable 
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+		authProvider.setUserDetailsService(userDetailService);
+		authProvider.setPasswordEncoder(passwordEncoder());
+
+		return authProvider;
+	}
+
+	
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity https) throws Exception {
+		
+		https.authenticationProvider(authenticationProvider());
+		
+		https
+			.authorizeHttpRequests(authorize -> authorize
+					.requestMatchers("/Login").permitAll()//clases publicas
+					.requestMatchers("/register").permitAll()
+					.requestMatchers("/Error").permitAll()
+					.requestMatchers("/DetallesPark/**").permitAll()
+					.requestMatchers("/DetallesSubstation/**").permitAll()
+					.requestMatchers("/PaginaPrincipal").permitAll()
+					.requestMatchers("/EoloPark").permitAll()
+					.requestMatchers("/").permitAll()
+					// PRIVATE PAGES
+
+                    //CAMBIAR ESTO A LAS PAGINAS NUESTRAS
+					//.requestMatchers("/PaginaPrincipal").hasAnyRole("USER") 
+                    //.requestMatchers("/InfoEoloPark").hasAnyRole("USER")  //privadas que solo hacen usuarios
+					//.requestMatchers("/newPark/A").hasAnyRole("ADMIN")  -////privadas que solo hacen admin y a los admin hhay que hacerles tambien usuarios
+			)
+			.formLogin(formLogin -> formLogin
+					.loginPage("/login")    //PAGINA LOGIN
+					.failureUrl("/Error") //PAGINA ERROR
+					.defaultSuccessUrl("/PaginaPrincipal")  // donde te lleva si el login es correcto
+					.permitAll()
+			)
+			.logout(logout -> logout
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/")
+					.permitAll()
+			);
+		
+		// Disable CSRF at the moment HAY QUE HABILITARLO
+		https.csrf(csrf -> csrf.disable());
+
+		return https.build();
+	}
+
+}

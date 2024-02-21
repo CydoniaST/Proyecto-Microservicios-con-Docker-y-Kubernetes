@@ -1,4 +1,4 @@
-package es.codeurjc.eolopark.Servicios;
+package es.codeurjc.eolopark.service;
 
 import es.codeurjc.eolopark.model.Substation;
 import es.codeurjc.eolopark.repository.SubstationRepository;
