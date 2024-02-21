@@ -2,6 +2,7 @@ package es.codeurjc.eolopark.controller;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.eolopark.service.AerogeneratorService;
 import es.codeurjc.eolopark.service.EoloParkService;
 import es.codeurjc.eolopark.service.SubstationService;
+import es.codeurjc.eolopark.model.Aerogenerator;
 //import es.codeurjc.eolopark.service.UserDetailsService;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.TerrainType;
