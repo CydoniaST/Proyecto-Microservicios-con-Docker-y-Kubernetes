@@ -1,4 +1,4 @@
-package es.codeurjc.eolopark.Servicios;
+package es.codeurjc.eolopark.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import es.codeurjc.eolopark.repository.UserRepository;
 
 import org.springframework.security.core.userdetails.User;
 

@@ -1,6 +1,6 @@
 package es.codeurjc.eolopark.configuration;
 
-import es.codeurjc.eolopark.service.RepositoryUserDetailsService;
+import es.codeurjc.eolopark.repository.RepositoryUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

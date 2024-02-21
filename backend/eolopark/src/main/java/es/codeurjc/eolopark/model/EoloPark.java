@@ -27,10 +27,11 @@ public class EoloPark {
     private double area;
 
     private TerrainType terrainType;
-    /*
+    
+
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
-*/
+
 
     private Long createdByUserId;
     public Long getCreatedByUserId() {

@@ -122,8 +122,8 @@ public class EoloParkController {
         // Obtenemos la info del parque por su ID
        
         model.addAttribute("DetallesPark", eoloParkService.findEoloParkById(id));
-        //model.addAttribute("DetallesSubstation", substationService.findSubstationByEoloParkId(id));
-        //model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
+        model.addAttribute("DetallesSubstation", substationService.findSubstationByEoloParkId(id));
+        model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
          // Obtenemos la info del usuario que creo el parque
          //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
          //model.addAttribute("createdBy", createdByUser.getUsername());
