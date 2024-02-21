@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
-//import es.codeurjc.eolopark.service.AerogeneratorService;
+import es.codeurjc.eolopark.service.AerogeneratorService;
 import es.codeurjc.eolopark.service.EoloParkService;
-//import es.codeurjc.eolopark.service.SubstationService;
+import es.codeurjc.eolopark.service.SubstationService;
 //import es.codeurjc.eolopark.service.UserDetailsService;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.TerrainType;
@@ -28,24 +28,23 @@ public class EoloParkController {
     @Autowired
     EoloParkService eoloParkService;
 
-    /*@Autowired
+    @Autowired
     AerogeneratorService aerogeneratorService;
 
     @Autowired
     SubstationService substationService;
 
-    @Autowired
-    UserDetailsService userService;
-    */
+    //@Autowired
+    //UserDetailsService userService;
+    
     @Autowired
     EoloParkRepository eoloParkRepository;
 
-    //private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
+    private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 
     @PostConstruct
 	public void init() {
 		eoloParkService.save(new EoloPark("Miraflores", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
-		//eoloParkService.save(new EoloPark("Juan", "Hola caracola", "XXXX"));
 	}
    
     

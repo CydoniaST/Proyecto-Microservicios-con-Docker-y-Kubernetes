@@ -1,48 +1,59 @@
 package es.codeurjc.eolopark.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Substation {
 
-    private String Model;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private double Power;
+    private String model;
+    private Double power;
+    private Double voltage;
 
-    private double Voltage;
+ 
+    @OneToOne(mappedBy = "substation")
+    private EoloPark eoloPark;
 
-
-
- public Substation(String Model, double Power, double Voltage) {
-        this.Model = Model;
-        this.Power = Power;
-        this.Voltage = Voltage;
+    public Substation() {
     }
 
-     public String getModel() {
-        return Model;
-    }    
-
-     public double getPower() {
-        return Power;
+    public Substation(String model, Double power, Double voltage) {
+        this.model = model;
+        this.power = power;
+        this.voltage = voltage;
     }
 
-    public double getVoltage() {
-        return Voltage;
+    // Getters y setters
+    public Long getId() {
+        return id;
     }
 
-    public void setModel(String Model) {
-        this.Model = Model;
+    public String getModel() {
+        return model;
     }
 
-    public void setPower(double Power) {
-        this.Power = Power;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-     public void setVoltage(double Voltage) {
-        this.Voltage = Voltage;
+    public Double getPower() {
+        return power;
     }
 
+    public void setPower(Double power) {
+        this.power = power;
+    }
 
+    public Double getVoltage() {
+        return voltage;
+    }
 
+    public void setVoltage(Double voltage) {
+        this.voltage = voltage;
+    }
 
 
 }
-
