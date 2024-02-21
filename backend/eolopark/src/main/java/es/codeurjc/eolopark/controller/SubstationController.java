@@ -1,6 +1,6 @@
 package es.codeurjc.eolopark.controller;
 
-import es.codeurjc.eolopark.Servicios.SubstationService;
+import es.codeurjc.eolopark.service.SubstationService;
 import es.codeurjc.eolopark.model.Aerogenerator;
 import es.codeurjc.eolopark.model.Substation;
 import jakarta.annotation.PostConstruct;
