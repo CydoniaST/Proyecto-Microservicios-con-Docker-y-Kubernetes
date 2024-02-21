@@ -1,84 +1,105 @@
 package es.codeurjc.eolopark.model;
 
+
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class EoloPark {
 
-    private String Name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private String City;
+    @OneToMany(mappedBy = "eoloPark", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 
-    private int Latitude;
+    private String name;
 
-    private int Longitude;
+    private String city;
 
-    private double Area;
+    private double latitude;
+
+    private double longitude;
+
+    private double area;
 
     private TerrainType terrainType;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Substation substation;
 
-    public EoloPark(String Name, String City, int Latitude, int Longitude, double Area, TerrainType terrainType){
-       this.Name= Name;
-       this.City= City;
-       this.Latitude=Latitude;
-       this.Longitude=Longitude;
-       this.Area= Area;
+
+    private Long createdByUserId;
+    public Long getCreatedByUserId() {
+        return createdByUserId;
+    }
+    public void setCreatedByUserId(Long createdByUserId) {
+        this.createdByUserId = createdByUserId;
+    }
+
+    public EoloPark(){
+
+    }
+
+    public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType){
+       this.name= name;
+       this.city= city;
+       this.latitude=latitude;
+       this.longitude=longitude;
+       this.area= area;
        this.terrainType= terrainType;
     }
 
      public String getName() {
-        return Name;
+        return name;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public double getArea() {
-        return Area;
+        return area;
     }
 
     public TerrainType getTerrainType() {
         return terrainType;
     }
 
-     public void setName(String Name) {
-        this.Name = Name;
+    /*public List<Aerogenerator> getAerogenerators() {
+        return aerogeneratorList;
+    }*/
+
+     public void setName(String name) {
+        this.name = name;
     }
-    public void setCity(String City) {
-        this.City = City;
+    public void setCity(String city) {
+        this.city = city;
     }
-     public void setLatitude(double Latitude) {
-        this.Latitude = Latitude;
+     public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
-    public void setLongitude(double Longitude) {
-        this.Longitude = Longitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    public void setArea(double Area) {
-        this.Area = Area;
+    public void setArea(double area) {
+        this.area = area;
     }
 
      public void setTerrainType(TerrainType terrainType) {
         this.terrainType = terrainType;
     }
-
-
-
-
-
-
-
-
-    
-
-
-
 
 }
