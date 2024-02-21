@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EoloPark Manager</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Listado de Parques Eólicos</h1>
+    <button class="custom-btn btn-16">Logout</button>
+
+    <form action="/" method="get">
+        <input type="text" name="city" placeholder="Buscar por ciudad">
+        <button type="submit">Buscar</button>
+    </form>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Ciudad</th>
+        </tr>
+        {{#eoloParks}}
+            <tr>
+            
+                <td>Nombre del Parque:<a href="/DetallesPark/{{id}}"> {{name}}</a> </td>
+                <td> Ciudad:{{city}}</td>          
+                
+                
+            </tr>
+        {{/eoloParks}}
+    </table>
+    <!--<a href="/EoloPark">Crear Nuevo Parque Eólico</a> -->
+
+    <!--<a href="/"!>Next (siguiente pagina)</a> -->
+    <br>
+    <a href="/EoloPark"><button>Crear Nuevo Parque</button></a>
+</body>
+</html>
