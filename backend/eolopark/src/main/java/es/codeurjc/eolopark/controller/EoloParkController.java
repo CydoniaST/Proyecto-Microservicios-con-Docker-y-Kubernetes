@@ -48,6 +48,7 @@ public class EoloParkController {
     @PostConstruct
 	public void init() {
 		eoloParkService.save(new EoloPark("Miraflores", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
+        eoloParkService.save(new EoloPark("vallecas", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
 	}
    
     

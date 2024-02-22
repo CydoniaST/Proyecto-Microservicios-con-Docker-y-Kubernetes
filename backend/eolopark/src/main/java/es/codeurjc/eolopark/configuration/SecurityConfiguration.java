@@ -61,7 +61,9 @@ public class SecurityConfiguration{
 					.requestMatchers("/DetallesSubstation/**").permitAll()
 					.requestMatchers("/PaginaPrincipal").permitAll()
 					.requestMatchers("/EoloPark").permitAll()
+							.requestMatchers("/api/**").permitAll()
 					.requestMatchers("/").permitAll()
+
 					// PRIVATE PAGES
 
                     //CAMBIAR ESTO A LAS PAGINAS NUESTRAS
