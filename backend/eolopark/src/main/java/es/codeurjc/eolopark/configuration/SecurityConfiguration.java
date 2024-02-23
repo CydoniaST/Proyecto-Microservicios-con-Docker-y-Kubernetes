@@ -62,6 +62,7 @@ public class SecurityConfiguration{
 					//.requestMatchers("/DetallesSubstation/**").permitAll()
 					.requestMatchers("/PaginaPrincipal").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/EoloPark").permitAll()
+					.requestMatchers("/EoloPark/Manual").permitAll()
 					.requestMatchers("/").permitAll()
 					.requestMatchers("/Successfully").permitAll()
 
