@@ -65,8 +65,8 @@ public class EoloParkController {
         aerogeneratorService.save(a1);
         aerogeneratorService.save(a2);
 
-        ep1.setAerogenerator(a1);
-        ep2.setAerogenerator(a2);
+        // ep1.setAerogenerator(a1);
+        // ep2.setAerogenerator(a2);
 
 	}
    

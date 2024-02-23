@@ -41,9 +41,9 @@ public class Aerogenerator {
 
     }
 
-    public void setEoloPark(EoloPark eoloPark) {
-        this.eoloPark = eoloPark;
-    }
+    // public void setEoloPark(EoloPark eoloPark) {
+    //     this.eoloPark = eoloPark;
+    // }
 
     public String getId() {
         return identifyer;
