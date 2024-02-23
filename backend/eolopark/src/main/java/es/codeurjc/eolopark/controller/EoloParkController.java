@@ -11,13 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.eolopark.service.AerogeneratorService;
 import es.codeurjc.eolopark.service.EoloParkService;
 import es.codeurjc.eolopark.service.SubstationService;
-import es.codeurjc.eolopark.model.Aerogenerator;
 import es.codeurjc.eolopark.service.UserDetailsService;
 import es.codeurjc.eolopark.repository.UserRepository;
 
@@ -47,13 +46,10 @@ public class EoloParkController {
 
     @PostConstruct
 	public void init() {
-		// eoloParkService.save(new EoloPark("Miraflores", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
-        // eoloParkService.save(new EoloPark("vallecas", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
-
+	
         EoloPark ep1 = new EoloPark("Miraflores", "Madrid", 0, 0, 0, TerrainType.DESERT);
         EoloPark ep2 = new EoloPark("Ciudad Lineal","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN);
-
-        
+    
         eoloParkRepository.save(ep1);
         eoloParkRepository.save(ep2);
 
@@ -61,12 +57,10 @@ public class EoloParkController {
         Aerogenerator a2 = new Aerogenerator("1", 23.233, 65.543, 50.0, 654.1, 192.3);
         
         a1.setEoloPark(ep2);
+        a2.setEoloPark(ep1);
 
         aerogeneratorService.save(a1);
         aerogeneratorService.save(a2);
-
-        // ep1.setAerogenerator(a1);
-        // ep2.setAerogenerator(a2);
 
 	}
    
@@ -138,22 +132,29 @@ public class EoloParkController {
         return "redirect:/"; // Redirecciona a la página principal
     }
 
-    // @GetMapping("/DetallesPark/{id}")
-    // public String infoEoloPark(@PathVariable Long id, Model model) {
-    //     // Obtenemos la info del parque por su ID
-       
-    //     model.addAttribute("DetallesPark", eoloParkService.findEoloParkById(id));
-    //     model.addAttribute("DetallesSubstation", substationService.findSubstationByEoloParkId(id));
-    //     model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
-    //      // Obtenemos la info del usuario que creo el parque
-    //      //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
-    //      //model.addAttribute("createdBy", createdByUser.getUsername());
+    @GetMapping("/Successfully")
+    public String success(Model model) {
 
-    //     return "DetallesPark"; 
-    // }   
+        model.addAttribute("succes");
 
-        @GetMapping("/DetailsPark/{id}")
-        public String infoEoloPark(@PathVariable Long id, Model model) {
+        return "Successfully";
+    }
+
+    @PostMapping("/EoloPark/Manual")
+    public String newPark(EoloPark eoloPark) {
+
+        Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
+        Substation substation = new Substation("null", 0.0, 0.0);
+
+        eoloParkService.save(eoloPark);
+        aerogeneratorService.save(aerogenerator);
+        substationService.save(substation);
+
+        return "Successfully";
+    }
+
+    @GetMapping("/DetailsPark/{id}")
+    public String infoEoloPark(@PathVariable Long id, Model model) {
         // Obtenemos la info del parque por su ID
         EoloPark eoloPark = eoloParkService.findEoloParkById(id);
         model.addAttribute("DetailsPark", eoloPark);

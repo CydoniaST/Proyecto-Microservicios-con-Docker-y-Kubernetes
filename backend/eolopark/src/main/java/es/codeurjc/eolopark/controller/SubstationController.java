@@ -24,13 +24,13 @@ public class SubstationController {
 
     @PostConstruct
 	public void init() {
-		substationService.addSubstation(new Substation("Modelo Ejemplo", 12.22, 53.11));
+		substationService.save(new Substation("Modelo Ejemplo", 12.22, 53.11));
 		//eoloParkService.save(new EoloPark("Juan", "Hola caracola", "XXXX"));
 	}
 
     @PostMapping("/add")
     public ResponseEntity<Substation> addSubstation(@RequestBody Substation substation) {
-        Substation newSubstation = substationService.addSubstation(substation);
+        Substation newSubstation = substationService.save(substation);
         return ResponseEntity.ok(newSubstation);
     }
 

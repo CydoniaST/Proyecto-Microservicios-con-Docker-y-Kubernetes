@@ -7,54 +7,47 @@
     <body>
         <h1>New Eolo Park</h1>
         <h2>Automatic</h2>
-        <form action="/crear" method="post">
+        <form action="/Automatic" method="post">
             <h2>Automatic</h2>
-                <label for="parque-city">Ciudad:</label>
-                <input type="text" id="parque-city" name="parque-city" required><br>
+                <label for="name">Ciudad:</label>
+                <input type="text"  name="name" required><br>
 
-                <label for="parque-area">Área:</label>
-                <input type="number" id="parque-area" name="parque-area" required><br>
+                <label for="area">Área:</label>
+                <input type="number" step="0.01" name="area" required><br>
 
                 <button type="submit">Crear</button>
+        </form>
 
+        <form action="/EoloPark/Manual" method="post">
             <h2>Manual</h2>
-                <label for="parque-name">Nombre del Parque:</label>
-                <input type="text" id="parque-name" name="parque-name" required><br>
-        
-                <label for="parque-city">Ciudad:</label>
-                <input type="text" id="parque-city" name="parque-city" required><br>
-        
-                <label for="parque-latitude">Latitud:</label>
-                <input type="number" id="parque-latitude" name="parque-latitude" required><br>
-        
-                <label for="parque-longitude">Longitud:</label>
-                <input type="number" id="parque-longitude" name="parque-longitude" required><br>
-        
-                <label for="parque-area">Área:</label>
-                <input type="number" id="parque-area" name="parque-area" required><br>
-        
-                <label for="parque-terrain">Tipo de Terreno:</label>
-                <select id="parque-terrain" name="parque-terrain">
+                <label for="name">Nombre del Parque:</label>
+                <input type="text"  name="name" required><br>
+
+                <label for="city">Ciudad:</label>
+                <input type="text"  name="city" required><br>
+
+                <label for="latitude">Latitud:</label>
+                <input type="number" step="0.01" name="latitude" required><br>
+
+                <label for="longirude">Longitud:</label>
+                <input type="number" step="0.01" name="longitude" required><br>
+
+                <label for="area">Área:</label>
+                <input type="number" step="0.01" name="area" required><br>
+
+                <label for="terrainType">Tipo de Terreno:</label>
+                <select id="terrainType" name="terrainType">
                     <option value="PLAIN">Plain</option>
                     <option value="HILL">Hill</option>
                     <option value="MOUNTAIN">Mountain</option>
                     <option value="DESERT">Desert</option>
                     <option value="FOREST">Forest</option>
                 </select><br>
-    
-            <h3>Substation</h3>
-                <label for="substation-model">Modelo de la Subestación:</label>
-                <input type="text" id="substation-model" name="substation-model" required><br>
-        
-                <label for="substation-power">Potencia de la Subestación (kVA):</label>
-                <input type="number" id="substation-power" name="substation-power" required><br>
-        
-                <label for="substation-voltage">Tensión de Salida (kV):</label>
-                <input type="number" id="substation-voltage" name="substation-voltage" required><br>
-    
-                <button type="submit">Crear</button>
+
+
+                <a href="/Successfully"><button type="submit">Crear</button></a>
         </form>
 
-        <a href="/PaginaPrincipal">Go back</a>
+        <a href="/">Go back</a>
     </body>
 </html>

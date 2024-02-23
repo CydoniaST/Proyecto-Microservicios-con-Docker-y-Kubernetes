@@ -18,7 +18,7 @@ public class SubstationService {
         this.substationRepository = substationRepository;
     }
 
-    public Substation addSubstation(Substation substation) {
+    public Substation save(Substation substation) {
         // Lógica para agregar una nueva subestación
         return substationRepository.save(substation);
     }

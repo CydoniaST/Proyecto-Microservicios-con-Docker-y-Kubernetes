@@ -17,15 +17,6 @@ public class AerogeneratorController {
     AerogeneratorService aerogeneratorService;
 
 
-    @PostConstruct
-    public void init() {
-        aerogeneratorService.save(new Aerogenerator("123", 12.1243, 12.43422, 23.2, 323.2, 123.3));
-        aerogeneratorService.save(new Aerogenerator("123", 23.233, 65.543, 50.0, 654.1, 192.3));
-        aerogeneratorService.save(new Aerogenerator("456", 65.34, 98.12, 543.3, 600.3, 1.1));
-
-    }
-
-
     /*@GetMapping("/DetallesPark/{id}")
     public String infoEoloPark(@PathVariable Long id, Model model) {
         // Obtenemos la info del parque por su ID
