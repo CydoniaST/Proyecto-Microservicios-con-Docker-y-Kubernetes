@@ -11,8 +11,10 @@ public class Aerogenerator {
     
     private String identifyer = String.valueOf(id);
 
-    @ManyToOne
-    EoloPark eoloPark;
+    //Nuevo
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "eoloPark_id")
+    private EoloPark eoloPark;
 
     private double latitude;
 
@@ -85,6 +87,16 @@ public class Aerogenerator {
     }    
      public void setPower(double power) {
         this.power = power;
+    }    
+
+    
+    //Nuevo
+    public EoloPark getEoloPark() {
+        return eoloPark;
+    }
+
+    public void setEoloPark(EoloPark eoloPark) {
+        this.eoloPark = eoloPark;
     }    
 
 

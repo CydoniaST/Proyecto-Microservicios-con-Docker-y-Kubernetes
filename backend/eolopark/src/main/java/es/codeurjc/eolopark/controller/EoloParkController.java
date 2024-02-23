@@ -47,12 +47,29 @@ public class EoloParkController {
 
     @PostConstruct
 	public void init() {
-		eoloParkService.save(new EoloPark("Miraflores", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
-        eoloParkService.save(new EoloPark("vallecas", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
+		// eoloParkService.save(new EoloPark("Miraflores", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
+        // eoloParkService.save(new EoloPark("vallecas", "Madrid", 12.1243, 12.43422,23.2, TerrainType.PLAIN));
+
+        EoloPark ep1 = new EoloPark("Miraflores", "Madrid", 0, 0, 0, TerrainType.DESERT);
+        EoloPark ep2 = new EoloPark("Ciudad Lineal","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN);
+
+        
+        eoloParkRepository.save(ep1);
+        eoloParkRepository.save(ep2);
+
+        Aerogenerator a1 = new Aerogenerator("1", 12.1243, 12.43422, 23.2, 323.2, 123.3);
+        Aerogenerator a2 = new Aerogenerator("1", 23.233, 65.543, 50.0, 654.1, 192.3);
+        
+        a1.setEoloPark(ep2);
+
+        aerogeneratorService.save(a1);
+        aerogeneratorService.save(a2);
+
+        ep1.setAerogenerator(a1);
+        ep2.setAerogenerator(a2);
+
 	}
    
-    
-
 
    @GetMapping("/PaginaPrincipal")
     public String paginaPrincipal(@RequestParam(required = false) String city, Model model, HttpServletRequest request) {
@@ -121,20 +138,36 @@ public class EoloParkController {
         return "redirect:/"; // Redirecciona a la página principal
     }
 
-    @GetMapping("/DetallesPark/{id}")
-    public String infoEoloPark(@PathVariable Long id, Model model) {
-        // Obtenemos la info del parque por su ID
+    // @GetMapping("/DetallesPark/{id}")
+    // public String infoEoloPark(@PathVariable Long id, Model model) {
+    //     // Obtenemos la info del parque por su ID
        
-        model.addAttribute("DetallesPark", eoloParkService.findEoloParkById(id));
-        model.addAttribute("DetallesSubstation", substationService.findSubstationByEoloParkId(id));
-        model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
+    //     model.addAttribute("DetallesPark", eoloParkService.findEoloParkById(id));
+    //     model.addAttribute("DetallesSubstation", substationService.findSubstationByEoloParkId(id));
+    //     model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
+    //      // Obtenemos la info del usuario que creo el parque
+    //      //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
+    //      //model.addAttribute("createdBy", createdByUser.getUsername());
+
+    //     return "DetallesPark"; 
+    // }   
+
+        @GetMapping("/DetailsPark/{id}")
+        public String infoEoloPark(@PathVariable Long id, Model model) {
+        // Obtenemos la info del parque por su ID
+        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
+        model.addAttribute("DetailsPark", eoloPark);
+        model.addAttribute("hasSubstation", eoloPark.getSubstation() != null);
+        model.addAttribute("hasAerogenerator", eoloPark.getAerogeneratorList() != null);
+
+        //model.addAttribute("DetallesSubstation", eoloParkService.findSubstationByEoloParkId(id));
+        //model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
          // Obtenemos la info del usuario que creo el parque
          //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
          //model.addAttribute("createdBy", createdByUser.getUsername());
 
-        return "DetallesPark"; 
+        return "DetailsPark"; 
     }   
-
 
 
 }
