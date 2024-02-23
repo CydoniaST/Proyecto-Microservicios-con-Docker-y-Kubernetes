@@ -146,7 +146,7 @@ public class ApiController {
     @PutMapping("/aerogerator/{id}")
     public ResponseEntity<Aerogenerator> updateAerogenerador(@PathVariable long id, @RequestBody Aerogenerator newAerogenerador) {
         if (aerogeneratorRepository.existsById(id)) {
-            newAerogenerador.setId(id);
+            newAerogenerador.setId(String.valueOf(id));
             Aerogenerator updatedAerogenerador = aerogeneratorRepository.save(newAerogenerador);
             return ResponseEntity.ok(updatedAerogenerador);
         } else {
