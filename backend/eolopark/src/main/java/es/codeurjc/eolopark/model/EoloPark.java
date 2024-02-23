@@ -1,6 +1,7 @@
 package es.codeurjc.eolopark.model;
 
 
+import es.codeurjc.eolopark.repository.UserRepository;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class EoloPark {
     private double area;
 
     private TerrainType terrainType;
-    
+
 
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
@@ -46,20 +47,27 @@ public class EoloPark {
     }
 
     public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType){
-       this.name= name;
-       this.city= city;
-       this.latitude=latitude;
-       this.longitude=longitude;
-       this.area= area;
-       this.terrainType= terrainType;
+        this.name= name;
+        this.city= city;
+        this.latitude=latitude;
+        this.longitude=longitude;
+        this.area= area;
+        this.terrainType= terrainType;
     }
 
-     public String getName() {
+    public String getName() {
         return name;
     }
 
     public String getCity() {
         return city;
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public double getLatitude() {
@@ -82,13 +90,13 @@ public class EoloPark {
         return aerogeneratorList;
     }*/
 
-     public void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
     public void setCity(String city) {
         this.city = city;
     }
-     public void setLatitude(double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
     public void setLongitude(double longitude) {
@@ -99,8 +107,12 @@ public class EoloPark {
         this.area = area;
     }
 
-     public void setTerrainType(TerrainType terrainType) {
+    public void setTerrainType(TerrainType terrainType) {
         this.terrainType = terrainType;
     }
+
+
+
+
 
 }

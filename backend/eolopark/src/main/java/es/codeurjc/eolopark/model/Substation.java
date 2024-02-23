@@ -13,7 +13,7 @@ public class Substation {
     private Double power;
     private Double voltage;
 
- 
+
     @OneToOne(mappedBy = "substation")
     private EoloPark eoloPark;
 
@@ -56,4 +56,7 @@ public class Substation {
     }
 
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

@@ -66,4 +66,10 @@ public class User {
         throw new UnsupportedOperationException("Unimplemented method 'builder'");
     }
 
+    public Object getId() {
+		return null;
+    }
+
+	public void setId(long id) {
+	}
 }
