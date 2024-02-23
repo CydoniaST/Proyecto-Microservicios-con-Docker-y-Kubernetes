@@ -54,16 +54,20 @@ public class SecurityConfiguration{
 		
 		https
 			.authorizeHttpRequests(authorize -> authorize
-					.requestMatchers("/Login").permitAll()//clases publicas
+					//.requestMatchers("/login").permitAll()//clases publicas
+                    .requestMatchers(("/index")).permitAll()
 					.requestMatchers("/register").permitAll()
-					.requestMatchers("/Error").permitAll()
+					//.requestMatchers("/Error").permitAll()
 					.requestMatchers("/DetallesPark/**").permitAll()
 					.requestMatchers("/DetallesSubstation/**").permitAll()
-					.requestMatchers("/PaginaPrincipal").permitAll()
+					.requestMatchers("/PaginaPrincipal").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/EoloPark").permitAll()
 					.requestMatchers("/").permitAll()
-					// PRIVATE PAGES
 
+					// PRIVATE PAGES
+                    .requestMatchers("/private").hasAnyRole("USER","ADMIN")
+                    .requestMatchers("/admin").hasAnyRole("ADMIN")
+                    
                     //CAMBIAR ESTO A LAS PAGINAS NUESTRAS
 					//.requestMatchers("/PaginaPrincipal").hasAnyRole("USER") 
                     //.requestMatchers("/InfoEoloPark").hasAnyRole("USER")  //privadas que solo hacen usuarios
@@ -71,10 +75,10 @@ public class SecurityConfiguration{
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")    //PAGINA LOGIN
-					.failureUrl("/Error") //PAGINA ERROR
+					.failureUrl("/loginerror") //PAGINA ERROR
 					.defaultSuccessUrl("/PaginaPrincipal")  // donde te lleva si el login es correcto
 					.permitAll()
-			)
+            )
 			.logout(logout -> logout
 					.logoutUrl("/logout")
 					.logoutSuccessUrl("/")

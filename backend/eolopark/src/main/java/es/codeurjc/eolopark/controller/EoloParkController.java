@@ -4,7 +4,8 @@ package es.codeurjc.eolopark.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.codeurjc.eolopark.model.Aerogenerator;
+import es.codeurjc.eolopark.model.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +18,8 @@ import es.codeurjc.eolopark.service.AerogeneratorService;
 import es.codeurjc.eolopark.service.EoloParkService;
 import es.codeurjc.eolopark.service.SubstationService;
 import es.codeurjc.eolopark.model.Aerogenerator;
-//import es.codeurjc.eolopark.service.UserDetailsService;
-import es.codeurjc.eolopark.model.EoloPark;
-import es.codeurjc.eolopark.model.TerrainType;
+import es.codeurjc.eolopark.service.UserDetailsService;
+import es.codeurjc.eolopark.repository.UserRepository;
 
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import jakarta.annotation.PostConstruct;
@@ -37,8 +37,8 @@ public class EoloParkController {
     @Autowired
     SubstationService substationService;
 
-    //@Autowired
-    //UserDetailsService userService;
+    @Autowired
+    UserRepository userRepository;
     
     @Autowired
     EoloParkRepository eoloParkRepository;
@@ -51,17 +51,20 @@ public class EoloParkController {
 	}
    
     
-    @GetMapping("/")
-    public String listEoloParks(@RequestParam(required = false) String city, Model model) {
-        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-        return "PaginaPrincipal";
+
+
+   @GetMapping("/PaginaPrincipal")
+    public String paginaPrincipal(@RequestParam(required = false) String city, Model model, HttpServletRequest request) {
+       String name = request.getUserPrincipal().getName();
+
+       User user = userRepository.findByName(name).orElseThrow();
+
+       model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
+       model.addAttribute("username", user.getName());
+       model.addAttribute("admin", request.isUserInRole("ADMIN"));
+       return "PaginaPrincipal";
     }
 
-   /* @GetMapping("/PaginaPrincipal")
-    public String paginaPrincipal(@RequestParam(required = false) String city, Model model) {
-        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-        return "PaginaPrincipal";
-    }*/
 
     @GetMapping("/EoloPark")
     public String EoloPark( Model model) {
@@ -69,10 +72,10 @@ public class EoloParkController {
         return "EoloPark";
     }
     
-    /*@GetMapping("/Error")
+    /*@GetMapping("/loginerror")
     public String Error( @RequestParam(required = false) String city, Model model) {
         model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-        return "Login";
+        return "login";
     }*/
 
 

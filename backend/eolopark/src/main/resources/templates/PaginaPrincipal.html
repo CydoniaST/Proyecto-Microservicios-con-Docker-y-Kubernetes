@@ -6,7 +6,10 @@
 </head>
 <body>
     <h1>Listado de Parques Eólicos</h1>
-    <button class="custom-btn btn-16">Logout</button>
+    <h2>Hello, {{username}}!</h2>
+    <form action="/logout" method="post">
+        <input type="submit" value="Sign Out" />
+    </form>
 
     <form action="/" method="get">
         <input type="text" name="city" placeholder="Buscar por ciudad">
@@ -20,7 +23,7 @@
         {{#eoloParks}}
             <tr>
             
-                <td>Nombre del Parque:<a href="/DetallesPark/{{id}}"> {{name}}</a> </td>
+                <td>Nombre del Parque: <a href="/DetallesPark/{{id}}">{{name}}</a> </td>
                 <td> Ciudad:{{city}}</td>          
                 
                 
@@ -32,5 +35,8 @@
     <!--<a href="/"!>Next (siguiente pagina)</a> -->
     <br>
     <a href="/EoloPark"><button>Crear Nuevo Parque</button></a>
+    {{#admin}}
+    <a href="/admin"><button>Admin Page</button></a>
+    {{/admin}}
 </body>
 </html>

@@ -39,7 +39,11 @@ public class Aerogenerator {
 
     }
 
-   public String getId() {
+    public void setEoloPark(EoloPark eoloPark) {
+        this.eoloPark = eoloPark;
+    }
+
+    public String getId() {
         return identifyer;
     }
 
