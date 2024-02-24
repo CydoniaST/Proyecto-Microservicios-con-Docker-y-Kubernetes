@@ -24,6 +24,7 @@ public class EoloParkService {
 
     public List<EoloPark> findEoloParks(String city) {
         if (city == null || city.isEmpty()) {
+
             return eoloParkRepository.findAll();
         } else {
             return eoloParkRepository.findByCity(city);

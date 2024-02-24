@@ -88,6 +88,7 @@ public class EoloParkController {
         User user = userRepository.findByName(name).orElseThrow();
         Page<EoloPark> eoloParkPage = eoloParkService.findEoloParks(city, pageable);
 
+
         model.addAttribute("eoloParks", eoloParkPage.getContent());
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
