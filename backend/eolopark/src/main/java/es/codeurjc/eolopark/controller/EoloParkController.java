@@ -8,6 +8,9 @@ import es.codeurjc.eolopark.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -78,14 +81,39 @@ public class EoloParkController {
 //     }
 
     @GetMapping("/PaginaPrincipal")
-    public String mainPage(Model model, HttpServletRequest request) {
+    public String paginaPrincipal(@RequestParam(required = false) String city,
+                                  @PageableDefault(size = 3) Pageable pageable,
+                                  Model model, HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
-
         User user = userRepository.findByName(name).orElseThrow();
+        Page<EoloPark> eoloParkPage = eoloParkService.findEoloParks(city, pageable);
 
-        model.addAttribute("eoloParks", eoloParkService.findEoloParks(null));
+        model.addAttribute("eoloParks", eoloParkPage.getContent());
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
+
+        // Verificar la paginación
+        int currentPage = eoloParkPage.getNumber();
+        model.addAttribute("currentPage", currentPage + 1); // Página actual
+
+        // Añadir botones de paginación
+        if (currentPage < eoloParkPage.getTotalPages() - 1) {
+            int nextPage = currentPage + 1;
+            model.addAttribute("hasNextPage", true);
+            model.addAttribute("nextPage", nextPage);
+        } else {
+            model.addAttribute("hasNextPage", false);
+        }
+
+        if (currentPage > 0) {
+            int previousPage = currentPage - 1;
+            model.addAttribute("hasPreviousPage", true);
+            model.addAttribute("previousPage", previousPage);
+        } else {
+
+            model.addAttribute("hasPreviousPage", false);
+        }
+
         return "PaginaPrincipal";
     }
 

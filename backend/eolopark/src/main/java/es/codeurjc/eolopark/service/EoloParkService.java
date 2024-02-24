@@ -4,6 +4,8 @@ package es.codeurjc.eolopark.service;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,13 @@ public class EoloParkService {
             return eoloParkRepository.findAll();
         } else {
             return eoloParkRepository.findByCity(city);
+        }
+    }
+    public Page<EoloPark> findEoloParks(String city, Pageable pageable) {
+        if (city == null || city.isEmpty()) {
+            return eoloParkRepository.findAll(pageable);
+        } else {
+            return eoloParkRepository.findByCity(city, pageable);
         }
     }
 
