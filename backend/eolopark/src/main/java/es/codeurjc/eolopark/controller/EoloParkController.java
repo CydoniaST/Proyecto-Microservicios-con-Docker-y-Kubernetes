@@ -7,12 +7,12 @@ import java.util.List;
 import es.codeurjc.eolopark.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import es.codeurjc.eolopark.service.AerogeneratorService;
 import es.codeurjc.eolopark.service.EoloParkService;
@@ -124,12 +124,15 @@ public class EoloParkController {
         return "EditEoloPark"; // Devuelve el nombre de la vista de edición
     }
 
-    @GetMapping("/EoloPark/delete/{id}")
-    public String deleteEoloPark(@PathVariable Long id) {
-        // Lógica para borrar el parque Eólico por su ID
-        eoloParkService.deleteEoloPark(id);
+    @DeleteMapping("/EoloPark/delete/{id}")
+    public ResponseEntity<EoloPark> deleteEoloPark(@PathVariable long id) {
+        try {
+            eoloParkService.deleteEoloPark(id);
+            return new ResponseEntity<>(null, HttpStatus.OK);
 
-        return "redirect:/"; // Redirecciona a la página principal
+        } catch (EmptyResultDataAccessException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/Successfully")
@@ -144,7 +147,7 @@ public class EoloParkController {
     public String newPark(EoloPark eoloPark) {
 
         Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
-        Substation substation = new Substation("null", 0.0, 0.0);
+        Substation substation = new Substation("null", 0.0, 0.0,null);
 
         eoloParkService.save(eoloPark);
         aerogeneratorService.save(aerogenerator);

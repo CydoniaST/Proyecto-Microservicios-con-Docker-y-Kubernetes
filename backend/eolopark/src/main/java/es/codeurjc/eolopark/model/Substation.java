@@ -20,10 +20,11 @@ public class Substation {
     public Substation() {
     }
 
-    public Substation(String model, Double power, Double voltage) {
+    public Substation(String model, Double power, Double voltage,EoloPark eoloPark) {
         this.model = model;
         this.power = power;
         this.voltage = voltage;
+        this.eoloPark = eoloPark;
     }
 
     // Getters y setters

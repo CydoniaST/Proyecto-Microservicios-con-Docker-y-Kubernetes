@@ -24,7 +24,7 @@ public class SubstationController {
 
     @PostConstruct
 	public void init() {
-		substationService.save(new Substation("Modelo Ejemplo", 12.22, 53.11));
+		substationService.save(new Substation("Modelo Ejemplo", 12.22, 53.11,null));
 		//eoloParkService.save(new EoloPark("Juan", "Hola caracola", "XXXX"));
 	}
 
