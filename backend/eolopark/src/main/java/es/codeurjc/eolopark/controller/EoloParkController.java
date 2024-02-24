@@ -65,16 +65,41 @@ public class EoloParkController {
 	}
    
 
-   @GetMapping("/PaginaPrincipal")
-    public String paginaPrincipal(@RequestParam(required = false) String city, Model model, HttpServletRequest request) {
-       String name = request.getUserPrincipal().getName();
+//    @RequestMapping("/PaginaPrincipal")
+//     public String paginaPrincipal(@RequestParam(required = false) String city, Model model, HttpServletRequest request) {
+//        String name = request.getUserPrincipal().getName();
 
-       User user = userRepository.findByName(name).orElseThrow();
+//        User user = userRepository.findByName(name).orElseThrow();
 
-       model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-       model.addAttribute("username", user.getName());
-       model.addAttribute("admin", request.isUserInRole("ADMIN"));
-       return "PaginaPrincipal";
+//        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
+//        model.addAttribute("username", user.getName());
+//        model.addAttribute("admin", request.isUserInRole("ADMIN"));
+//        return "PaginaPrincipal";
+//     }
+
+    @GetMapping("/PaginaPrincipal")
+    public String mainPage(Model model, HttpServletRequest request) {
+        String name = request.getUserPrincipal().getName();
+
+        User user = userRepository.findByName(name).orElseThrow();
+
+        model.addAttribute("eoloParks", eoloParkService.findEoloParks(null));
+        model.addAttribute("username", user.getName());
+        model.addAttribute("admin", request.isUserInRole("ADMIN"));
+        return "PaginaPrincipal";
+    }
+
+    @PostMapping("/PaginaPrincipal")
+    public String searchMainPage(@RequestParam(required = false) String city, Model model,
+            HttpServletRequest request) {
+        String name = request.getUserPrincipal().getName();
+
+        User user = userRepository.findByName(name).orElseThrow();
+
+        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
+        model.addAttribute("username", user.getName());
+        model.addAttribute("admin", request.isUserInRole("ADMIN"));
+        return "PaginaPrincipal";
     }
 
 

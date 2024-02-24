@@ -13,7 +13,8 @@ public interface EoloParkRepository extends JpaRepository<EoloPark, Long> {
 
 
     //@Query("SELECT DISTINCT e FROM EoloPark  e JOIN e.name c WHERE c.user=?1")
-    @Query("SELECT DISTINCT e FROM EoloPark e")
+   // @Query("SELECT DISTINCT e FROM EoloPark e")
+   //Query comentada, no hace falta
     List<EoloPark> findByCity(String city);
 
     List<EoloPark> findByName(String name);
