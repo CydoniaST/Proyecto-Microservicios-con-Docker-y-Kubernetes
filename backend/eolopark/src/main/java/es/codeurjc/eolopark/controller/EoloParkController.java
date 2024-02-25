@@ -81,7 +81,7 @@ public class EoloParkController {
 //        return "PaginaPrincipal";
 //     }
 
-    @GetMapping("/PaginaPrincipal")
+ @GetMapping("/PaginaPrincipal")
     public String paginaPrincipal(@RequestParam(required = false) String city,
                                   @PageableDefault(size = 3) Pageable pageable,
                                   Model model, HttpServletRequest request) {
@@ -89,7 +89,7 @@ public class EoloParkController {
         User user = userRepository.findByName(name).orElseThrow();
         Page<EoloPark> eoloParkPage = eoloParkService.findEoloParks(city, pageable);
 
-
+        model.addAttribute("city", city != null ? city : "");
         model.addAttribute("eoloParks", eoloParkPage.getContent());
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
@@ -119,18 +119,19 @@ public class EoloParkController {
         return "PaginaPrincipal";
     }
 
-    @PostMapping("/PaginaPrincipal")
-    public String searchMainPage(@RequestParam(required = false) String city, Model model,
-            HttpServletRequest request) {
-        String name = request.getUserPrincipal().getName();
 
-        User user = userRepository.findByName(name).orElseThrow();
+    // @PostMapping("/PaginaPrincipal")
+    // public String searchMainPage(@RequestParam(required = false) String city, Model model,
+    //         HttpServletRequest request) {
+    //     String name = request.getUserPrincipal().getName();
 
-        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-        model.addAttribute("username", user.getName());
-        model.addAttribute("admin", request.isUserInRole("ADMIN"));
-        return "PaginaPrincipal";
-    }
+    //     User user = userRepository.findByName(name).orElseThrow();
+
+    //     model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
+    //     model.addAttribute("username", user.getName());
+    //     model.addAttribute("admin", request.isUserInRole("ADMIN"));
+    //     return "PaginaPrincipal";
+    // }
 
 
     @GetMapping("/EoloPark")
