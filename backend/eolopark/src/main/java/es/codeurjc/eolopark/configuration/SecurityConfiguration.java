@@ -58,11 +58,12 @@ public class SecurityConfiguration{
                     .requestMatchers(("/index")).permitAll()
 					.requestMatchers("/register").permitAll()
 					//.requestMatchers("/Error").permitAll()
-					.requestMatchers("/DetailsPark/**").permitAll()
+					.requestMatchers("/DetailsPark/*").permitAll()
 					//.requestMatchers("/DetallesSubstation/**").permitAll()
 					.requestMatchers("/PaginaPrincipal").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/EoloPark").permitAll()
 					.requestMatchers("/EoloPark/Manual").permitAll()
+                    .requestMatchers("/EoloPark/delete/*").hasAnyRole("ADMIN")
 					.requestMatchers("/").permitAll()
 					.requestMatchers("/Successfully").permitAll()
 

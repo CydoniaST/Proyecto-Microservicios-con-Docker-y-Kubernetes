@@ -8,7 +8,10 @@
         <h1>Información del Parque Eólico: {{DetailsPark.name}}</h1>
         
         <a href="/EditEoloPark/Edit/{{DetailsPark.id}}">Editar</a>
+        {{#admin}}
         <a href="/EoloPark/delete/{{DetailsPark.id}}">Borrar</a>
+        {{/admin}}
+
         
     
         <h2>Información del Parque:</h2>

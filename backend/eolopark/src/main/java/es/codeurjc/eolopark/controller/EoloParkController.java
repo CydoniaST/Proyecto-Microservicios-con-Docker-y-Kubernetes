@@ -3,6 +3,7 @@ package es.codeurjc.eolopark.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import es.codeurjc.eolopark.model.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -178,15 +179,14 @@ public class EoloParkController {
         return "EditEoloPark"; // Devuelve el nombre de la vista de edición
     }
 
-    @DeleteMapping("/EoloPark/delete/{id}")
-    public ResponseEntity<EoloPark> deleteEoloPark(@PathVariable long id) {
-        try {
+    @GetMapping("/EoloPark/delete/{id}")
+    public String deleteEoloPark(Model model, @PathVariable long id) {
+        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
+        if (eoloPark != null) {
             eoloParkService.deleteEoloPark(id);
-            return new ResponseEntity<>(null, HttpStatus.OK);
-
-        } catch (EmptyResultDataAccessException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            model.addAttribute("eoloPark", eoloPark); //getClass()??
         }
+        return "removedEoloPark";
     }
 
     @GetMapping("/Successfully")
@@ -217,12 +217,13 @@ public class EoloParkController {
     }
 
     @GetMapping("/DetailsPark/{id}")
-    public String infoEoloPark(@PathVariable Long id, Model model) {
+    public String infoEoloPark(@PathVariable Long id, Model model, HttpServletRequest request) {
         // Obtenemos la info del parque por su ID
         EoloPark eoloPark = eoloParkService.findEoloParkById(id);
         model.addAttribute("DetailsPark", eoloPark);
         model.addAttribute("hasSubstation", eoloPark.getSubstation() != null);
         model.addAttribute("hasAerogenerator", eoloPark.getAerogeneratorList() != null);
+        model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
         //model.addAttribute("DetallesSubstation", eoloParkService.findSubstationByEoloParkId(id));
         //model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));

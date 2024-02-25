@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 //import java.util.Optional;
 
 @Repository
@@ -20,6 +21,6 @@ public interface EoloParkRepository extends JpaRepository<EoloPark, Long> {
     List<EoloPark> findByCity(String city);
     Page<EoloPark> findByCity(String city, Pageable pageable);
 
-    List<EoloPark> findByName(String name);
+    Optional<EoloPark> findByName(String name);
 
 }
