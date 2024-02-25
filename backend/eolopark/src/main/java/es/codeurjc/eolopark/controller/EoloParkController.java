@@ -198,8 +198,14 @@ public class EoloParkController {
     }
 
     @PostMapping("/EoloPark/Manual")
-    public String newPark(EoloPark eoloPark) {
+    public String newPark(EoloPark eoloPark, Model model) {
+        // Verificar si ya existe un parque con el mismo nombre
+        if (eoloParkRepository.findByName(eoloPark.getName()).isPresent()) {
+            model.addAttribute("error", "Ya existe un parque con ese nombre");
+            return "EoloPark";
+        }
 
+        // Si no existe, continuar con la creación del parque
         Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
         Substation substation = new Substation("null", 0.0, 0.0,null);
 
@@ -207,7 +213,7 @@ public class EoloParkController {
         aerogeneratorService.save(aerogenerator);
         substationService.save(substation);
 
-        return "Successfully";
+        return "Successfully"; // Otra vista para mostrar el éxito de la creación
     }
 
     @GetMapping("/DetailsPark/{id}")
