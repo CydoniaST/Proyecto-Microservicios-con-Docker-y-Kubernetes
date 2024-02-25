@@ -3,6 +3,8 @@ package es.codeurjc.eolopark.service;
 import es.codeurjc.eolopark.model.Aerogenerator;
 import es.codeurjc.eolopark.repository.AerogeneratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +15,9 @@ public class AerogeneratorService {
 
     @Autowired
     private AerogeneratorRepository aerogeneratorRepository;
-
+    public Page<Aerogenerator> getAllAerogenerators(Pageable pageable) {
+        return aerogeneratorRepository.findAll(pageable);
+    }
 
     public AerogeneratorService(AerogeneratorRepository aerogeneratorRepository) {
         this.aerogeneratorRepository = aerogeneratorRepository;

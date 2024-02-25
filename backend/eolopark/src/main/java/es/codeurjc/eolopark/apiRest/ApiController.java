@@ -8,7 +8,13 @@ import es.codeurjc.eolopark.repository.AerogeneratorRepository;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import es.codeurjc.eolopark.repository.SubstationRepository;
 import es.codeurjc.eolopark.repository.UserRepository;
+import es.codeurjc.eolopark.service.AerogeneratorService;
+import es.codeurjc.eolopark.service.EoloParkService;
+import es.codeurjc.eolopark.service.SubstationService;
+import es.codeurjc.eolopark.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,6 +28,7 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class ApiController {
 
+    private static final int PAGE_SIZE = 5;
     @Autowired
     private EoloParkRepository eoloParksrepository;
 
@@ -33,14 +40,22 @@ public class ApiController {
 
     @Autowired
     private UserRepository userrepository;
+    @Autowired
+    private EoloParkService eoloParkService;
 
+    @Autowired
+    private SubstationService substationService;
+    @Autowired
+    private AerogeneratorService aerogeneratorService;
 
-
+    @Autowired
+    private UserDetailsService userService;
     //para eolopark
 
     @GetMapping("/eolopark")
-    public Collection<EoloPark> getEoloparks() {
-        return eoloParksrepository.findAll();
+    public ResponseEntity<Page<EoloPark>> getEoloparks(@RequestParam(name = "page", defaultValue = "0") int page) {
+        Page<EoloPark> eoloparksPage = eoloParkService.getAllEoloParks(PageRequest.of(page, PAGE_SIZE));
+        return ResponseEntity.ok(eoloparksPage);
     }
 
     @GetMapping("/eolopark/{id}")
@@ -82,9 +97,11 @@ public class ApiController {
 
     //para Subestacion
     @GetMapping("/subestation")
-    public Collection<Substation> getSubestaciones() {
-        return subestationrepository.findAll();
+    public ResponseEntity<Page<Substation>> getSubestaciones(@RequestParam(name = "page", defaultValue = "0") int page) {
+        Page<Substation> subestacionesPage = substationService.getAllSubstations(PageRequest.of(page, PAGE_SIZE));
+        return ResponseEntity.ok(subestacionesPage);
     }
+
 
     @GetMapping("/subestation/{id}")
     public ResponseEntity<Substation> getSubestacion(@PathVariable long id) {
@@ -125,8 +142,9 @@ public class ApiController {
 
     //  para Aerogenerador
     @GetMapping("/aerogerator")
-    public Collection<Aerogenerator> getAerogeneradores() {
-        return aerogeneratorRepository.findAll();
+    public ResponseEntity<Page<Aerogenerator>> getAerogenerators(@RequestParam(name = "page", defaultValue = "0") int page) {
+        Page<Aerogenerator> aerogeneratorsPage = aerogeneratorService.getAllAerogenerators(PageRequest.of(page, PAGE_SIZE));
+        return ResponseEntity.ok(aerogeneratorsPage);
     }
 
     @GetMapping("/aerogerator/{id}")
@@ -168,8 +186,9 @@ public class ApiController {
 
    // para User
     @GetMapping("/user")
-    public Collection<User> getUsers() {
-        return userrepository.findAll();
+    public ResponseEntity<Page<User>> getUsers(@RequestParam(name = "page", defaultValue = "0") int page) {
+        Page<User> usersPage = userService.getAllUsers(PageRequest.of(page, PAGE_SIZE));
+        return ResponseEntity.ok(usersPage);
     }
 
     @GetMapping("/user/{id}")

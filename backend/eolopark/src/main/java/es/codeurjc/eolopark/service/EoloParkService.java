@@ -20,7 +20,9 @@ public class EoloParkService {
     public EoloParkService(EoloParkRepository eoloParkRepository) {
         this.eoloParkRepository = eoloParkRepository;
     }
-
+    public Page<EoloPark> getAllEoloParks(Pageable pageable) {
+        return eoloParkRepository.findAll(pageable);
+    }
 
     public List<EoloPark> findEoloParks(String city) {
         if (city == null || city.isEmpty()) {

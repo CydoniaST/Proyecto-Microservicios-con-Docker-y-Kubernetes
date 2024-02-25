@@ -3,6 +3,8 @@ package es.codeurjc.eolopark.service;
 import es.codeurjc.eolopark.model.Substation;
 import es.codeurjc.eolopark.repository.SubstationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,7 +15,9 @@ public class SubstationService {
     @Autowired
     private SubstationRepository substationRepository;
 
-    
+    public Page<Substation> getAllSubstations(Pageable pageable) {
+        return substationRepository.findAll(pageable);
+    }
     public SubstationService(SubstationRepository substationRepository) {
         this.substationRepository = substationRepository;
     }

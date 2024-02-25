@@ -66,6 +66,9 @@ public class SecurityConfiguration{
                     .requestMatchers("/EoloPark/delete/*").hasAnyRole("ADMIN")
 					.requestMatchers("/").permitAll()
 					.requestMatchers("/Successfully").permitAll()
+							.requestMatchers("/api/**").permitAll()
+							.requestMatchers("/favicon.ico").permitAll()
+
 
 					// PRIVATE PAGES
                     .requestMatchers("/private").hasAnyRole("USER","ADMIN")

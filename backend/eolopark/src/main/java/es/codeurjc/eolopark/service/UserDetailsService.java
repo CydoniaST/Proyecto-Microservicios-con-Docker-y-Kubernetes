@@ -38,7 +38,10 @@ package es.codeurjc.eolopark.Servicios;
 */
 import java.util.Optional;
 
+import es.codeurjc.eolopark.model.Aerogenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,10 +56,14 @@ public class UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
 
-
-    public boolean registerNewUser(String username, String password, String... roles) {
-        if (userRepository.findByName(username).isPresent()) {
+   /* public boolean registerNewUser(String username, String password, String... roles) {
+        public Page<Aerogenerator> getAllAerogenerators(Pageable pageable) {
+            return aerogeneratorRepository.findAll(pageable);
+        }        if (userRepository.findByName(username).isPresent()) {
             // Usuario ya existe
             return false;
         }
@@ -65,7 +72,7 @@ public class UserDetailsService {
         User newUser = new User(username, encodedPassword, roles);
         userRepository.save(newUser);
         return true;
-    }
+    }*/
     /*
     public User registerNewUser(String username, String password, String roles) {
         if (userRepository.findByName(username).isPresent()) {
