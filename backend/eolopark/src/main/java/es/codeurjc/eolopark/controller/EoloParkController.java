@@ -94,11 +94,12 @@ public class EoloParkController {
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-        // Verificar la paginación
+        // Check pagination
         int currentPage = eoloParkPage.getNumber();
-        model.addAttribute("currentPage", currentPage + 1); // Página actual
+        model.addAttribute("currentPage", currentPage + 1); // Actual page
 
-        // Añadir botones de paginación
+
+     //Add pagination buttons
         if (currentPage < eoloParkPage.getTotalPages() - 1) {
             int nextPage = currentPage + 1;
             model.addAttribute("hasNextPage", true);
@@ -120,18 +121,7 @@ public class EoloParkController {
     }
 
 
-    // @PostMapping("/PaginaPrincipal")
-    // public String searchMainPage(@RequestParam(required = false) String city, Model model,
-    //         HttpServletRequest request) {
-    //     String name = request.getUserPrincipal().getName();
 
-    //     User user = userRepository.findByName(name).orElseThrow();
-
-    //     model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-    //     model.addAttribute("username", user.getName());
-    //     model.addAttribute("admin", request.isUserInRole("ADMIN"));
-    //     return "PaginaPrincipal";
-    // }
 
 
     @GetMapping("/EoloPark")
@@ -140,48 +130,20 @@ public class EoloParkController {
         return "EoloPark";
     }
     
-    /*@GetMapping("/loginerror")
-    public String Error( @RequestParam(required = false) String city, Model model) {
-        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-        return "login";
-    }*/
-
-
-/*
- * 
- *  @GetMapping("/EoloPark/{id}")
-    public String editEoloPark(@PathVariable Long id, Model model) {
-        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
-        model.addAttribute("eoloPark", eoloPark);
-        return "editEoloPark"; // Suponiendo que tienes una vista llamada "editEoloPark"
-    }
- */
-    /*@RequestMapping(value = "/EoloPark/{id}")
-    public String getEoloParkInfo(@PathVariable Long id, Model model) {
-        // Obtener la información del parque Eólico por su ID
-        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
-        model.addAttribute("eoloPark", eoloPark);
-
-        // Obtener la información del usuario que creó el parque Eólico
-        //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
-        //model.addAttribute("createdBy", createdByUser.getUsername());
-
-        return "DetallesPark"; // Devuelve el nombre de la vista
-    }
-    */
 
 
     @PostMapping("/EditEoloPark/Edit/{id}")
     public String saveEoloPark(@PathVariable Long id, @ModelAttribute("eoloPark") EoloPark updatedEoloPark) {
         EoloPark existingEoloPark = eoloParkService.findEoloParkById(id);
-        // Actualizamos los atributos del parque existente con los valores del formulario
+        // We update the attributes of the existing park with the values of the form
         existingEoloPark.setName(updatedEoloPark.getName());
         existingEoloPark.setCity(updatedEoloPark.getCity());
         existingEoloPark.setLatitude(updatedEoloPark.getLatitude());
         existingEoloPark.setLongitude(updatedEoloPark.getLongitude());
         existingEoloPark.setArea(updatedEoloPark.getArea());
         existingEoloPark.setTerrainType(updatedEoloPark.getTerrainType());
-        // Guardamos los cambios en la bbdd
+
+        //We save the changes in the database
         eoloParkService.save(existingEoloPark);
 
         return "editedPark";
@@ -189,7 +151,7 @@ public class EoloParkController {
 
     @GetMapping("/EditEoloPark/Edit/{id}")
     public String editEoloPark(Model model,@PathVariable Long id) {
-        // Obtenemos el parque existente por su ID
+        // We get the existing park by its ID
         EoloPark existingEoloPark = eoloParkService.findEoloParkById(id);
         model.addAttribute("existingEoloPark", existingEoloPark);
         return "EditEoloPark";
@@ -215,13 +177,13 @@ public class EoloParkController {
 
     @PostMapping("/EoloPark/Manual")
     public String newPark(EoloPark eoloPark, Model model) {
-        // Verificar si ya existe un parque con el mismo nombre
+        // Check if a park with the same name already exists
         if (eoloParkRepository.findByName(eoloPark.getName()).isPresent()) {
             model.addAttribute("error", "Ya existe un parque con ese nombre");
             return "EoloPark";
         }
 
-        // Si no existe, continuar con la creación del parque
+        // If it does not exist, continue with the creation of the park
         Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
         Substation substation = new Substation("null", 0.0, 0.0,null);
 
@@ -229,23 +191,19 @@ public class EoloParkController {
         aerogeneratorService.save(aerogenerator);
         substationService.save(substation);
 
-        return "Successfully"; // Otra vista para mostrar el éxito de la creación
+        return "Successfully"; // Another view to show the success of the creation
     }
 
     @GetMapping("/DetailsPark/{id}")
     public String infoEoloPark(@PathVariable Long id, Model model, HttpServletRequest request) {
-        // Obtenemos la info del parque por su ID
+        // We get the existing park by its ID
         EoloPark eoloPark = eoloParkService.findEoloParkById(id);
         model.addAttribute("DetailsPark", eoloPark);
         model.addAttribute("hasSubstation", eoloPark.getSubstation() != null);
         model.addAttribute("hasAerogenerator", eoloPark.getAerogeneratorList() != null);
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-        //model.addAttribute("DetallesSubstation", eoloParkService.findSubstationByEoloParkId(id));
-        //model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
-         // Obtenemos la info del usuario que creo el parque
-         //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
-         //model.addAttribute("createdBy", createdByUser.getUsername());
+
 
         return "DetailsPark"; 
     }   

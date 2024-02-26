@@ -96,8 +96,8 @@ public class WebController {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         model.addAttribute("user", user);
-        // Aquí puedes agregar más detalles si es necesario
-        return "InfoUser"; // Nombre de la vista HTML para los detalles del usuario
+
+        return "InfoUser"; // HTML view name for user details
     }
 
 

@@ -60,30 +60,7 @@ public class UserDetailsService {
         return userRepository.findAll(pageable);
     }
 
-   /* public boolean registerNewUser(String username, String password, String... roles) {
-        public Page<Aerogenerator> getAllAerogenerators(Pageable pageable) {
-            return aerogeneratorRepository.findAll(pageable);
-        }        if (userRepository.findByName(username).isPresent()) {
-            // Usuario ya existe
-            return false;
-        }
 
-        String encodedPassword = passwordEncoder.encode(password);
-        User newUser = new User(username, encodedPassword, roles);
-        userRepository.save(newUser);
-        return true;
-    }*/
-    /*
-    public User registerNewUser(String username, String password, String roles) {
-        if (userRepository.findByName(username).isPresent()) {
-            throw new RuntimeException("User already exists: " + username);
-
-        }
-
-        String encodedPassword = passwordEncoder.encode(password);
-        User newUser = new User(username, encodedPassword, roles);
-        return userRepository.save(newUser);
-    } */
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByName(username);

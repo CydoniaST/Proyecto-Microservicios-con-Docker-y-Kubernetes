@@ -23,40 +23,39 @@ public class SubstationService {
     }
 
     public Substation save(Substation substation) {
-        // Lógica para agregar una nueva subestación
+
         return substationRepository.save(substation);
     }
 
     public Optional<Substation> findSubstationById(Long id) {
-        // Lógica para buscar una subestación por ID
+
         return substationRepository.findById(id);
     }
 
     public Substation findSubstationByEoloParkId(Long eoloParkId) {
 
-        return substationRepository.findById(eoloParkId).orElseThrow(() -> new RuntimeException("Substación no encontrada con ID: " + eoloParkId));
+        return substationRepository.findById(eoloParkId).orElseThrow(() -> new RuntimeException("Substation not found with ID: " + eoloParkId));
     }
 
     public Substation modifySubstation(Long id, Substation updatedSubstation) {
         Optional<Substation> existingSubstation = substationRepository.findById(id);
         if (existingSubstation.isPresent()) {
             Substation substation = existingSubstation.get();
-            // Aquí actualizas los atributos de substation con los de updatedSubstation
-            // Por ejemplo:
+
             substation.setModel(updatedSubstation.getModel());
-            // ... otros atributos ...
+
 
             return substationRepository.save(substation);
         } else {
-            // Manejar el caso en que la subestación no se encuentra
+
             throw new RuntimeException("Substation not found with id " + id);
         }
     }
 
     public void deleteSubstation(Long id) {
-        // Lógica para eliminar una subestación
+
         substationRepository.deleteById(id);
     }
 
-    // Otros métodos según sean necesarios...
+
 }

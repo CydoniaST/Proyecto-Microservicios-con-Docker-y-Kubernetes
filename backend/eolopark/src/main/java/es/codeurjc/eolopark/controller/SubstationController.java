@@ -52,5 +52,5 @@ public class SubstationController {
         return ResponseEntity.ok().build();
     }
 
-    // Otros métodos según sean necesarios...
+
 }

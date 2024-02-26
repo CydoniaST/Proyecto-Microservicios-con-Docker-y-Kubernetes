@@ -50,7 +50,7 @@ public class ApiController {
 
     @Autowired
     private UserDetailsService userService;
-    //para eolopark
+    //For eolopark
 
     @GetMapping("/eolopark")
     public ResponseEntity<Page<EoloPark>> getEoloparks(@RequestParam(name = "page", defaultValue = "0") int page) {
@@ -95,34 +95,34 @@ public class ApiController {
     }
 
 
-    //para Subestacion
+    //for Subestacion
     @GetMapping("/subestation")
     public ResponseEntity<Page<Substation>> getSubestaciones(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Page<Substation> subestacionesPage = substationService.getAllSubstations(PageRequest.of(page, PAGE_SIZE));
-        return ResponseEntity.ok(subestacionesPage);
+        Page<Substation> subestationsPage = substationService.getAllSubstations(PageRequest.of(page, PAGE_SIZE));
+        return ResponseEntity.ok(subestationsPage);
     }
 
 
     @GetMapping("/subestation/{id}")
     public ResponseEntity<Substation> getSubestacion(@PathVariable long id) {
-        Optional<Substation> subestacion = subestationrepository.findById(id);
-        return subestacion.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Optional<Substation> subestation = subestationrepository.findById(id);
+        return subestation.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/subestation")
-    public ResponseEntity<Substation> createSubestacion(@RequestBody Substation subestacion) {
-        Substation savedSubestacion = subestationrepository.save(subestacion);
+    public ResponseEntity<Substation> createSubestacion(@RequestBody Substation subestation) {
+        Substation savedSubestation = subestationrepository.save(subestation);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedSubestacion.getId()).toUri();
-        return ResponseEntity.created(location).body(savedSubestacion);
+        .buildAndExpand(savedSubestation.getId()).toUri();
+        return ResponseEntity.created(location).body(savedSubestation);
     }
 
     @PutMapping("/subestation/{id}")
-    public ResponseEntity<Substation> updateSubestacion(@PathVariable long id, @RequestBody Substation newSubestacion) {
+    public ResponseEntity<Substation> updateSubestation(@PathVariable long id, @RequestBody Substation newSubestation) {
         if (subestationrepository.existsById(id)) {
-            newSubestacion.setId(id);
-            Substation updatedSubestacion = subestationrepository.save(newSubestacion);
-            return ResponseEntity.ok(updatedSubestacion);
+            newSubestation.setId(id);
+            Substation updatedSubestation = subestationrepository.save(newSubestation);
+            return ResponseEntity.ok(updatedSubestation);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -130,10 +130,10 @@ public class ApiController {
 
     @DeleteMapping("/subestation/{id}")
     public ResponseEntity<Substation> deleteSubestacion(@PathVariable long id) {
-        Optional<Substation> subestacion = subestationrepository.findById(id);
-        if (subestacion.isPresent()) {
+        Optional<Substation> subestation = subestationrepository.findById(id);
+        if (subestation.isPresent()) {
             subestationrepository.deleteById(id);
-            return ResponseEntity.ok(subestacion.get());
+            return ResponseEntity.ok(subestation.get());
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -148,36 +148,36 @@ public class ApiController {
     }
 
     @GetMapping("/aerogerator/{id}")
-    public ResponseEntity<Aerogenerator> getAerogenerador(@PathVariable long id) {
-        Optional<Aerogenerator> aerogenerador = aerogeneratorRepository.findById(id);
-        return aerogenerador.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Aerogenerator> getAerogenerator(@PathVariable long id) {
+        Optional<Aerogenerator> aerogenerator = aerogeneratorRepository.findById(id);
+        return aerogenerator.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/aerogerator")
-    public ResponseEntity<Aerogenerator> createAerogenerador(@RequestBody Aerogenerator aerogenerador) {
-        Aerogenerator savedAerogenerador = aerogeneratorRepository.save(aerogenerador);
+    public ResponseEntity<Aerogenerator> createAerogenerator(@RequestBody Aerogenerator aerogenerator) {
+        Aerogenerator savedAerogenerator = aerogeneratorRepository.save(aerogenerator);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedAerogenerador.getId()).toUri();
-        return ResponseEntity.created(location).body(savedAerogenerador);
+        .buildAndExpand(savedAerogenerator.getId()).toUri();
+        return ResponseEntity.created(location).body(savedAerogenerator);
     }
 
     @PutMapping("/aerogerator/{id}")
-    public ResponseEntity<Aerogenerator> updateAerogenerador(@PathVariable long id, @RequestBody Aerogenerator newAerogenerador) {
+    public ResponseEntity<Aerogenerator> updateAerogenerator(@PathVariable long id, @RequestBody Aerogenerator newAerogenerator) {
         if (aerogeneratorRepository.existsById(id)) {
-            newAerogenerador.setId(String.valueOf(id));
-            Aerogenerator updatedAerogenerador = aerogeneratorRepository.save(newAerogenerador);
-            return ResponseEntity.ok(updatedAerogenerador);
+            newAerogenerator.setId(String.valueOf(id));
+            Aerogenerator updatedAerogenerator = aerogeneratorRepository.save(newAerogenerator);
+            return ResponseEntity.ok(updatedAerogenerator);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/aerogerator/{id}")
-    public ResponseEntity<Aerogenerator> deleteAerogenerador(@PathVariable long id) {
-        Optional<Aerogenerator> aerogenerador = aerogeneratorRepository.findById(id);
-        if (aerogenerador.isPresent()) {
+    public ResponseEntity<Aerogenerator> deleteAerogenerator(@PathVariable long id) {
+        Optional<Aerogenerator> aerogenerator = aerogeneratorRepository.findById(id);
+        if (aerogenerator.isPresent()) {
             aerogeneratorRepository.deleteById(id);
-            return ResponseEntity.ok(aerogenerador.get());
+            return ResponseEntity.ok(aerogenerator.get());
         } else {
             return ResponseEntity.notFound().build();
         }

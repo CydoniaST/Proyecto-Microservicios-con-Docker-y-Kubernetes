@@ -85,10 +85,7 @@ public class EoloPark {
     public TerrainType getTerrainType() {
         return terrainType;
     }
-/*
-    public List<Aerogenerator> getAerogenerators() {
-        return aerogeneratorList;
-    }*/
+
 
     public void setName(String name) {
         this.name = name;
@@ -112,7 +109,7 @@ public class EoloPark {
     }
 
 
-    //Nuevo
+    //New
     public List<Aerogenerator> getAerogeneratorList() {
         return aerogeneratorList;
     }

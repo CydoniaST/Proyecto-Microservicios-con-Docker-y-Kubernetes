@@ -19,12 +19,12 @@ public class AerogeneratorController {
 
     /*@GetMapping("/DetallesPark/{id}")
     public String infoEoloPark(@PathVariable Long id, Model model) {
-        // Obtenemos la info del parque por su ID
+        // We obtain the park information by its ID
        
        
         model.addAttribute("DetallesPark", aerogeneratorService.findAerogeneratorById(id));
        
-         // Obtenemos la info del usuario que creo el parque
+
          //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
          //model.addAttribute("createdBy", createdByUser.getUsername());
 

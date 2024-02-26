@@ -54,7 +54,7 @@ public class SecurityConfiguration{
 		
 		https
 			.authorizeHttpRequests(authorize -> authorize
-					//.requestMatchers("/login").permitAll()//clases publicas
+					//.requestMatchers("/login").permitAll()
                     .requestMatchers(("/index")).permitAll()
 					.requestMatchers("/register").permitAll()
 					//.requestMatchers("/Error").permitAll()
@@ -75,15 +75,12 @@ public class SecurityConfiguration{
                     .requestMatchers("/private").hasAnyRole("USER","ADMIN")
                     .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                     
-                    //CAMBIAR ESTO A LAS PAGINAS NUESTRAS
-					//.requestMatchers("/PaginaPrincipal").hasAnyRole("USER") 
-                    //.requestMatchers("/InfoEoloPark").hasAnyRole("USER")  //privadas que solo hacen usuarios
-					//.requestMatchers("/newPark/A").hasAnyRole("ADMIN")  -////privadas que solo hacen admin y a los admin hhay que hacerles tambien usuarios
+
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")    //PAGINA LOGIN
 					.failureUrl("/loginerror") //PAGINA ERROR
-					.defaultSuccessUrl("/PaginaPrincipal")  // donde te lleva si el login es correcto
+					.defaultSuccessUrl("/PaginaPrincipal")
 					.permitAll()
             )
 			.logout(logout -> logout
@@ -92,7 +89,7 @@ public class SecurityConfiguration{
 					.permitAll()
 			);
 		
-		// Disable CSRF at the moment HAY QUE HABILITARLO
+		// Disable CSRF at the moment
 		https.csrf(csrf -> csrf.disable());
 
 		return https.build();

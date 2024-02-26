@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubstationRepository extends JpaRepository<Substation, Long> {
-    // Aquí puedes agregar métodos personalizados si es necesario
-    // Por ejemplo, para buscar subestaciones por un atributo específico
 
     @Query("SELECT DISTINCT s FROM Substation s WHERE s.eoloPark.id = :id")
     Optional<Substation> findByEoloParkId(long id);
