@@ -202,7 +202,7 @@ public class EoloParkController {
             eoloParkService.deleteEoloPark(id);
             model.addAttribute("eoloPark", eoloPark); //getClass()??
         }
-        return "removedEoloPark";
+        return "deletedPark";
     }
 
     @GetMapping("/Successfully")
