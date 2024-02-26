@@ -9,13 +9,13 @@
 
 
 
-## Description
+## Descripción
 
 <em> # EoloPark </em>
 
   -  El proyecto se basa en la creación e implementación de distintas funcionalidades que una web sobre gestión de parques eólicos puede hacer, como la creacion de paques de forma manual y automatica, basandose en datos guardados en una base de datos. Tambien se verá como se ha implementa de la seguridad de Spring boot 3 y el manejo de usuarios, tanto administradores como usuarios normales. Además de la implementacion de una APIRest.
 
-## Features
+## Funcionalidades
 
 :hammer:Funcionalidades del proyecto
 
@@ -68,7 +68,7 @@
       - Conectarse al repositorio de GitHub mediante la etensión "GitHu Repositories" y desde una terminal de VSCode escribir el comando "git pull .".
         De esta forma se podrá bajar el proyecto del repositorio remoto. El resto de pasos una vez hecho el "pull" se puede seguir desde el paso 4.
   
-## Tecnologias usadas
+## Tecnologias utilizadas
 
 <h4 align="center">
 🛠️ Tecnologías utilizadas
