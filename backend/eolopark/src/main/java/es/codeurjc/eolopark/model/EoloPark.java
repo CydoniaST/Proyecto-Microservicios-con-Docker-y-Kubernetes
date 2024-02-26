@@ -30,6 +30,9 @@ public class EoloPark {
 
     private TerrainType terrainType;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
@@ -47,13 +50,15 @@ public class EoloPark {
 
     }
 
-    public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType){
+    public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType, User user){
         this.name= name;
         this.city= city;
         this.latitude=latitude;
         this.longitude=longitude;
         this.area= area;
         this.terrainType= terrainType;
+        owner = user;
+
     }
 
     public EoloPark(String city, double area){

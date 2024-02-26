@@ -52,9 +52,10 @@ public class EoloParkController {
 
     @PostConstruct
 	public void init() {
-	
-        EoloPark ep1 = new EoloPark("Miraflores", "Madrid", 0, 0, 0, TerrainType.DESERT);
-        EoloPark ep2 = new EoloPark("Ciudad Lineal","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN);
+
+        User sandra = userRepository.findByName("sandra").get();
+        EoloPark ep1 = new EoloPark("Miraflores", "Madrid", 0, 0, 0, TerrainType.DESERT, sandra);
+        EoloPark ep2 = new EoloPark("Ciudad Lineal","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, sandra);
     
         eoloParkRepository.save(ep1);
         eoloParkRepository.save(ep2);

@@ -18,15 +18,20 @@ public class User {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EoloPark> eoloParks;
 
 	public User() {
 	}
+
 
 	public User(String name, String encodedPassword, String... roles) {
 		this.name = name;
 		this.encodedPassword = encodedPassword;
 		this.roles = List.of(roles);
 	}
+
+
 
 	public String getName() {
 		return name;
