@@ -108,11 +108,3 @@ tecnologías utilizadas en este proyecto:
        2. Commit del Certificado SSL
        3. Commit de la creacion automática del parque: clases de Cities.java, CitiesRepository.java, CitiesService,java, etc.
 
-  
-## Autores
-
-<h4 align="center">
-⭐ Autores del proyecto
-</h4>
-
-<p align="center">
