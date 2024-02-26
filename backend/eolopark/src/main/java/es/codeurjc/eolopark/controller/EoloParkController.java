@@ -171,13 +171,28 @@ public class EoloParkController {
     */
 
 
-    @GetMapping("/EoloPark/edit/{id}")
-    public String editEoloPark(@PathVariable Long id, Model model) {
-        // Lógica para obtener los datos del parque a editar y pasarlos al formulario de edición
-        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
-        model.addAttribute("eoloPark", eoloPark);
+    @PostMapping("/EditEoloPark/Edit/{id}")
+    public String saveEoloPark(@PathVariable Long id, @ModelAttribute("eoloPark") EoloPark updatedEoloPark) {
+        EoloPark existingEoloPark = eoloParkService.findEoloParkById(id);
+        // Actualizamos los atributos del parque existente con los valores del formulario
+        existingEoloPark.setName(updatedEoloPark.getName());
+        existingEoloPark.setCity(updatedEoloPark.getCity());
+        existingEoloPark.setLatitude(updatedEoloPark.getLatitude());
+        existingEoloPark.setLongitude(updatedEoloPark.getLongitude());
+        existingEoloPark.setArea(updatedEoloPark.getArea());
+        existingEoloPark.setTerrainType(updatedEoloPark.getTerrainType());
+        // Guardamos los cambios en la bbdd
+        eoloParkService.save(existingEoloPark);
 
-        return "EditEoloPark"; // Devuelve el nombre de la vista de edición
+        return "redirect:/"; 
+    }
+
+    @GetMapping("/EditEoloPark/Edit/{id}")
+    public String editEoloPark(Model model,@PathVariable Long id) {
+        // Obtenemos el parque existente por su ID
+        EoloPark existingEoloPark = eoloParkService.findEoloParkById(id);
+        model.addAttribute("existingEoloPark", existingEoloPark);
+        return "EditEoloPark";
     }
 
     @GetMapping("/EoloPark/delete/{id}")

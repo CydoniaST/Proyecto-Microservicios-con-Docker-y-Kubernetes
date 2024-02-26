@@ -68,6 +68,7 @@ public class SecurityConfiguration{
 					.requestMatchers("/Successfully").permitAll()
 							.requestMatchers("/api/**").permitAll()
 							.requestMatchers("/favicon.ico").permitAll()
+							.requestMatchers("/EditEoloPark/Edit/**").permitAll()
 
 
 					// PRIVATE PAGES
