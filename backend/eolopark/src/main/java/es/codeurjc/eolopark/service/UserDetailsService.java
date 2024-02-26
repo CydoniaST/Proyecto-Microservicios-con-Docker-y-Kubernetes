@@ -38,7 +38,7 @@ package es.codeurjc.eolopark.Servicios;
 */
 import java.util.Optional;
 
-import es.codeurjc.eolopark.model.Aerogenerator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

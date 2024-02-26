@@ -3,25 +3,24 @@ package es.codeurjc.eolopark.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import es.codeurjc.eolopark.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import es.codeurjc.eolopark.service.AerogeneratorService;
+import es.codeurjc.eolopark.service.CitiesService;
 import es.codeurjc.eolopark.service.EoloParkService;
 import es.codeurjc.eolopark.service.SubstationService;
-import es.codeurjc.eolopark.service.UserDetailsService;
 import es.codeurjc.eolopark.repository.UserRepository;
 
 import es.codeurjc.eolopark.repository.EoloParkRepository;
@@ -39,6 +38,9 @@ public class EoloParkController {
 
     @Autowired
     SubstationService substationService;
+
+     @Autowired
+    CitiesService citiesService;
 
     @Autowired
     UserRepository userRepository;
@@ -66,6 +68,17 @@ public class EoloParkController {
         aerogeneratorService.save(a1);
         aerogeneratorService.save(a2);
 
+        Cities c1 = new Cities("A Coruña", "A Coruña", 7.2, 43.37, -8.39, 24604, 21);
+        Cities c2 = new Cities("Albacete", "Albacete", 6.9, 38.99, -1.85, 17047, 681);
+        Cities c3 = new Cities("Alicante", "Alicante", 7.5, 38.34, -0.48, 33441, 5);
+        Cities c4 = new Cities("Almeria", "Almeria", 8, 36.83, -2.46, 19001, 16);
+        Cities c5 = new Cities("Bilbao", "Vizcaya", 7.7, 43.25, -2.92, 35318, 6);
+
+        citiesService.save(c1);
+        citiesService.save(c2);
+        citiesService.save(c3);
+        citiesService.save(c4);
+        citiesService.save(c5);
 	}
    
 
@@ -172,6 +185,15 @@ public class EoloParkController {
 
         model.addAttribute("succes");
 
+        return "Successfully";
+    }
+
+    @PostMapping("/EoloPark/Automatic")
+    public String newAutomatic(EoloPark eoloPark, Model model) {
+        
+        EoloPark AutomaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea());
+
+        eoloParkService.save(AutomaticEoloPark);
         return "Successfully";
     }
 

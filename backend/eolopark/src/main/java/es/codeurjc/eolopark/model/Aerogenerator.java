@@ -97,5 +97,32 @@ public class Aerogenerator {
         this.eoloPark = eoloPark;
     }    
 
+    public static class Size {
+        public static final Size SMALL = new Size(10, 25, 1500);
+        public static final Size MEDIUM = new Size(20, 50, 2500);
+        public static final Size BIG = new Size(40, 100, 3500);
+
+        private final double bladeLength;
+        private final double height;
+        private final double power;
+
+        private Size(double bladeLength, double height, double power) {
+            this.bladeLength = bladeLength;
+            this.height = height;
+            this.power = power;
+        }
+
+        public double getBladeLength() {
+            return bladeLength;
+        }
+
+        public double getHeight() {
+            return height;
+        }
+
+        public double getPower() {
+            return power;
+        }
+    }
 
 }

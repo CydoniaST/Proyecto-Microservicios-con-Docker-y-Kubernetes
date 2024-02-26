@@ -27,6 +27,12 @@ public class Substation {
         this.eoloPark = eoloPark;
     }
 
+    public Substation(double voltage, String model, Double power) {
+        this.model = model;
+        this.power = power;
+        this.voltage = voltage;
+    }
+
     // Getters y setters
     public Long getId() {
         return id;

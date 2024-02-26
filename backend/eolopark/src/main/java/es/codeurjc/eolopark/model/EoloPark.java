@@ -1,7 +1,5 @@
 package es.codeurjc.eolopark.model;
 
-
-import es.codeurjc.eolopark.repository.UserRepository;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -16,6 +14,9 @@ public class EoloPark {
 
     @OneToMany(mappedBy = "eoloPark", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
+
+    @ManyToOne
+    private Cities cityEoloPark;
 
     private String name;
 
@@ -53,6 +54,11 @@ public class EoloPark {
         this.longitude=longitude;
         this.area= area;
         this.terrainType= terrainType;
+    }
+
+    public EoloPark(String city, double area){
+        this.city = city;
+        this.area = area;
     }
 
     public String getName() {

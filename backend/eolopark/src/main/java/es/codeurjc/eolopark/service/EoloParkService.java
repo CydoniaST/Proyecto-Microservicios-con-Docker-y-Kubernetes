@@ -1,14 +1,21 @@
 package es.codeurjc.eolopark.service;
 
 
+import es.codeurjc.eolopark.model.Aerogenerator;
+import es.codeurjc.eolopark.model.Cities;
 import es.codeurjc.eolopark.model.EoloPark;
+import es.codeurjc.eolopark.model.Substation;
+import es.codeurjc.eolopark.model.TerrainType;
+import es.codeurjc.eolopark.repository.CitiesRepository;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -16,6 +23,10 @@ public class EoloParkService {
 
     @Autowired
     private EoloParkRepository eoloParkRepository;
+
+    @Autowired
+    private CitiesRepository citiesRepository;
+
 
     public EoloParkService(EoloParkRepository eoloParkRepository) {
         this.eoloParkRepository = eoloParkRepository;
@@ -53,6 +64,105 @@ public class EoloParkService {
         eoloParkRepository.save(eoloPark);
     }
 
+ //Automatic Creation
+    public EoloPark newAutomaticEoloPark(String name, double area){
+        //GENERIC NAME FOR AUTOMATIC PARK
+        String nameCity = "EoloParque Automatico con ID: "+Math.random()*10;
+
+        //method to use latitude and longitude of a city from dataBase
+       
+
+        Optional<Cities> newCity = citiesRepository.findByName(name);
+        
+        if(newCity.isPresent()){
+            Cities cityAux = newCity.get();
+
+            String windSpeed = getWindSpeed(name);
+    
+            Aerogenerator.Size size = aerogeneratorSize(windSpeed);
+    
+            //Number of Aerogen that fit in the EoloPark
+            int aerogeneratorNum= (int)Math.ceil(area/1.0);
+    
+            //create EoloPark based on city and are
+            EoloPark automaticEoloPark = new EoloPark(name, area);
+             
+            automaticEoloPark.setName(nameCity);
+            automaticEoloPark.setLatitude(cityAux.getLatitude());
+            automaticEoloPark.setLongitude(cityAux.getLongitude());
+
+            //Substation based on new EoloPark
+            Substation newSubstation = new Substation(220, "Model 1", calculateSubstationPower(aerogeneratorNum));
+            automaticEoloPark.setSubstation(newSubstation);
+    
+            //List of new Aerogens
+            List<Aerogenerator> aerogenerators = new ArrayList<>();
+            double latitude = cityAux.getLatitude() - 0.5 / 111.0;
+            double longitude = cityAux.getLongitude() + 0.5 / 111.0;
+            for(int i = 0; i < aerogeneratorNum; i++){
+                Aerogenerator aerogenerator = new Aerogenerator(i + "",latitude, longitude, size.getBladeLength(), size.getHeight(), size.getPower());
+                aerogenerator.setEoloPark(automaticEoloPark);
+                aerogenerators.add(aerogenerator);
+                longitude += 1.0/111.0;
+            }
+            
+            automaticEoloPark.setAerogeneratorList(aerogenerators);
+            automaticEoloPark.setTerrainType(TerrainType.PLAIN);
+            
+            return automaticEoloPark;
+        }else{
+            throw new IllegalArgumentException("No se encuentra la ciudad");
+        }
+       
+    }
+
+    private String getWindSpeed(String city){
+
+        //acceder a base de datos //LEER ESTO CUANDO CONTINUE: HAY QUE BUSCAR EN LA BD LA cityAux Y 
+        //QUE EL METODO FINDWINDBYCITY DEVUELVA EL VIENTO DE ESA cityAux
+        Optional<Cities> wind = citiesRepository.findByName(city);
+        
+        Cities windSpeedCity;
+        double windSpeed = 0;
+        if(wind.isPresent()){
+            windSpeedCity = wind.get();
+
+            windSpeed = windSpeedCity.getWindSpeed();
+            if(windSpeed <= 7.06){
+                return "LOW";
+            }else if(windSpeed > 7.06 && windSpeed <= 7.63){
+                return"MEDIUM";
+            }else{
+                return "HIGH";
+            }
+        }else{
+            throw new IllegalArgumentException("Unknown wind speed: " + windSpeed);
+        }
+        
+    }
+
+    private Aerogenerator.Size aerogeneratorSize(String windSpeed){
+        switch(windSpeed) {
+            case "LOW":
+                return Aerogenerator.Size.SMALL;
+            case "MEDIUM":
+                return Aerogenerator.Size.MEDIUM;
+            case "HIGH":
+                return Aerogenerator.Size.BIG;
+            default:
+                throw new IllegalArgumentException("Unknown wind speed: " + windSpeed);
+        }
+    }
+
+    private double calculateSubstationPower(int aerogeneratorNum){
+
+        double maxPower = 0;
+        for(int i = 0; i< aerogeneratorNum; i++){
+            maxPower += Aerogenerator.Size.MEDIUM.getPower();
+        }
+
+        return maxPower*1.2; //margin = +20%
+    }
 
 
 

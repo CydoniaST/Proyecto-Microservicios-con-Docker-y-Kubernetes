@@ -63,6 +63,7 @@ public class SecurityConfiguration{
 					.requestMatchers("/PaginaPrincipal").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/EoloPark").permitAll()
 					.requestMatchers("/EoloPark/Manual").permitAll()
+					.requestMatchers("/EoloPark/Automatic").permitAll()
                     .requestMatchers("/EoloPark/delete/*").hasAnyRole("ADMIN")
 					.requestMatchers("/").permitAll()
 					.requestMatchers("/Successfully").permitAll()
