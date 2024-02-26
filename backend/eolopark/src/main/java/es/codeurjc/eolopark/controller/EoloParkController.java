@@ -184,7 +184,7 @@ public class EoloParkController {
         // Guardamos los cambios en la bbdd
         eoloParkService.save(existingEoloPark);
 
-        return "redirect:/"; 
+        return "editedPark";
     }
 
     @GetMapping("/EditEoloPark/Edit/{id}")
