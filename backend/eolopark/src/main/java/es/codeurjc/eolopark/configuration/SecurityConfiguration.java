@@ -66,14 +66,14 @@ public class SecurityConfiguration{
                     .requestMatchers("/EoloPark/delete/*").hasAnyRole("ADMIN")
 					.requestMatchers("/").permitAll()
 					.requestMatchers("/Successfully").permitAll()
-							.requestMatchers("/api/**").permitAll()
-							.requestMatchers("/favicon.ico").permitAll()
-							.requestMatchers("/EditEoloPark/Edit/**").permitAll()
+                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers("/favicon.ico").permitAll()
+                    .requestMatchers("/EditEoloPark/Edit/**").permitAll()
 
 
 					// PRIVATE PAGES
                     .requestMatchers("/private").hasAnyRole("USER","ADMIN")
-                    .requestMatchers("/admin").hasAnyRole("ADMIN")
+                    .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                     
                     //CAMBIAR ESTO A LAS PAGINAS NUESTRAS
 					//.requestMatchers("/PaginaPrincipal").hasAnyRole("USER") 

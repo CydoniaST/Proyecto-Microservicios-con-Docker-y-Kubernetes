@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.awt.desktop.UserSessionEvent;
 import java.io.IOException;
@@ -88,8 +85,20 @@ public class WebController {
     }
 
     @GetMapping("/admin")
-    public String admin() {
+    public String admin(Model model) {
+        List<User> users = userRepository.findAll();
+        model.addAttribute("users", users);
         return "admin";
     }
+
+    @GetMapping("/admin/user/{id}")
+    public String userDetails(@PathVariable Long id, Model model) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("user", user);
+        // Aquí puedes agregar más detalles si es necesario
+        return "InfoUser"; // Nombre de la vista HTML para los detalles del usuario
+    }
+
 
 }
