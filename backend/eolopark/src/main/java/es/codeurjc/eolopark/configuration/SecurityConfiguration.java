@@ -2,98 +2,82 @@ package es.codeurjc.eolopark.configuration;
 
 import es.codeurjc.eolopark.repository.RepositoryUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration{
-	
-    //esto en esta clase no sirve
-	@Value("${security.admin}") //Para que lo lea desde el fichero propierties
-    private String adminUsername;
+public class SecurityConfiguration {
 
-    @Value("${security.adminEncodedPassword}")
-    private String adminEncodedPassword;
-
-	
 	@Autowired
-    public RepositoryUserDetailsService userDetailService; //inyeccion de independencias
-
-	
+	private RepositoryUserDetailsService userDetailsService;
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {    //Declarar ese tipo de variable 
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-		authProvider.setUserDetailsService(userDetailService);
+		authProvider.setUserDetailsService(userDetailsService);
 		authProvider.setPasswordEncoder(passwordEncoder());
-
 		return authProvider;
 	}
 
-	
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity https) throws Exception {
-		
-		https.authenticationProvider(authenticationProvider());
-		
-		https
-			.authorizeHttpRequests(authorize -> authorize
-					//.requestMatchers("/login").permitAll()
-                    .requestMatchers(("/index")).permitAll()
-					.requestMatchers("/register").permitAll()
-					//.requestMatchers("/Error").permitAll()
-					.requestMatchers("/DetailsPark/*").permitAll()
-					//.requestMatchers("/DetallesSubstation/**").permitAll()
-					.requestMatchers("/PaginaPrincipal").hasAnyRole("USER","ADMIN")
-					.requestMatchers("/EoloPark").permitAll()
-					.requestMatchers("/EoloPark/Manual").permitAll()
-					.requestMatchers("/EoloPark/Automatic").permitAll()
-                    .requestMatchers("/EoloPark/delete/*").hasAnyRole("ADMIN")
-					.requestMatchers("/").permitAll()
-					.requestMatchers("/Successfully").permitAll()
-                    .requestMatchers("/api/**").permitAll()
-                    .requestMatchers("/favicon.ico").permitAll()
-                    .requestMatchers("/EditEoloPark/Edit/**").permitAll()
-
-
-					// PRIVATE PAGES
-                    .requestMatchers("/private").hasAnyRole("USER","ADMIN")
-                    .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                    
-
-			)
-			.formLogin(formLogin -> formLogin
-					.loginPage("/login")    //PAGINA LOGIN
-					.failureUrl("/loginerror") //PAGINA ERROR
-					.defaultSuccessUrl("/PaginaPrincipal")
-					.permitAll()
-            )
-			.logout(logout -> logout
-					.logoutUrl("/logout")
-					.logoutSuccessUrl("/")
-					.permitAll()
-			);
-		
-		// Disable CSRF at the moment
-		https.csrf(csrf -> csrf.disable());
-
-		return https.build();
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+				.authorizeRequests(authorize -> authorize
+						.requestMatchers(HttpMethod.POST, "/api/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
+						.requestMatchers("/index").permitAll()
+						.requestMatchers("/register").permitAll()
+						.requestMatchers("/DetailsPark/**").permitAll()
+						.requestMatchers("/PaginaPrincipal").hasAnyRole("USER", "ADMIN")
+						.requestMatchers("/EoloPark").permitAll()
+						.requestMatchers("/EoloPark/Manual").permitAll()
+						.requestMatchers("/EoloPark/delete/**").hasAnyRole("ADMIN")
+						.requestMatchers("/").permitAll()
+						.requestMatchers("/Successfully").permitAll()
+						.requestMatchers("/favicon.ico").permitAll()
+						.requestMatchers("/EditEoloPark/Edit/**").permitAll()
+						.requestMatchers("/private").hasAnyRole("USER", "ADMIN")
+						.requestMatchers("/admin/**").hasAnyRole("ADMIN")
+				)
+				.formLogin(formLogin -> formLogin
+						.loginPage("/login")
+						.failureUrl("/loginerror")
+						.defaultSuccessUrl("/PaginaPrincipal")
+						.permitAll()
+				)
+				.logout(logout -> logout
+						.logoutUrl("/logout")
+						.logoutSuccessUrl("/")
+						.permitAll()
+				)
+				.httpBasic(withDefaults());
+		// Disable Form login Authentication
+		http.formLogin(formLogin -> formLogin.disable());
+		// Disable CSRF protection (it is difficult to implement in REST APIs)
+		http.csrf(csrf -> csrf.disable());
+		// Enable Basic Authentication
+		http.httpBasic(Customizer.withDefaults());
+		// Stateless session
+		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		return http.build();
 	}
-
 }

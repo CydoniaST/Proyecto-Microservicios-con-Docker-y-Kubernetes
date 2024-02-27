@@ -1,5 +1,6 @@
 package es.codeurjc.eolopark.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class EoloPark {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+     @JsonIgnore
     @OneToMany(mappedBy = "eoloPark", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 
