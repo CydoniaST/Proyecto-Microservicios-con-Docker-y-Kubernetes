@@ -79,5 +79,6 @@ public class SecurityConfiguration {
 		// Stateless session
 		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		return http.build();
+
 	}
 }

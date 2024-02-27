@@ -16,6 +16,7 @@ public interface EoloParkRepository extends JpaRepository<EoloPark, Long> {
     List<EoloPark> findByCity(String city);
     Page<EoloPark> findByCity(String city, Pageable pageable);
 
+
     Optional<EoloPark> findByName(String name);
 
 }
