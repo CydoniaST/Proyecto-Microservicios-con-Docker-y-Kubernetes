@@ -6,11 +6,39 @@
     <title>Parques Eólicos del Usuario</title>
 </head>
 <body>
-    <h1>Parques Eólicos del Usuario</h1>
-    <ul>
-        {{#parques}}
-        <li><a href="{{link}}">{{nombre}}</a></li>
-        {{/parques}}
-    </ul>
+<h1 style="font-family: 'Gill Sans MT',sans-serif">Parques Eólicos del Usuario</h1>
+{{#isPremium}}
+<p style="font-family: 'Gill Sans MT',serif;font-weight: bold">Este usuario es <strong style="color: white; background-color: darkgoldenrod"> Premium </strong></p>
+<button onclick="location.href='/admin/makeUserPremium/{{id}}'">Quitar Premium</button>
+{{/isPremium}}
+{{^isPremium}}
+<button onclick="location.href='/admin/makeUserPremium/{{id}}'">Hacer Usuario Premium</button>
+{{/isPremium}}
+<br>
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Ciudad</th>
+    </tr>
+    {{#eoloParks}}
+    <tr>
+        <td>Nombre del Parque: <a href="/DetailsPark/{{id}}">{{name}}</a></td>
+        <td>Ciudad: {{city}}</td>
+    </tr>
+    {{/eoloParks}}
+</table>
+<br>
+<!-- Paginación -->
+<div>
+    {{#hasNextPage}}
+    <a href="?page={{nextPage}}&city={{city}}">Next</a>
+    {{/hasNextPage}}
+    {{#hasPreviousPage}}
+    <a href="?page={{previousPage}}&city={{city}}">Previous</a>
+    {{/hasPreviousPage}}
+    <br>
+    <a href="/admin"><button>Go back</button></a>
+</div>
+<br>
 </body>
 </html>

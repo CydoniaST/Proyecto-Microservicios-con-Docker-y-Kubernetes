@@ -23,11 +23,6 @@ public class AerogeneratorService {
         this.aerogeneratorRepository = aerogeneratorRepository;
     }
 
-    public Aerogenerator addAerogenerator(Aerogenerator aerogenerator) {
-
-        return aerogeneratorRepository.save(aerogenerator);
-    }
-
     public Optional<Aerogenerator> findAerogeneratorById(long id) {
 
         return aerogeneratorRepository.findById(id);

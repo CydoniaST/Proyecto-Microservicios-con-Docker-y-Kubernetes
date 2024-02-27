@@ -39,14 +39,15 @@ public class EoloPark {
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
 
+    public Long getOwner() {
+        return owner.getId();
+    }
+    public void setOwner(User user) {
+        owner = user;
+    }
 
-    private Long createdByUserId;
-    public Long getCreatedByUserId() {
-        return createdByUserId;
-    }
-    public void setCreatedByUserId(Long createdByUserId) {
-        this.createdByUserId = createdByUserId;
-    }
+
+
 
     public EoloPark(){
 

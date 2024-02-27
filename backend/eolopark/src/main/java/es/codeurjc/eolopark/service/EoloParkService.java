@@ -1,11 +1,7 @@
 package es.codeurjc.eolopark.service;
 
 
-import es.codeurjc.eolopark.model.Aerogenerator;
-import es.codeurjc.eolopark.model.Cities;
-import es.codeurjc.eolopark.model.EoloPark;
-import es.codeurjc.eolopark.model.Substation;
-import es.codeurjc.eolopark.model.TerrainType;
+import es.codeurjc.eolopark.model.*;
 import es.codeurjc.eolopark.repository.CitiesRepository;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +31,23 @@ public class EoloParkService {
         return eoloParkRepository.findAll(pageable);
     }
 
-    public List<EoloPark> findEoloParks(String city) {
-        if (city == null || city.isEmpty()) {
-
-            return eoloParkRepository.findAll();
-        } else {
-            return eoloParkRepository.findByCity(city);
-        }
-    }
-    public Page<EoloPark> findEoloParks(String city, Pageable pageable) {
-        if (city == null || city.isEmpty()) {
+    public Page<EoloPark> findEoloParksByOwnerId(Long id, Pageable pageable) {
+        if(id == 0){
             return eoloParkRepository.findAll(pageable);
         } else {
+            return eoloParkRepository.findByOwnerId(id, pageable);
+        }
+    }
+
+    public Page<EoloPark> findEoloParksByOwnerIdAndCity(Long id, String city, Pageable pageable) {
+        if(id == 0 && (city == null || city.isEmpty())){
+            return eoloParkRepository.findAll(pageable);
+        } else if (id != 0 && (city == null || city.isEmpty())) {
+            return eoloParkRepository.findByOwnerId(id, pageable);
+        } else if (id == 0 && (city != null && !city.isEmpty())) {
             return eoloParkRepository.findByCity(city, pageable);
+        } else {
+            return eoloParkRepository.findByOwnerIdAndCity(id, city, pageable);
         }
     }
 
@@ -59,6 +59,12 @@ public class EoloParkService {
         eoloParkRepository.deleteById(id);
     }
 
+    public void setEoloParkOwner(Long id, User user){
+        EoloPark eoloPark = eoloParkRepository.findById(id).get();
+
+        eoloPark.setOwner(user);
+
+    }
     
     public void save(EoloPark eoloPark){
         eoloParkRepository.save(eoloPark);

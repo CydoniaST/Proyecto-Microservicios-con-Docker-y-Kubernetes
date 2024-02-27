@@ -15,6 +15,7 @@ public class Substation {
 
 
     @OneToOne(mappedBy = "substation")
+    @JoinColumn(name = "eoloPark_id")
     private EoloPark eoloPark;
 
     public Substation() {

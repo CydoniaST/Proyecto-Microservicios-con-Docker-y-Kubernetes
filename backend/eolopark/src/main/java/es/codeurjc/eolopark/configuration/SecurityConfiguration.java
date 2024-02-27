@@ -40,23 +40,30 @@ public class SecurityConfiguration {
 
 	@Bean
 	@Order(1)
-	public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests(authorize -> authorize
+	public SecurityFilterChain webSecurityFilterChain(HttpSecurity https) throws Exception {
+        https.authenticationProvider(authenticationProvider());
 
+		https
+				.authorizeHttpRequests(authorize -> authorize
+
+                        // PUBLIC PAGES
 						.requestMatchers("/index").permitAll()
 						.requestMatchers("/register").permitAll()
-						.requestMatchers("/DetailsPark/**").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/favicon.ico").permitAll()
+
+                        // PRIVATE PAGES
+						.requestMatchers("/DetailsPark/**").hasAnyRole("USER","ADMIN")
 						.requestMatchers("/PaginaPrincipal").hasAnyRole("USER", "ADMIN")
-						.requestMatchers("/EoloPark").permitAll()
-						.requestMatchers("/EoloPark/Manual").permitAll()
+						.requestMatchers("/EoloPark").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/EoloPark/Automatic").hasAnyRole("USER","ADMIN")
+						.requestMatchers("/EoloPark/Manual").hasAnyRole("USER","ADMIN")
 						.requestMatchers("/EoloPark/delete/**").hasAnyRole("ADMIN")
-						.requestMatchers("/").permitAll()
-						.requestMatchers("/Successfully").permitAll()
-						.requestMatchers("/favicon.ico").permitAll()
-						.requestMatchers("/EditEoloPark/Edit/**").permitAll()
-						.requestMatchers("/private").hasAnyRole("USER", "ADMIN")
-						.requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/Successfully").hasAnyRole("USER","ADMIN")
+						.requestMatchers("/EditEoloPark/Edit/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/private").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("admin/makeUserPremium/{{user.id}}").hasAnyRole("ADMIN")
 				)
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
@@ -71,9 +78,9 @@ public class SecurityConfiguration {
 				)
 				.httpBasic(withDefaults());
 
-		http.csrf(csrf -> csrf.disable());
+		https.csrf(csrf -> csrf.disable());
 
-		return http.build();
+		return https.build();
 
 	}
 	@Bean

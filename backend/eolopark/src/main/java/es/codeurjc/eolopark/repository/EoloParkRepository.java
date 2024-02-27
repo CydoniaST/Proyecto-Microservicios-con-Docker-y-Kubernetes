@@ -19,4 +19,10 @@ public interface EoloParkRepository extends JpaRepository<EoloPark, Long> {
 
     Optional<EoloPark> findByName(String name);
 
+    List<EoloPark> findByOwnerId(Long id);
+
+    Page<EoloPark> findByOwnerId(Long id, Pageable pageable);
+
+    Page<EoloPark> findByOwnerIdAndCity(Long id, String city, Pageable pageable);
+
 }
