@@ -26,9 +26,10 @@
   - `Añadir Aerogenerador`: A estos parques se les podrá añadir aerogeneradores, especificando cada una de las caracteristicas que necesita.
   - `Añadir Subestación`: Además se podrá añadir una subestación a cada parque, si no dispone de una.
   - `Visualzar Parques`: En la página principal se podrán visualizar todos los parques de la base de datos en una lista que mostrará datos clave como nombre y ciudad.
-- `Funcionalidad Usuarios`: Podrá realizar cada una de las funcionalidades mencionadas y a cada usuario se le distinguirá por su nombre de usuario.
+- `Funcionalidad Usuarios`: Podrá realizar cada una de las funcionalidades mencionadas pero solo con sus propios parques, no con los parques de otros usuarios y a cada usuario se le distinguirá por su nombre de usuario.
 - `Funcionalidad Administrador`: Ademas de poder realizar las funciones anteriores, también podrá:
   - `Visualizar Usuarios`: Tendrá disponible una lista con todos los usuarios registrados en la web. Además de los parques que haya creado cada uno.
+  - `Dar/Quitar Premium a los usuarios`: Tendrá disponible una lista con todos los usuarios registrados en la web. Además de los parques que haya creado cada uno.
 - `Funcionalidad No se si falta algo lo ponen`: 
 
 ## Guía de ejecución en Windows
@@ -93,18 +94,22 @@ tecnologías utilizadas en este proyecto:
 
 
 
-## ApiRest
-
-
-
 ## Participación de los miembros
 
-  - Laura:
-  - Sandra:
-  - Vicente:
-  - Eric: `Creación inicial de la base de datos` `Despiegue de Docker` `Certificado SSL autofirmado` `Algoritmo de creacion automática de parques` `Ayudar con algunos HTMLs` `Creación de ReadMe` 
+  - Laura:`HTLMs` `Creación Manual de parques con Eric` `Editar Parque/Subestacion/Aerogenerador` `Crear Subestación/Aerogenerador` `Buscar por ciudad` `Ayudar con BD`
+      - Commits Importantes:
+       1. Commit de Editar Parque: clases de EoloParkController.java, SecurityConfiguration.java.
+       2. Commit del Aerogenerador: clases de AerogeneratorController.java, AerogeneratorRepository.java, Aerogenerator.java, AerogeneratorSerice.java
+       3. Commit de Busqueda de ciudad: clases de EoloParkController.java, EoloParkRepository.java.
+  - Sandra:`ApiRest` `Paginación` `Seguridad`
+     - Commits Importantes:
+       1. Commit de Paginación: clases de EoloParkController.java, EoloParkService.java.
+       2. Commit de ApiRest: clases de ApiController.java, SecurityConfiguration.java.
+       3. Commit de Security: clases de SecurityConfiguration.java.
+  - Vicente:`Usuario/Admin` `HTML de error y Success` `Relación de entidades de la BD` 
+  - Eric: `Creación inicial de la base de datos con entidades y relaciones` `Despiegue de Docker` `Certificado SSL autofirmado` `Algoritmo de creacion automática de parques` `Ayudar con algunos HTMLs` `Creación de ReadMe` 
     - Commits Importantes:
-       1. Commit del EoloPark: clases de EoloParkController.java, EoloParkRepository.java, EoloPark.java, EoloParkSerice.java
+       1. Commit del EoloPark: clases de EoloParkController.java, EoloParkRepository.java, EoloPark.java, EoloParkSerice.java,  SecurityConfiguration.java,
        2. Commit del Certificado SSL
-       3. Commit de la creacion automática del parque: clases de Cities.java, CitiesRepository.java, CitiesService,java, etc.
+       3. Commit de la creacion automática del parque: clases de Cities.java, CitiesRepository.java, CitiesService,java, etc,  SecurityConfiguration.java.
 
