@@ -194,7 +194,7 @@ public class EoloParkController {
 
     @PostMapping("/EoloPark/Automatic")
     public String newAutomatic(EoloPark eoloPark, Model model) {
-        
+
         EoloPark AutomaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea());
 
         eoloParkService.save(AutomaticEoloPark);
@@ -203,7 +203,7 @@ public class EoloParkController {
 
     @PostMapping("/EoloPark/Manual")
     public String newPark(EoloPark eoloPark, Model model, HttpServletRequest request) {
-
+        //int i = 0;
         String name = request.getUserPrincipal().getName();
         User user = userRepository.findByName(name).orElseThrow();
 
@@ -217,6 +217,7 @@ public class EoloParkController {
         Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
         Substation substation = new Substation("null", 0.0, 0.0,eoloPark);
 
+        eoloParkService.save(eoloPark);
         eoloParkService.setEoloParkOwner(eoloPark.getId(),user);
         eoloParkService.save(eoloPark);
         aerogeneratorService.save(aerogenerator);
