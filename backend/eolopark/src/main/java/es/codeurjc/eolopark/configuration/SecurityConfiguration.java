@@ -4,6 +4,7 @@ import es.codeurjc.eolopark.repository.RepositoryUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -29,6 +30,7 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
+
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetailsService);
@@ -37,13 +39,11 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	@Order(1)
+	public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeRequests(authorize -> authorize
-						.requestMatchers(HttpMethod.POST, "/api/**").hasAnyRole("USER", "ADMIN")
-						.requestMatchers(HttpMethod.PUT, "/api/**").hasAnyRole("USER", "ADMIN")
-						.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("USER", "ADMIN")
-						.requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole("USER", "ADMIN")
+
 						.requestMatchers("/index").permitAll()
 						.requestMatchers("/register").permitAll()
 						.requestMatchers("/DetailsPark/**").permitAll()
@@ -70,7 +70,26 @@ public class SecurityConfiguration {
 						.permitAll()
 				)
 				.httpBasic(withDefaults());
-		// Disable Form login Authentication
+
+		http.csrf(csrf -> csrf.disable());
+
+		return http.build();
+
+	}
+	@Bean
+	@Order(2)
+	public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+		http
+				.authorizeRequests(authorize -> authorize
+						.requestMatchers(HttpMethod.POST, "/api/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole("USER", "ADMIN")
+
+				)
+
+				.httpBasic(withDefaults());
+		//Disable Form login Authentication
 		http.formLogin(formLogin -> formLogin.disable());
 		// Disable CSRF protection (it is difficult to implement in REST APIs)
 		http.csrf(csrf -> csrf.disable());
