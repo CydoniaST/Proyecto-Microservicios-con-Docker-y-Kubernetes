@@ -88,11 +88,11 @@ tecnologías utilizadas en este proyecto:
 
 ## Diagrama de entidades de la Base de Datos
 
-
+![EoloPark](https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/e54a0219-b13b-4387-8204-d27b70319add)
 
 ## Diagrama de clases y Templates
 
-
+![java](https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/a6070324-2e59-4250-ab2e-2d2635b9dc55)
 
 ## Participación de los miembros
 
