@@ -1,5 +1,14 @@
 <div>
+    {{#errorPremium}}
+    <p style="color: red;">{{errorPremium}}</p>
+    {{/errorPremium}}
+    {{#successPremiumChange}}
     <h2>User "{{user.name}}" premium status changed</h2>
+    {{/successPremiumChange}}
+
+    {{^successPremiumChange}}
+    <h2>User "{{user.name}}" premium status couldn't be changed</h2>
+    {{/successPremiumChange}}
 </div>
 
 <button onclick="location.href='/admin/user/{{user.id}}'">Go Back</button>

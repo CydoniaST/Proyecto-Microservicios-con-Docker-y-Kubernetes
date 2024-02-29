@@ -89,7 +89,7 @@ public class WebController {
 
 
         userRepository.save(user);
-        
+
 
         return "redirect:/login";
     }
@@ -144,13 +144,23 @@ public class WebController {
     }
 
     @GetMapping("/admin/makeUserPremium/{id}")
-    public String makeUserPremium(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
+    public String makeUserPremium(Model model, @PathVariable long id, RedirectAttributes redirectAttributes, Pageable pageable) {
         Optional<User> userOpt = userRepository.findById(id);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
+            int sizeParks = user.getEoloParks().size();
+            if(user.isPremium() && sizeParks>=5){
+                model.addAttribute("errorPremium","Este usuario tiene más de 5 parques. No puedes quitarle el premium aún");
+                model.addAttribute("isPremium", user.isPremium());
+                model.addAttribute("succesPremiumChange", false);
+                model.addAttribute("user", user);
+                return "premiumChanged";
+            }
             user.setPremium(!user.isPremium());
             userRepository.save(user);
             model.addAttribute("user", user);
+            model.addAttribute("succesPremiumChange",true);
+
             redirectAttributes.addFlashAttribute("successMessage", "User has been changed premium status successfully!");
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "User not found!");
@@ -158,6 +168,12 @@ public class WebController {
         return "premiumChanged"; //+ userOpt.get().getId();
 
     }
+
+    @GetMapping("/error")
+    public String error(){
+        return "error";
+    }
+
 
 
 

@@ -45,7 +45,9 @@ public class User {
         this.isPremium = isPremium;
     }
 
-
+    public List<EoloPark> getEoloParks(){
+        return eoloParks;
+    }
     public String getName() {
         return name;
     }

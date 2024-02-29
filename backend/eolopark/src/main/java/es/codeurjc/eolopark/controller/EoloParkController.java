@@ -39,30 +39,30 @@ public class EoloParkController {
     @Autowired
     SubstationService substationService;
 
-     @Autowired
+    @Autowired
     CitiesService citiesService;
 
     @Autowired
     UserRepository userRepository;
-    
+
     @Autowired
     EoloParkRepository eoloParkRepository;
 
     private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 
     @PostConstruct
-	public void init() {
+    public void init() {
 
         User sandra = userRepository.findByName("sandra").get();
         EoloPark ep1 = new EoloPark("Miraflores", "Madrid", 0, 0, 0, TerrainType.DESERT, sandra);
         EoloPark ep2 = new EoloPark("Ciudad Lineal","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, sandra);
-    
+
         eoloParkRepository.save(ep1);
         eoloParkRepository.save(ep2);
 
         Aerogenerator a1 = new Aerogenerator("1", 12.1243, 12.43422, 23.2, 323.2, 123.3);
         Aerogenerator a2 = new Aerogenerator("1", 23.233, 65.543, 50.0, 654.1, 192.3);
-        
+
         a1.setEoloPark(ep2);
         a2.setEoloPark(ep1);
 
@@ -86,20 +86,8 @@ public class EoloParkController {
         citiesService.save(c5);
 
 
-	}
-   
+    }
 
-//    @RequestMapping("/PaginaPrincipal")
-//     public String paginaPrincipal(@RequestParam(required = false) String city, Model model, HttpServletRequest request) {
-//        String name = request.getUserPrincipal().getName();
-
-//        User user = userRepository.findByName(name).orElseThrow();
-
-//        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-//        model.addAttribute("username", user.getName());
-//        model.addAttribute("admin", request.isUserInRole("ADMIN"));
-//        return "PaginaPrincipal";
-//     }
 
     @GetMapping("/PaginaPrincipal")
     public String paginaPrincipal(@RequestParam(required = false) String city,
@@ -146,7 +134,7 @@ public class EoloParkController {
         model.addAttribute("eoloParks");
         return "EoloPark";
     }
-    
+
 
 
     @PostMapping("/EditEoloPark/Edit/{id}")
@@ -193,13 +181,24 @@ public class EoloParkController {
     }
 
     @PostMapping("/EoloPark/Automatic")
-    public String newAutomatic(EoloPark eoloPark, Model model) {
+    public String newAutomatic(EoloPark eoloPark, Model model,HttpServletRequest request) {
 
-        EoloPark AutomaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea());
+        String name = request.getUserPrincipal().getName();
+        User user = userRepository.findByName(name).orElseThrow();
+        if(!user.isPremium()){
+            if(user.getEoloParks().size()>=5) {
+                model.addAttribute("errorCreate","Has alcanzado tu máximo de parques (5)");
+                return "EoloPark";
+            }
+        }
+        EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea());
 
-        eoloParkService.save(AutomaticEoloPark);
+        eoloParkService.save(automaticEoloPark);
+        eoloParkService.setEoloParkOwner(automaticEoloPark.getId(),user);
+        eoloParkService.save(automaticEoloPark);
         return "Successfully";
     }
+
 
     @PostMapping("/EoloPark/Manual")
     public String newPark(EoloPark eoloPark, Model model, HttpServletRequest request) {
@@ -207,9 +206,16 @@ public class EoloParkController {
         String name = request.getUserPrincipal().getName();
         User user = userRepository.findByName(name).orElseThrow();
 
+        if(!user.isPremium()){
+            if(user.getEoloParks().size()>=5) {
+                model.addAttribute("errorCreate","Has alcanzado tu máximo de parques (5)");
+                return "EoloPark";
+            }
+        }
+
         // Check if a park with the same name already exists
         if (eoloParkRepository.findByName(eoloPark.getName()).isPresent()) {
-            model.addAttribute("error", "Ya existe un parque con ese nombre");
+            model.addAttribute("errorName", "Ya existe un parque con ese nombre");
             return "EoloPark";
         }
 
@@ -237,8 +243,8 @@ public class EoloParkController {
 
 
 
-        return "DetailsPark"; 
-    }   
+        return "DetailsPark";
+    }
 
 
 }

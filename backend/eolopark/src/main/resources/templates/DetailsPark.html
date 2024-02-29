@@ -5,16 +5,14 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <h1>Información del Parque Eólico: {{DetailsPark.name}}</h1>
+        <h1 style="font-family: 'Gill Sans MT',serif">Información del Parque Eólico: {{DetailsPark.name}}</h1>
         
         <a href="/EditEoloPark/Edit/{{DetailsPark.id}}">Editar</a>
-        {{#admin}}
         <a href="/EoloPark/delete/{{DetailsPark.id}}">Borrar</a>
-        {{/admin}}
 
         
     
-        <h2>Información del Parque:</h2>
+        <h2 style="font-family: 'Gill Sans MT',serif">Información del Parque:</h2>
         <p>Nombre: {{DetailsPark.name}}</p>
         <p>ID: {{DetailsPark.id}}</p>
         <p>Ciudad: {{DetailsPark.city}}</p>
@@ -23,17 +21,17 @@
         <p>Área: {{DetailsPark.area}}</p>
         <p>Tipo de Terreno: {{DetailsPark.terrainType}}</p>
         {{#hasSubstation}}
-        <h2>Substation:</h2>
+        <h2 style="font-family: 'Gill Sans MT',serif">Substation:</h2>
         <p>Modelo: {{DetailsPark.substation.model}}</p>
         <p>Potencia: {{DetailsPark.substation.power}}</p>
         <p>Voltaje: {{DetailsPark.substation.voltage}}</p>
         {{/hasSubstation}}
         {{#hasAerogenerator}}
-        <h2>Aerogeneradores:</h2>
+        <h2 style="font-family: 'Gill Sans MT',serif">Aerogeneradores:</h2>
         <table>
             {{#DetailsPark.aerogeneratorList}}
                 <tr>
-                    <td>Identificador del Aerogenerador: {{identifyer}}</td>  
+                    <td style="font-family: 'Gill Sans MT',serif">Identificador del Aerogenerador: {{identifyer}}</td>
                     <td> Latitude: {{latitude}} º</td>         
                     <td> Longitud: {{longitude}} º</td>  
                     <td> Longitud de Hoja: {{bladeLength}} metros</td> 

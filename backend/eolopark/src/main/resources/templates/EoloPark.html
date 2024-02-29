@@ -5,53 +5,55 @@
         <meta charset="UTF-8">
     </head>
 
-    {{#error}}
+    {{#errorName}}
     <p style="color: red;">{{error}}</p>
-    {{/error}}
+    {{/errorName}}
+    <br>
+    {{#errorCreate}}
+    <p style="color: red;">{{errorCreate}}</p>
+    {{/errorCreate}}
     <body>
-        <h1>New Eolo Park</h1>
-        <h2>Automatic</h2>
+    <h1>New Eolo Park</h1>
+    <h2>Automatic</h2>
         <form action="/EoloPark/Automatic" method="post">
             <h2>Automatic</h2>
-                <label for="name">Ciudad:</label>
-                <input type="text"  name="name" required><br>
+            <label for="name">Ciudad:</label>
+            <input type="text"  name="name" required><br>
 
-                <label for="area">Área(kM):</label>
-                <input type="number" step="0.01" name="area" required><br>
+            <label for="area">Área(kM):</label>
+            <input type="number" step="0.01" name="area" required><br>
 
-                <a href="/Successfully"><button type="submit">Crear</button></a>
+            <a href="/Successfully"><button type="submit">Crear</button></a>
         </form>
 
         <form action="/EoloPark/Manual" method="post">
             <h2>Manual</h2>
-                <label for="name">Nombre del Parque:</label>
-                <input type="text"  name="name" required><br>
+            <label for="name">Nombre del Parque:</label>
+            <input type="text"  name="name" required><br>
 
-                <label for="city">Ciudad:</label>
-                <input type="text"  name="city" required><br>
+            <label for="city">Ciudad:</label>
+            <input type="text"  name="city" required><br>
 
-                <label for="latitude">Latitud:</label>
-                <input type="number" step="0.01" name="latitude" required><br>
+            <label for="latitude">Latitud:</label>
+            <input type="number" step="0.01" name="latitude" required><br>
 
-                <label for="longirude">Longitud:</label>
-                <input type="number" step="0.01" name="longitude" required><br>
+            <label for="longitude">Longitud:</label>
+            <input type="number" step="0.01" name="longitude" required><br>
 
-                <label for="area">Área:</label>
-                <input type="number" step="0.01" name="area" required><br>
+            <label for="area">Área:</label>
+            <input type="number" step="0.01" name="area" required><br>
 
-                <label for="terrainType">Tipo de Terreno:</label>
-                <select id="terrainType" name="terrainType">
-                    <option value="PLAIN">Plain</option>
-                    <option value="HILL">Hill</option>
-                    <option value="MOUNTAIN">Mountain</option>
-                    <option value="DESERT">Desert</option>
-                    <option value="FOREST">Forest</option>
-                </select><br>
-
-
-                <a href="/Successfully"><button type="submit">Crear</button></a>
+            <label for="terrainType">Tipo de Terreno:</label>
+            <select id="terrainType" name="terrainType">
+                <option value="PLAIN">Plain</option>
+                <option value="HILL">Hill</option>
+                <option value="MOUNTAIN">Mountain</option>
+                <option value="DESERT">Desert</option>
+                <option value="FOREST">Forest</option>
+            </select><br>
+            <a href="/Successfully"><button type="submit">Crear</button></a>
         </form>
 
-        <a href="/">Go back</a>
+        <a href="/PaginaPrincipal">Go back</a>
     </body>
 </html>
