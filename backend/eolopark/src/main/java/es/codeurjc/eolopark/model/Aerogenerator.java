@@ -1,19 +1,24 @@
 package es.codeurjc.eolopark.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Aerogenerator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long id_aerogenerator;
     
-    private String identifyer = String.valueOf(id);
+    private String identifyer = String.valueOf(id_aerogenerator);
 
     //Nuevo
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "eoloPark_id")
+    @ManyToOne
+    @JoinColumn(name = "eolo_park_id")
     private EoloPark eoloPark;
 
     private double latitude;
@@ -41,7 +46,9 @@ public class Aerogenerator {
 
     }
 
-
+    // public void setEoloPark(EoloPark eoloPark) {
+    //     this.eoloPark = eoloPark;
+    // }
 
     public String getId() {
         return identifyer;
@@ -88,7 +95,7 @@ public class Aerogenerator {
     }    
 
     
-    //New
+    //Nuevo
     public EoloPark getEoloPark() {
         return eoloPark;
     }
@@ -97,32 +104,5 @@ public class Aerogenerator {
         this.eoloPark = eoloPark;
     }    
 
-    public static class Size {
-        public static final Size SMALL = new Size(10, 25, 1500);
-        public static final Size MEDIUM = new Size(20, 50, 2500);
-        public static final Size BIG = new Size(40, 100, 3500);
-
-        private final double bladeLength;
-        private final double height;
-        private final double power;
-
-        private Size(double bladeLength, double height, double power) {
-            this.bladeLength = bladeLength;
-            this.height = height;
-            this.power = power;
-        }
-
-        public double getBladeLength() {
-            return bladeLength;
-        }
-
-        public double getHeight() {
-            return height;
-        }
-
-        public double getPower() {
-            return power;
-        }
-    }
 
 }

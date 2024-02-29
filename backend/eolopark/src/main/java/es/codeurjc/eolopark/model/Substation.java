@@ -1,6 +1,10 @@
 package es.codeurjc.eolopark.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Substation {
@@ -15,7 +19,6 @@ public class Substation {
 
 
     @OneToOne(mappedBy = "substation")
-    @JoinColumn(name = "eoloPark_id")
     private EoloPark eoloPark;
 
     public Substation() {
@@ -26,12 +29,6 @@ public class Substation {
         this.power = power;
         this.voltage = voltage;
         this.eoloPark = eoloPark;
-    }
-
-    public Substation(double voltage, String model, Double power) {
-        this.model = model;
-        this.power = power;
-        this.voltage = voltage;
     }
 
     // Getters y setters

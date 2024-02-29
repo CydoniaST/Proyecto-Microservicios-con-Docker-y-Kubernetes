@@ -1,11 +1,12 @@
 package es.codeurjc.eolopark.configuration;
 
-import es.codeurjc.eolopark.model.User;
-import es.codeurjc.eolopark.repository.UserRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import es.codeurjc.eolopark.model.User;
+import es.codeurjc.eolopark.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class DataBaseUsersLoader {
@@ -16,17 +17,17 @@ public class DataBaseUsersLoader {
     @Autowired
 	    private PasswordEncoder passwordEncoder;
 
-      @PostConstruct    //asks two users by default
+      @PostConstruct    //te pide que tenga dos usaurios por defecto
     private void initDatabase() {
-        // logic that saves in the database
+        // Aquí puedes añadir la lógica para guardar usuarios en la base de datos
         userRepository.save(new User("sandra", passwordEncoder.encode("password1"), "ADMIN"));
         userRepository.save(new User("maria", passwordEncoder.encode("password2"), "USER"));
         }
     
 
-    //saved users in the database
+    //guarda lo usuarios en la base de datos 
     public void saveUser(String username, String password, String roles) {
-      User user = new User(username, passwordEncoder.encode(password), roles);
-      userRepository.save(user);
+      User user = new User(username, passwordEncoder.encode(password), roles); //hace el usuario es decir el objeto
+      userRepository.save(user); // guarda el usuario en la base de datos
   }
 }

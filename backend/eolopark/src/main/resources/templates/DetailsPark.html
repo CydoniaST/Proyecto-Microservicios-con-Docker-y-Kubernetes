@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Información del Parque Eólico</title>
-        <meta charset="UTF-8">
-    </head>
-    <body>
-        <h1>Información del Parque Eólico: {{DetailsPark.name}}</h1>
-        
-        <a href="/EditEoloPark/Edit/{{DetailsPark.id}}">Editar</a>
-        {{#admin}}
-        <a href="/EoloPark/delete/{{DetailsPark.id}}">Borrar</a>
-        {{/admin}}
 
-        
-    
-        <h2>Información del Parque:</h2>
-        <p>Nombre: {{DetailsPark.name}}</p>
-        <p>ID: {{DetailsPark.id}}</p>
-        <p>Ciudad: {{DetailsPark.city}}</p>
-        <p>Latitud: {{DetailsPark.latitude}}</p>
-        <p>Longitud: {{DetailsPark.longitude}}</p>
-        <p>Área: {{DetailsPark.area}}</p>
-        <p>Tipo de Terreno: {{DetailsPark.terrainType}}</p>
+<head>
+    <title>Información del Parque Eólico</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h1>Información del Parque Eólico: {{DetailsPark.name}}</h1>
+
+    <a href="/EditEoloPark/Edit/{{DetailsPark.id}}">Editar</a>
+    {{#admin}}
+    <a href="/EoloPark/delete/{{DetailsPark.id}}">Borrar</a>
+    {{/admin}}
+    <h2>Información del Parque:</h2>
+    <p>Nombre: {{DetailsPark.name}}</p>
+    <p>Ciudad: {{DetailsPark.city}}</p>
+    <p>Latitud: {{DetailsPark.latitude}}</p>
+    <p>Longitud: {{DetailsPark.longitude}}</p>
+    <p>Área: {{DetailsPark.area}}</p>
+    <p>Tipo de Terreno: {{DetailsPark.terrainType}}</p>
+    <h2>Substation:</h2>
+    <table>
         {{#hasSubstation}}
-        <h2>Substation:</h2>
-        <p>Modelo: {{DetailsPark.substation.model}}</p>
-        <p>Potencia: {{DetailsPark.substation.power}}</p>
-        <p>Voltaje: {{DetailsPark.substation.voltage}}</p>
+        <tr>
+            <td>Modelo: {{DetailsPark.substation.model}}</td>
+            <td>Potencia: {{DetailsPark.substation.power}}</td>
+            <td>Voltaje: {{DetailsPark.substation.voltage}}</td>
+            <td><a href="/EditSubstation/save/{{DetailsPark.substation.id}}">Edit Substation</a> </td>   
+        </tr>
         {{/hasSubstation}}
-        {{#hasAerogenerator}}
-        <h2>Aerogeneradores:</h2>
-        <table>
-            {{#DetailsPark.aerogeneratorList}}
-                <tr>
-                    <td>Identificador del Aerogenerador: {{identifyer}}</td>  
-                    <td> Latitude: {{latitude}} º</td>         
-                    <td> Longitud: {{longitude}} º</td>  
-                    <td> Longitud de Hoja: {{bladeLength}} metros</td> 
-                    <td> Energia: {{power}} Kilovoltiamperios</td>    
-                    <td> Altura: {{height}} metros</td>     
-                </tr>
-            {{/DetailsPark.aerogeneratorList}}
-        </table><br>
-        {{/hasAerogenerator}}
-        <a href="/PaginaPrincipal">Go back</a>
-    </body>
+    </table>
+    <a href="/NewSubstation/save/{{DetailsPark.id}}">New Substation</a>
+    {{#hasAerogenerator}}
+    <h2>Aerogeneradores:</h2>
+    <table>
+        {{#DetailsPark.aerogeneratorList}}
+        <tr>
+            <td> Latitude: {{latitude}} º</td>
+            <td> Longitud: {{longitude}} º</td>
+            <td> Longitud de Hoja: {{bladeLength}} metros</td>
+            <td> Energia: {{power}} Kilovoltiamperios</td>
+            <td> Altura: {{height}} metros</td>
+            <td><a href="/EditAerogenerator/save/{{id_aerogenerator}}">Edit Aerogenerator</a> </td>
+        </tr>
+        {{/DetailsPark.aerogeneratorList}}
+    </table><br>
+    {{/hasAerogenerator}}
+
+    <a href="/NewAerogenerator/saveNewAerogenerator/{{DetailsPark.id}}">New Aerogenerator</a>
+    <br>
+    <br>
+    <a href="/PaginaPrincipal">Go back</a>
+</body>
+
 </html>

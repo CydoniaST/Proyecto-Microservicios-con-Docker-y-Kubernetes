@@ -4,27 +4,31 @@ package es.codeurjc.eolopark.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import es.codeurjc.eolopark.model.*;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import es.codeurjc.eolopark.model.Aerogenerator;
+import es.codeurjc.eolopark.model.EoloPark;
+import es.codeurjc.eolopark.model.Substation;
+import es.codeurjc.eolopark.model.TerrainType;
+import es.codeurjc.eolopark.model.User;
+import es.codeurjc.eolopark.repository.EoloParkRepository;
+import es.codeurjc.eolopark.repository.UserRepository;
 import es.codeurjc.eolopark.service.AerogeneratorService;
-import es.codeurjc.eolopark.service.CitiesService;
 import es.codeurjc.eolopark.service.EoloParkService;
 import es.codeurjc.eolopark.service.SubstationService;
-import es.codeurjc.eolopark.repository.UserRepository;
-
-import es.codeurjc.eolopark.repository.EoloParkRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
+
 
 
 @Controller
@@ -39,9 +43,6 @@ public class EoloParkController {
     @Autowired
     SubstationService substationService;
 
-     @Autowired
-    CitiesService citiesService;
-
     @Autowired
     UserRepository userRepository;
     
@@ -52,10 +53,9 @@ public class EoloParkController {
 
     @PostConstruct
 	public void init() {
-
-        User sandra = userRepository.findByName("sandra").get();
-        EoloPark ep1 = new EoloPark("Miraflores", "Madrid", 0, 0, 0, TerrainType.DESERT, sandra);
-        EoloPark ep2 = new EoloPark("Ciudad Lineal","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, sandra);
+	
+        EoloPark ep1 = new EoloPark("Miraflores", "Madrid", 0, 0, 0, TerrainType.DESERT);
+        EoloPark ep2 = new EoloPark("Ciudad Lineal","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN);
     
         eoloParkRepository.save(ep1);
         eoloParkRepository.save(ep2);
@@ -68,23 +68,6 @@ public class EoloParkController {
 
         aerogeneratorService.save(a1);
         aerogeneratorService.save(a2);
-
-        User maria = userRepository.findByName("maria").get(); //test a premium user
-        maria.setPremium(true);
-        userRepository.save(maria);
-
-        Cities c1 = new Cities("A Coruña", "A Coruña", 7.2, 43.37, -8.39, 24604, 21);
-        Cities c2 = new Cities("Albacete", "Albacete", 6.9, 38.99, -1.85, 17047, 681);
-        Cities c3 = new Cities("Alicante", "Alicante", 7.5, 38.34, -0.48, 33441, 5);
-        Cities c4 = new Cities("Almeria", "Almeria", 8, 36.83, -2.46, 19001, 16);
-        Cities c5 = new Cities("Bilbao", "Vizcaya", 7.7, 43.25, -2.92, 35318, 6);
-
-        citiesService.save(c1);
-        citiesService.save(c2);
-        citiesService.save(c3);
-        citiesService.save(c4);
-        citiesService.save(c5);
-
 
 	}
    
@@ -101,25 +84,24 @@ public class EoloParkController {
 //        return "PaginaPrincipal";
 //     }
 
-    @GetMapping("/PaginaPrincipal")
+ @GetMapping("/PaginaPrincipal")
     public String paginaPrincipal(@RequestParam(required = false) String city,
                                   @PageableDefault(size = 3) Pageable pageable,
                                   Model model, HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
         User user = userRepository.findByName(name).orElseThrow();
-        Page<EoloPark> eoloParkPage = eoloParkService.findEoloParksByOwnerIdAndCity(user.getId(), city, pageable);
+        Page<EoloPark> eoloParkPage = eoloParkService.findEoloParks(city, pageable);
 
         model.addAttribute("city", city != null ? city : "");
         model.addAttribute("eoloParks", eoloParkPage.getContent());
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-        // Check pagination
+        // Verificar la paginación
         int currentPage = eoloParkPage.getNumber();
-        model.addAttribute("currentPage", currentPage + 1); // Actual page
+        model.addAttribute("currentPage", currentPage + 1); // Página actual
 
-
-        //Add pagination buttons
+        // Añadir botones de paginación
         if (currentPage < eoloParkPage.getTotalPages() - 1) {
             int nextPage = currentPage + 1;
             model.addAttribute("hasNextPage", true);
@@ -141,26 +123,68 @@ public class EoloParkController {
     }
 
 
+    // @PostMapping("/PaginaPrincipal")
+    // public String searchMainPage(@RequestParam(required = false) String city, Model model,
+    //         HttpServletRequest request) {
+    //     String name = request.getUserPrincipal().getName();
+
+    //     User user = userRepository.findByName(name).orElseThrow();
+
+    //     model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
+    //     model.addAttribute("username", user.getName());
+    //     model.addAttribute("admin", request.isUserInRole("ADMIN"));
+    //     return "PaginaPrincipal";
+    // }
+
+
     @GetMapping("/EoloPark")
     public String EoloPark( Model model) {
         model.addAttribute("eoloParks");
         return "EoloPark";
     }
     
+    /*@GetMapping("/loginerror")
+    public String Error( @RequestParam(required = false) String city, Model model) {
+        model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
+        return "login";
+    }*/
+
+
+/*
+ * 
+ *  @GetMapping("/EoloPark/{id}")
+    public String editEoloPark(@PathVariable Long id, Model model) {
+        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
+        model.addAttribute("eoloPark", eoloPark);
+        return "editEoloPark"; // Suponiendo que tienes una vista llamada "editEoloPark"
+    }
+ */
+    /*@RequestMapping(value = "/EoloPark/{id}")
+    public String getEoloParkInfo(@PathVariable Long id, Model model) {
+        // Obtener la información del parque Eólico por su ID
+        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
+        model.addAttribute("eoloPark", eoloPark);
+
+        // Obtener la información del usuario que creó el parque Eólico
+        //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
+        //model.addAttribute("createdBy", createdByUser.getUsername());
+
+        return "DetallesPark"; // Devuelve el nombre de la vista
+    }
+    */
 
 
     @PostMapping("/EditEoloPark/Edit/{id}")
     public String saveEoloPark(@PathVariable Long id, @ModelAttribute("eoloPark") EoloPark updatedEoloPark) {
         EoloPark existingEoloPark = eoloParkService.findEoloParkById(id);
-        // We update the attributes of the existing park with the values of the form
+        // Actualizamos los atributos del parque existente con los valores del formulario
         existingEoloPark.setName(updatedEoloPark.getName());
         existingEoloPark.setCity(updatedEoloPark.getCity());
         existingEoloPark.setLatitude(updatedEoloPark.getLatitude());
         existingEoloPark.setLongitude(updatedEoloPark.getLongitude());
         existingEoloPark.setArea(updatedEoloPark.getArea());
         existingEoloPark.setTerrainType(updatedEoloPark.getTerrainType());
-
-        //We save the changes in the database
+        // Guardamos los cambios en la bbdd
         eoloParkService.save(existingEoloPark);
 
         return "editedPark";
@@ -168,11 +192,12 @@ public class EoloParkController {
 
     @GetMapping("/EditEoloPark/Edit/{id}")
     public String editEoloPark(Model model,@PathVariable Long id) {
-        // We get the existing park by its ID
+        // Obtenemos el parque existente por su ID
         EoloPark existingEoloPark = eoloParkService.findEoloParkById(id);
         model.addAttribute("existingEoloPark", existingEoloPark);
         return "EditEoloPark";
     }
+    
 
     @GetMapping("/EoloPark/delete/{id}")
     public String deleteEoloPark(Model model, @PathVariable long id) {
@@ -192,50 +217,39 @@ public class EoloParkController {
         return "Successfully";
     }
 
-    @PostMapping("/EoloPark/Automatic")
-    public String newAutomatic(EoloPark eoloPark, Model model) {
-
-        EoloPark AutomaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea());
-
-        eoloParkService.save(AutomaticEoloPark);
-        return "Successfully";
-    }
-
     @PostMapping("/EoloPark/Manual")
-    public String newPark(EoloPark eoloPark, Model model, HttpServletRequest request) {
-        //int i = 0;
-        String name = request.getUserPrincipal().getName();
-        User user = userRepository.findByName(name).orElseThrow();
-
-        // Check if a park with the same name already exists
+    public String newPark(EoloPark eoloPark, Model model) {
+        // Verificar si ya existe un parque con el mismo nombre
         if (eoloParkRepository.findByName(eoloPark.getName()).isPresent()) {
             model.addAttribute("error", "Ya existe un parque con ese nombre");
             return "EoloPark";
         }
 
-        // If it does not exist, continue with the creation of the park
+        // Si no existe, continuar con la creación del parque
         Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
-        Substation substation = new Substation("null", 0.0, 0.0,eoloPark);
+        Substation substation = new Substation("null", 0.0, 0.0,null);
 
-        eoloParkService.save(eoloPark);
-        eoloParkService.setEoloParkOwner(eoloPark.getId(),user);
         eoloParkService.save(eoloPark);
         aerogeneratorService.save(aerogenerator);
         substationService.save(substation);
 
-        return "Successfully"; // Another view to show the success of the creation
+        return "Successfully"; // Otra vista para mostrar el éxito de la creación
     }
 
-    @GetMapping("/DetailsPark/{id}")
-    public String infoEoloPark(@PathVariable Long id, Model model, HttpServletRequest request) {
-        // We get the existing park by its ID
-        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
+    @GetMapping("/DetailsPark/{eolo_id}")
+    public String infoEoloPark(@PathVariable Long eolo_id, Model model, HttpServletRequest request) {
+        // Obtenemos la info del parque por su ID
+        EoloPark eoloPark = eoloParkService.findEoloParkById(eolo_id);
         model.addAttribute("DetailsPark", eoloPark);
         model.addAttribute("hasSubstation", eoloPark.getSubstation() != null);
         model.addAttribute("hasAerogenerator", eoloPark.getAerogeneratorList() != null);
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-
+        //model.addAttribute("DetallesSubstation", eoloParkService.findSubstationByEoloParkId(id));
+        //model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
+         // Obtenemos la info del usuario que creo el parque
+         //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
+         //model.addAttribute("createdBy", createdByUser.getUsername());
 
         return "DetailsPark"; 
     }   

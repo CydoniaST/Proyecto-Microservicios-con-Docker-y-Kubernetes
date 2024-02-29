@@ -1,10 +1,18 @@
 package es.codeurjc.eolopark.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class EoloPark {
@@ -13,12 +21,8 @@ public class EoloPark {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-     @JsonIgnore
-    @OneToMany(mappedBy = "eoloPark", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "eoloPark", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
-
-    @ManyToOne
-    private Cities cityEoloPark;
 
     private String name;
 
@@ -32,41 +36,33 @@ public class EoloPark {
 
     private TerrainType terrainType;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
 
-    public Long getOwner() {
-        return owner.getId();
+    @ManyToOne 
+    private Cities cityEoloPark;
+
+
+    private Long createdByUserId;
+    public Long getCreatedByUserId() {
+        return createdByUserId;
     }
-    public void setOwner(User user) {
-        owner = user;
+    public void setCreatedByUserId(Long createdByUserId) {
+        this.createdByUserId = createdByUserId;
     }
-
-
-
 
     public EoloPark(){
 
     }
 
-    public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType, User user){
+    public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType){
         this.name= name;
         this.city= city;
         this.latitude=latitude;
         this.longitude=longitude;
         this.area= area;
         this.terrainType= terrainType;
-        owner = user;
-
-    }
-
-    public EoloPark(String city, double area){
-        this.city = city;
-        this.area = area;
     }
 
     public String getName() {
@@ -99,7 +95,10 @@ public class EoloPark {
     public TerrainType getTerrainType() {
         return terrainType;
     }
-
+/*
+    public List<Aerogenerator> getAerogenerators() {
+        return aerogeneratorList;
+    }*/
 
     public void setName(String name) {
         this.name = name;
@@ -123,7 +122,7 @@ public class EoloPark {
     }
 
 
-    //New
+    //Nuevo
     public List<Aerogenerator> getAerogeneratorList() {
         return aerogeneratorList;
     }
