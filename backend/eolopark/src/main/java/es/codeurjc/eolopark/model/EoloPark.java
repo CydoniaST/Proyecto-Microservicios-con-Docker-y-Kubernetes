@@ -13,7 +13,7 @@ public class EoloPark {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-     @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "eoloPark", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 

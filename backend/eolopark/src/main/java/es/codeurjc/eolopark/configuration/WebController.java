@@ -34,9 +34,6 @@ public class WebController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private EoloParkService eoloParkService;
-
     @GetMapping("/")
     public String index() {
         return "index";
@@ -101,46 +98,13 @@ public class WebController {
         return "admin";
     }
 
-
-
     @GetMapping("/admin/user/{id}")
-    public String userDetails(@PathVariable Long id, @RequestParam(required = false) String city,
-                              @PageableDefault(size = 3) Pageable pageable,
-                              Model model) {
-        //String name = userRepository.findById(id).get().getName();
-        User user = userRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-        Page<EoloPark> eoloParkPage = eoloParkService.findEoloParksByOwnerId(user.getId(), pageable);
-
-        model.addAttribute("city", city != null ? city : "");
-        model.addAttribute("eoloParks", eoloParkPage.getContent());
-        model.addAttribute("isPremium", user.isPremium());
-        //model.addAttribute("username", user.getName());
-
-        // Check pagination
-        int currentPage = eoloParkPage.getNumber();
-        model.addAttribute("currentPage", currentPage + 1); // Actual page
-
-
-        //Add pagination buttons
-        if (currentPage < eoloParkPage.getTotalPages() - 1) {
-            int nextPage = currentPage + 1;
-            model.addAttribute("hasNextPage", true);
-            model.addAttribute("nextPage", nextPage);
-        } else {
-            model.addAttribute("hasNextPage", false);
-        }
-
-        if (currentPage > 0) {
-            int previousPage = currentPage - 1;
-            model.addAttribute("hasPreviousPage", true);
-            model.addAttribute("previousPage", previousPage);
-        } else {
-
-            model.addAttribute("hasPreviousPage", false);
-        }
-
-        return "InfoUser";
+    public String userDetails(@PathVariable Long id, Model model) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("user", user);
+        // Aquí puedes agregar más detalles si es necesario
+        return "InfoUser"; // Nombre de la vista HTML para los detalles del usuario
     }
 
     @GetMapping("/admin/makeUserPremium/{id}")

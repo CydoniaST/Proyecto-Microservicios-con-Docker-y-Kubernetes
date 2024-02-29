@@ -65,42 +65,42 @@ public class EoloParkService {
         eoloPark.setOwner(user);
 
     }
-    
+
     public void save(EoloPark eoloPark){
         eoloParkRepository.save(eoloPark);
     }
 
- //Automatic Creation
+    //Automatic Creation
     public EoloPark newAutomaticEoloPark(String name, double area){
         //GENERIC NAME FOR AUTOMATIC PARK
         String nameCity = "EoloParque Automatico con ID: "+Math.random()*10;
 
         //method to use latitude and longitude of a city from dataBase
-       
+
 
         Optional<Cities> newCity = citiesRepository.findByName(name);
-        
+
         if(newCity.isPresent()){
             Cities cityAux = newCity.get();
 
             String windSpeed = getWindSpeed(name);
-    
+
             Aerogenerator.Size size = aerogeneratorSize(windSpeed);
-    
+
             //Number of Aerogen that fit in the EoloPark
             int aerogeneratorNum= (int)Math.ceil(area/1.0);
-    
+
             //create EoloPark based on city and are
             EoloPark automaticEoloPark = new EoloPark(name, area);
-             
+
             automaticEoloPark.setName(nameCity);
             automaticEoloPark.setLatitude(cityAux.getLatitude());
             automaticEoloPark.setLongitude(cityAux.getLongitude());
 
             //Substation based on new EoloPark
-            Substation newSubstation = new Substation(220, "Model 1", calculateSubstationPower(aerogeneratorNum));
+            Substation newSubstation = new Substation("Model 1",220.0, calculateSubstationPower(aerogeneratorNum),automaticEoloPark);
             automaticEoloPark.setSubstation(newSubstation);
-    
+
             //List of new Aerogens
             List<Aerogenerator> aerogenerators = new ArrayList<>();
             double latitude = cityAux.getLatitude() - 0.5 / 111.0;
@@ -111,23 +111,23 @@ public class EoloParkService {
                 aerogenerators.add(aerogenerator);
                 longitude += 1.0/111.0;
             }
-            
+
             automaticEoloPark.setAerogeneratorList(aerogenerators);
             automaticEoloPark.setTerrainType(TerrainType.PLAIN);
-            
+
             return automaticEoloPark;
         }else{
             throw new IllegalArgumentException("No se encuentra la ciudad");
         }
-       
+
     }
 
     private String getWindSpeed(String city){
 
-        //acceder a base de datos //LEER ESTO CUANDO CONTINUE: HAY QUE BUSCAR EN LA BD LA cityAux Y 
+        //acceder a base de datos //LEER ESTO CUANDO CONTINUE: HAY QUE BUSCAR EN LA BD LA cityAux Y
         //QUE EL METODO FINDWINDBYCITY DEVUELVA EL VIENTO DE ESA cityAux
         Optional<Cities> wind = citiesRepository.findByName(city);
-        
+
         Cities windSpeedCity;
         double windSpeed = 0;
         if(wind.isPresent()){
@@ -144,7 +144,7 @@ public class EoloParkService {
         }else{
             throw new IllegalArgumentException("Unknown wind speed: " + windSpeed);
         }
-        
+
     }
 
     private Aerogenerator.Size aerogeneratorSize(String windSpeed){
@@ -170,6 +170,9 @@ public class EoloParkService {
         return maxPower*1.2; //margin = +20%
     }
 
+    public EoloPark findBySubstation_Id(Long id){
+        return eoloParkRepository.findBySubstation_Id(id);
+    }
 
 
 

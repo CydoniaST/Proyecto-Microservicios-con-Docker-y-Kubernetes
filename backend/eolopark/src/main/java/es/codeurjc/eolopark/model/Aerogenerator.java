@@ -8,7 +8,7 @@ public class Aerogenerator {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    
+
     private String identifyer = String.valueOf(id);
 
     //Nuevo
@@ -31,7 +31,7 @@ public class Aerogenerator {
     }
 
     public Aerogenerator(String identifyer, double latitude, double longitude, double bladeLength, double height, double power){
-        
+
         this.identifyer = identifyer;
         this.latitude= latitude;
         this.longitude= longitude;
@@ -62,32 +62,32 @@ public class Aerogenerator {
     public double getHeight(){
         return height;
     }
-    
+
     public double getPower(){
         return power;
     }
-     public void setId(String identifyer) {
+    public void setId(String identifyer) {
         this.identifyer = identifyer;
     }
 
-      public void setLatitude(double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-      public void setLongitude(double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-    
+
     public void setBladeLength(double bladeLength) {
         this.bladeLength = bladeLength;
-    }  
-     public void setHeight(double height) {
+    }
+    public void setHeight(double height) {
         this.height = height;
-    }    
-     public void setPower(double power) {
+    }
+    public void setPower(double power) {
         this.power = power;
-    }    
+    }
 
-    
+
     //New
     public EoloPark getEoloPark() {
         return eoloPark;
@@ -95,7 +95,7 @@ public class Aerogenerator {
 
     public void setEoloPark(EoloPark eoloPark) {
         this.eoloPark = eoloPark;
-    }    
+    }
 
     public static class Size {
         public static final Size SMALL = new Size(10, 25, 1500);
