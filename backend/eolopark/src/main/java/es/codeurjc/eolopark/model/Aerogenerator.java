@@ -1,19 +1,27 @@
 package es.codeurjc.eolopark.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Aerogenerator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long id_aerogenerator;
 
-    private String identifyer = String.valueOf(id);
+    private String identifyer = String.valueOf(id_aerogenerator);
 
+   
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "eoloPark_id")
     //Nuevo
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "eoloPark_id")
+    @ManyToOne
+    @JoinColumn(name = "eolo_park_id")
     private EoloPark eoloPark;
 
     private double latitude;

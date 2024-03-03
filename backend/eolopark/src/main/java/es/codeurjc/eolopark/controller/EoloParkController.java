@@ -4,8 +4,6 @@ package es.codeurjc.eolopark.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.codeurjc.eolopark.model.*;
-import es.codeurjc.eolopark.service.CitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +16,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.codeurjc.eolopark.model.Aerogenerator;
+import es.codeurjc.eolopark.model.Cities;
+import es.codeurjc.eolopark.model.EoloPark;
+import es.codeurjc.eolopark.model.Substation;
+import es.codeurjc.eolopark.model.TerrainType;
+import es.codeurjc.eolopark.model.User;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import es.codeurjc.eolopark.repository.UserRepository;
 import es.codeurjc.eolopark.service.AerogeneratorService;
+import es.codeurjc.eolopark.service.CitiesService;
 import es.codeurjc.eolopark.service.EoloParkService;
 import es.codeurjc.eolopark.service.SubstationService;
 import jakarta.annotation.PostConstruct;
@@ -244,10 +249,10 @@ public class EoloParkController {
         return "Successfully"; // Otra vista para mostrar el éxito de la creación
     }
 
-    @GetMapping("/DetailsPark/{id}")
-    public String infoEoloPark(@PathVariable Long id, Model model, HttpServletRequest request) {
+    @GetMapping("/DetailsPark/{eolo_id}")
+    public String infoEoloPark(@PathVariable Long eolo_id, Model model, HttpServletRequest request) {
         // Obtenemos la info del parque por su ID
-        EoloPark eoloPark = eoloParkService.findEoloParkById(id);
+        EoloPark eoloPark = eoloParkService.findEoloParkById(eolo_id);
         model.addAttribute("DetailsPark", eoloPark);
         model.addAttribute("hasSubstation", eoloPark.getSubstation() != null);
         model.addAttribute("hasAerogenerator", eoloPark.getAerogeneratorList() != null);
