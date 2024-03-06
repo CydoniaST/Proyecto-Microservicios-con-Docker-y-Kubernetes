@@ -79,6 +79,18 @@ public class EoloParkController {
         User maria = userRepository.findByName("maria").get(); //test a premium user
         maria.setPremium(true);
         userRepository.save(maria);
+        EoloPark ep3 = new EoloPark("Joselu", "Madrid", 0, 0, 0, TerrainType.DESERT, maria);
+        EoloPark ep4 = new EoloPark("Joseluis","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        EoloPark ep5 = new EoloPark("Pepe", "Madrid", 0, 0, 0, TerrainType.DESERT, maria);
+        EoloPark ep6 = new EoloPark("Antonio","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        EoloPark ep7 = new EoloPark("Almendra","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        EoloPark ep8 = new EoloPark("Macaco","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        eoloParkRepository.save(ep3);
+        eoloParkRepository.save(ep4);
+        eoloParkRepository.save(ep5);
+        eoloParkRepository.save(ep6);
+        eoloParkRepository.save(ep7);
+        eoloParkRepository.save(ep8);
 
         Cities c1 = new Cities("A Coruña", "A Coruña", 7.2, 43.37, -8.39, 24604, 21);
         Cities c2 = new Cities("Albacete", "Albacete", 6.9, 38.99, -1.85, 17047, 681);
@@ -97,57 +109,10 @@ public class EoloParkController {
 
 
 
- @GetMapping("/PaginaPrincipal")
-    public String paginaPrincipal(@RequestParam(required = false) String city,
-                                  @PageableDefault(size = 3) Pageable pageable,
-                                  Model model, HttpServletRequest request) {
-        String name = request.getUserPrincipal().getName();
-        User user = userRepository.findByName(name).orElseThrow();
-        Page<EoloPark> eoloParkPage = eoloParkService.findEoloParksByOwnerIdAndCity(user.getId(),city, pageable);
-
-        model.addAttribute("city", city != null ? city : "");
-        model.addAttribute("eoloParks", eoloParkPage.getContent());
-        model.addAttribute("username", user.getName());
-        model.addAttribute("admin", request.isUserInRole("ADMIN"));
-
-        // Verificar la paginación
-        int currentPage = eoloParkPage.getNumber();
-        model.addAttribute("currentPage", currentPage + 1); // Página actual
-
-        // Añadir botones de paginación
-        if (currentPage < eoloParkPage.getTotalPages() - 1) {
-            int nextPage = currentPage + 1;
-            model.addAttribute("hasNextPage", true);
-            model.addAttribute("nextPage", nextPage);
-        } else {
-            model.addAttribute("hasNextPage", false);
-        }
-
-        if (currentPage > 0) {
-            int previousPage = currentPage - 1;
-            model.addAttribute("hasPreviousPage", true);
-            model.addAttribute("previousPage", previousPage);
-        } else {
-
-            model.addAttribute("hasPreviousPage", false);
-        }
-
-        return "PaginaPrincipal";
-    }
 
 
-    // @PostMapping("/PaginaPrincipal")
-    // public String searchMainPage(@RequestParam(required = false) String city, Model model,
-    //         HttpServletRequest request) {
-    //     String name = request.getUserPrincipal().getName();
 
-    //     User user = userRepository.findByName(name).orElseThrow();
 
-    //     model.addAttribute("eoloParks", eoloParkService.findEoloParks(city));
-    //     model.addAttribute("username", user.getName());
-    //     model.addAttribute("admin", request.isUserInRole("ADMIN"));
-    //     return "PaginaPrincipal";
-    // }
 
 
     @GetMapping("/EoloPark")
@@ -242,6 +207,8 @@ public class EoloParkController {
         Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
         Substation substation = new Substation("null", 0.0, 0.0,null);
 
+        eoloParkService.save(eoloPark);
+        eoloParkService.setEoloParkOwner(eoloPark.getId(),user);
         eoloParkService.save(eoloPark);
         aerogeneratorService.save(aerogenerator);
         substationService.save(substation);

@@ -7,6 +7,9 @@
 </head>
 <body>
 <h1 style="font-family: 'Gill Sans MT',sans-serif">Parques Eólicos del Usuario</h1>
+{{#errorPremium}}
+<p style="color: red;font-family: 'Gill Sans MT',serif;font-weight: bold">No puedes quitar el Premium a este usuario, tiene más de 5 parques</strong></p>
+{{/errorPremium}}
 {{#isPremium}}
 <p style="font-family: 'Gill Sans MT',serif;font-weight: bold">Este usuario es <strong style="color: white; background-color: darkgoldenrod"> Premium </strong></p>
 <button onclick="location.href='/admin/makeUserPremium/{{id}}'">Quitar Premium</button>
