@@ -1,18 +1,19 @@
 package es.codeurjc.eolopark.controller;
 
+import es.codeurjc.eolopark.model.Substation;
+import es.codeurjc.eolopark.service.EoloParkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import es.codeurjc.eolopark.model.Aerogenerator;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.repository.AerogeneratorRepository;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import es.codeurjc.eolopark.service.AerogeneratorService;
+
+import java.util.Optional;
 
 @Controller
 public class AerogeneratorController {
@@ -26,6 +27,8 @@ public class AerogeneratorController {
     @Autowired
     EoloParkRepository eoloParkRepository;
 
+    @Autowired
+    private EoloParkService eoloParkService;
     /*
      * @GetMapping("/DetallesPark/{id}")
      * public String infoEoloPark(@PathVariable Long id, Model model) {
@@ -98,5 +101,21 @@ public class AerogeneratorController {
 
         return "redirect:/DetailsPark/" + aerogenerator.getEoloPark().getId();
     }
+
+
+
+    @GetMapping("/EditAerogenerator/delete/{id}")
+    public String deleteAerogenerator(@PathVariable Long id, Model model) {
+
+        Optional<Aerogenerator> aerogenerator = aerogeneratorService.findAerogeneratorById(id);
+        aerogeneratorService.deleteAerogenerator(id);
+        model.addAttribute("aerogenerator", id);
+
+
+        return "deletedAerogenerator";
+
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
 package es.codeurjc.eolopark.configuration;
 
+import es.codeurjc.eolopark.apiRest.ApiController;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.User;
 import es.codeurjc.eolopark.repository.UserRepository;
@@ -25,6 +26,7 @@ import java.util.Optional;
 
 @Controller
 public class WebController {
+
     @Autowired
     private UserRepository userRepository;
 

@@ -26,6 +26,7 @@ public interface EoloParkRepository extends JpaRepository<EoloPark, Long> {
      //Nuevo
     EoloPark findBySubstation_Id(Long id);
 
+
     Page<EoloPark> findByOwnerId(Long id, Pageable pageable);
 
     Page<EoloPark> findByOwnerIdAndCity(Long id, String city, Pageable pageable);

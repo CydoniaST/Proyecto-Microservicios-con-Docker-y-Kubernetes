@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Información del Parque Eólico</title>
+    <title style = "font-family: 'Gill Sans MT',sans-serif">Información del Parque Eólico</title>
     <meta charset="UTF-8">
 </head>
 <body>
-<h1>Información del Parque Eólico: {{DetailsPark.name}}</h1>
+<h1 style = "font-family: 'Gill Sans MT',sans-serif">Información del Parque Eólico: {{DetailsPark.name}}</h1>
 
-<a href="/EditEoloPark/Edit/{{DetailsPark.id}}">Editar</a>
-<a href="/EoloPark/delete/{{DetailsPark.id}}">Borrar</a>
+<a href="/EditEoloPark/Edit/{{DetailsPark.id}}" style = "font-family: 'Gill Sans MT',sans-serif">Editar</a>
+<a href="/EoloPark/delete/{{DetailsPark.id}}" style = "font-family: 'Gill Sans MT',sans-serif">Borrar</a>
 
 
 
-<h2>Información del Parque:</h2>
-<p>Nombre: {{DetailsPark.name}}</p>
-<p>ID: {{DetailsPark.id}}</p>
-<p>Ciudad: {{DetailsPark.city}}</p>
-<p>Latitud: {{DetailsPark.latitude}}</p>
-<p>Longitud: {{DetailsPark.longitude}}</p>
-<p>Área: {{DetailsPark.area}}</p>
-<p>Tipo de Terreno: {{DetailsPark.terrainType}}</p>
-<h2>Substation:</h2>
+<h2 style = "font-family: 'Gill Sans MT',sans-serif">Información del Parque:</h2>
+<p style = "font-family: 'Gill Sans MT',sans-serif">Nombre: {{DetailsPark.name}}</p>
+<p style = "font-family: 'Gill Sans MT',sans-serif">ID: {{DetailsPark.id}}</p>
+<p style = "font-family: 'Gill Sans MT',sans-serif">Ciudad: {{DetailsPark.city}}</p>
+<p style = "font-family: 'Gill Sans MT',sans-serif">Latitud: {{DetailsPark.latitude}}</p>
+<p style = "font-family: 'Gill Sans MT',sans-serif">Longitud: {{DetailsPark.longitude}}</p>
+<p style = "font-family: 'Gill Sans MT',sans-serif">Área: {{DetailsPark.area}}</p>
+<p style = "font-family: 'Gill Sans MT',sans-serif">Tipo de Terreno: {{DetailsPark.terrainType}}</p>
+<h2 style = "font-family: 'Gill Sans MT',sans-serif">Substation:</h2>
 <table>
     {{#hasSubstation}}
     <tr>
-        <td>Modelo: {{DetailsPark.substation.model}}</td>
-        <td>Potencia: {{DetailsPark.substation.power}}</td>
-        <td>Voltaje: {{DetailsPark.substation.voltage}}</td>
-        <td><a href="/EditSubstation/save/{{DetailsPark.substation.id}}">Edit Substation</a> </td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif">Modelo: {{DetailsPark.substation.model}}</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif">Potencia: {{DetailsPark.substation.power}}</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif">Voltaje: {{DetailsPark.substation.voltage}}</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"><a href="/EditSubstation/save/{{DetailsPark.substation.id}}">Edit Substation</a></td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"><a href="/Substation/delete/{{DetailsPark.substation.id}}">Delete Substation</a></td>
+
     </tr>
     {{/hasSubstation}}
 </table>
-<a href="/NewSubstation/save/{{DetailsPark.id}}">New Substation</a>
+<a href="/NewSubstation/save/{{DetailsPark.id}}" style = "font-family: 'Gill Sans MT',sans-serif">New Substation</a>
 {{#hasAerogenerator}}
-<h2>Aerogeneradores:</h2>
+<h2 style = "font-family: 'Gill Sans MT',sans-serif">Aerogeneradores:</h2>
 <table>
     {{#DetailsPark.aerogeneratorList}}
     <tr>
-        <td> Latitude: {{latitude}} º</td>
-        <td> Longitud: {{longitude}} º</td>
-        <td> Longitud de Hoja: {{bladeLength}} metros</td>
-        <td> Energia: {{power}} Kilovoltiamperios</td>
-        <td> Altura: {{height}} metros</td>
-        <td><a href="/EditAerogenerator/save/{{id_aerogenerator}}">Edit Aerogenerator</a> </td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"> Latitude: {{latitude}} º</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"> Longitud: {{longitude}} º</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"> Longitud de Hoja: {{bladeLength}} metros</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"> Energia: {{power}} Kilovoltiamperios</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"> Altura: {{height}} metros</td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"><a href="/EditAerogenerator/save/{{id_aerogenerator}}">Edit Aerogenerator</a> </td>
+        <td style = "font-family: 'Gill Sans MT',sans-serif"><a href="/EditAerogenerator/delete/{{id_aerogenerator}}">Delete Aerogenerator</a></td>
     </tr>
     {{/DetailsPark.aerogeneratorList}}
 </table><br>
 {{/hasAerogenerator}}
 
-<a href="/NewAerogenerator/saveNewAerogenerator/{{DetailsPark.id}}">New Aerogenerator</a>
+<a href="/NewAerogenerator/saveNewAerogenerator/{{DetailsPark.id}}" style = "font-family: 'Gill Sans MT',sans-serif">New Aerogenerator</a>
 <br>
 <br>
-<a href="/PaginaPrincipal">Go back</a>
+<a href="/PaginaPrincipal" style = "font-family: 'Gill Sans MT',sans-serif">Go back</a>
 </body>
 </html>

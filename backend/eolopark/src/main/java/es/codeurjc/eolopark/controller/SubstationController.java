@@ -98,7 +98,7 @@ public class SubstationController {
         return "EditSubstation";
     }
 
-     @PostMapping("/EditSubstation/save/{substation_id}")
+    @PostMapping("/EditSubstation/save/{substation_id}")
     public String editSubstation(@ModelAttribute Substation updatedSubstation,@PathVariable Long substation_id, Model model) {
 
         EoloPark eoloPark = eoloParkService.findBySubstation_Id(substation_id);
@@ -117,8 +117,26 @@ public class SubstationController {
         return "redirect:/DetailsPark/" + eoloPark.getId();
     }
 
-        
-        // @PostMapping("/DeleteSubstation/delete/{substation_id}")
+    @GetMapping("/Substation/delete/{id}")
+    public String deleteSubstation(Model model, @PathVariable long id) {
+        EoloPark eoloPark = eoloParkService.findBySubstation_Id(id);
+        Substation substation = eoloPark.getSubstation();
+
+        if (substation != null) {
+
+            eoloPark.setSubstation(null);
+            eoloParkService.save(eoloPark);
+            substationService.deleteSubstation(id);
+            model.addAttribute("eoloPark", eoloPark);
+            model.addAttribute("substation", substation); //getClass()??
+        }
+        return "deletedSubstation";
+
+    }
+
+
+
+    // @PostMapping("/DeleteSubstation/delete/{substation_id}")
         // public String deleteSubstation(@PathVariable Long substation_id){
         //     boolean isDelete = substationService.deleteSubstation(substation_id);
         //         if(isDelete){
