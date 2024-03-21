@@ -1,6 +1,9 @@
 package es.codeurjc.eolopark.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -32,35 +35,42 @@ public class EoloPark {
 
     private TerrainType terrainType;
 
+    @JsonIdentityReference(alwaysAsId = true) // solo se necesita el ID para la deserialización
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
-
+    /*
     public Long getOwner() {
         return owner.getId();
     }
-    public void setOwner(User user) {
-        owner = user;
+    */
+
+
+    // En la clase EoloPark
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
-
-
+    @JsonSetter("owner")
+    public void setOwnerById(Long userId) {
+        this.owner = new User(userId); // Suponiendo que hay un constructor en User que acepta solo un ID
+    }
 
     public EoloPark(){
 
     }
 
-    public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType, User user){
+    public EoloPark(String name, String city, double latitude, double longitude, double area, TerrainType terrainType, User owner){
         this.name= name;
         this.city= city;
         this.latitude=latitude;
         this.longitude=longitude;
         this.area= area;
         this.terrainType= terrainType;
-        owner = user;
+        this.owner = owner;
 
     }
 
@@ -137,5 +147,10 @@ public class EoloPark {
         this.substation = substation;
     }
 
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("owner")
+    public Long getOwnerId() {
+        return (this.owner != null ? this.owner.getId() : null);
+    }
 
 }

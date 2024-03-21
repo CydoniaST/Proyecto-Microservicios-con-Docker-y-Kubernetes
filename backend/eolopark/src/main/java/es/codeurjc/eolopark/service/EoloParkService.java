@@ -23,6 +23,9 @@ public class EoloParkService {
     @Autowired
     private CitiesRepository citiesRepository;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
 
     public EoloParkService(EoloParkRepository eoloParkRepository) {
         this.eoloParkRepository = eoloParkRepository;
@@ -64,6 +67,12 @@ public class EoloParkService {
 
         eoloPark.setOwner(user);
 
+    }
+
+    public EoloPark createEoloPark(EoloPark eolopark, Long ownerId) {
+        User owner = userDetailsService.findUserById(ownerId);
+        eolopark.setOwner(owner);
+        return eoloParkRepository.save(eolopark);
     }
 
     public void save(EoloPark eoloPark){

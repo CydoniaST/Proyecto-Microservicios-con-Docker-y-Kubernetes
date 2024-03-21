@@ -1,9 +1,12 @@
 package es.codeurjc.eolopark.model;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class User {
 
@@ -34,6 +37,10 @@ public class User {
         this.name = name;
         this.encodedPassword = encodedPassword;
         this.roles = List.of(roles);
+    }
+
+    public User(Long id){
+        this.id = id;
     }
 
 
