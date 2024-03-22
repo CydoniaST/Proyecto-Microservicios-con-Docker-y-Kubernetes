@@ -35,24 +35,26 @@ public class EoloPark {
 
     private TerrainType terrainType;
 
-    @JsonIdentityReference(alwaysAsId = true) // solo se necesita el ID para la deserialización
+    //@JsonIdentityReference(alwaysAsId = true) // solo se necesita el ID para la deserialización
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
-    /*
+
+
     public Long getOwner() {
         return owner.getId();
     }
-    */
+
 
 
     // En la clase EoloPark
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
 
     @JsonSetter("owner")
     public void setOwnerById(Long userId) {
@@ -147,10 +149,11 @@ public class EoloPark {
         this.substation = substation;
     }
 
+    /*
     @JsonIdentityReference(alwaysAsId = true)
     @JsonProperty("owner")
     public Long getOwnerId() {
         return (this.owner != null ? this.owner.getId() : null);
     }
-
+    */
 }

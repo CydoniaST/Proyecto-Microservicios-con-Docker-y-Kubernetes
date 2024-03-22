@@ -69,11 +69,6 @@ public class EoloParkService {
 
     }
 
-    public EoloPark createEoloPark(EoloPark eolopark, Long ownerId) {
-        User owner = userDetailsService.findUserById(ownerId);
-        eolopark.setOwner(owner);
-        return eoloParkRepository.save(eolopark);
-    }
 
     public void save(EoloPark eoloPark){
         eoloParkRepository.save(eoloPark);

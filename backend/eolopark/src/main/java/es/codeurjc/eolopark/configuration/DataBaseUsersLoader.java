@@ -20,7 +20,7 @@ public class DataBaseUsersLoader {
       @PostConstruct    //te pide que tenga dos usaurios por defecto
     private void initDatabase() {
         // Aquí puedes añadir la lógica para guardar usuarios en la base de datos
-        userRepository.save(new User("sandra", passwordEncoder.encode("password1"), "ADMIN"));
+        userRepository.save(new User("sandra", passwordEncoder.encode("pass"), "ADMIN"));
         userRepository.save(new User("maria", passwordEncoder.encode("password2"), "USER"));
         }
     
