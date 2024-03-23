@@ -1,6 +1,7 @@
 package es.codeurjc.eolopark.apiRest;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import es.codeurjc.eolopark.configuration.WebController;
@@ -138,12 +139,38 @@ public class ApiController {
         }
     }
 
-    @DeleteMapping("/substation/{id}")
+    /*@DeleteMapping("/substation/{id}")
     public ResponseEntity<Substation> deleteSubstation(@PathVariable long id) {
         Optional<Substation> substation = subestationrepository.findById(id);
         if (substation.isPresent()) {
             subestationrepository.deleteById(id);
             return ResponseEntity.ok(substation.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }*/
+    @DeleteMapping("/substation/{id}")
+    public ResponseEntity<Substation> deleteSubstation(@PathVariable long id) {
+        Optional<Substation> substationOptional = subestationrepository.findById(id);
+        if (substationOptional.isPresent()) {
+            Substation substation = substationOptional.get();
+
+            // Recuperar todos los parques eólicos
+            List<EoloPark> eoloParks = eoloParksrepository.findAll();
+
+            // Filtrar los parques eólicos que tengan la subestación que deseas eliminar
+            for (EoloPark eoloPark : eoloParks) {
+                if (eoloPark.getSubstation() != null && eoloPark.getSubstation().getId() == id) {
+                    // Eliminar la referencia a la subestación en el parque eólico
+                    eoloPark.setSubstation(null);
+                    eoloParksrepository.save(eoloPark);
+                }
+            }
+
+            // Finalmente, eliminar la subestación
+            subestationrepository.deleteById(id);
+
+            return ResponseEntity.ok(substation);
         } else {
             return ResponseEntity.notFound().build();
         }
