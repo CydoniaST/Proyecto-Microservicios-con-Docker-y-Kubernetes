@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import es.codeurjc.eolopark.configuration.WebController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +31,7 @@ import es.codeurjc.eolopark.service.AerogeneratorService;
 import es.codeurjc.eolopark.service.EoloParkService;
 import es.codeurjc.eolopark.service.SubstationService;
 import es.codeurjc.eolopark.service.UserDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -81,6 +81,17 @@ public class ApiController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(savedEolopark.getId()).toUri();
     return ResponseEntity.created(location).body(savedEolopark);
+    }
+
+    @PostMapping("/eolopark/automatic")
+    public ResponseEntity<EoloPark> createEoloparkAuto(@RequestParam String name, @RequestParam double area, HttpServletRequest request) {
+        EoloPark savedEolopark = eoloParkService.newAutomaticEoloPark(name, area);
+        //String nameUser = request.getUserPrincipal().getName();
+        //User user = userrepository.findByName(nameUser).orElseThrow();
+        User user = userrepository.findByName("sandra").orElseThrow();
+        savedEolopark.setOwner(user);
+        savedEolopark=eoloParksrepository.save(savedEolopark);
+    return ResponseEntity.ok().body(savedEolopark);
     }
 
     @PutMapping("/eolopark/{id}")
