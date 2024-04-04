@@ -176,7 +176,7 @@ public class EoloParkController {
                 return "EoloPark";
             }
         }
-        EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea());
+        EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea(),user);
 
         eoloParkService.save(automaticEoloPark);
         eoloParkService.setEoloParkOwner(automaticEoloPark.getId(),user);
@@ -227,7 +227,8 @@ public class EoloParkController {
 
         //model.addAttribute("DetallesSubstation", eoloParkService.findSubstationByEoloParkId(id));
         //model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
-         // Obtenemos la info del usuario que creo el parque
+         // Obtenemos la info del usuario que creo el
+        // parque
          //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
          //model.addAttribute("createdBy", createdByUser.getUsername());
 

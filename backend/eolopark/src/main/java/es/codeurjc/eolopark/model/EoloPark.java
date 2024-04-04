@@ -45,7 +45,11 @@ public class EoloPark {
 
 
     public Long getOwner() {
-        return owner.getId();
+        if (owner != null) {
+            return owner.getId();
+        } else {
+           return null; // O algún otro valor predeterminado adecuado para el caso de owner nulo
+        }
     }
 
 
@@ -156,4 +160,5 @@ public class EoloPark {
         return (this.owner != null ? this.owner.getId() : null);
     }
     */
+
 }

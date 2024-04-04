@@ -2,12 +2,15 @@ package es.codeurjc.eolopark.apiRest;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import es.codeurjc.eolopark.configuration.WebController;
+import es.codeurjc.eolopark.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import es.codeurjc.eolopark.model.Aerogenerator;
-import es.codeurjc.eolopark.model.EoloPark;
-import es.codeurjc.eolopark.model.Substation;
-import es.codeurjc.eolopark.model.User;
 import es.codeurjc.eolopark.repository.AerogeneratorRepository;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import es.codeurjc.eolopark.repository.SubstationRepository;
@@ -82,6 +81,36 @@ public class ApiController {
             .buildAndExpand(savedEolopark.getId()).toUri();
     return ResponseEntity.created(location).body(savedEolopark);
     }
+    @PostMapping("/eolopark/automatic")
+    public ResponseEntity<EoloPark> createEolopark(@RequestBody AutomaticPark requestBody) {
+        try {
+            String cityName = requestBody.getCity();
+            double area = requestBody.getArea();
+            Long owner_id =  requestBody.getOwner();
+            User owner = userService.findUserById(owner_id);
+
+            // Crear el parque automáticamente utilizando el servicio
+            EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(cityName, area,owner);
+
+            //eoloParkService.setEoloParkOwner(automaticEoloPark.getId(),owner);
+
+            eoloParkService.setOwner(automaticEoloPark, owner);
+            // Guardar el parque creado automáticamente en la base de datos
+            eoloParkService.save(automaticEoloPark);
+
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(automaticEoloPark.getId()).toUri();
+            return ResponseEntity.created(location).body(automaticEoloPark);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+
+
+
+
+
 
     @PutMapping("/eolopark/{id}")
     public ResponseEntity<EoloPark> updateEolopark(@PathVariable long id, @RequestBody EoloPark newEolopark) {

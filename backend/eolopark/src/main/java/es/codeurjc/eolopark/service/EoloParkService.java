@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,19 @@ public class EoloParkService {
     public EoloParkService(EoloParkRepository eoloParkRepository) {
         this.eoloParkRepository = eoloParkRepository;
     }
+
     public Page<EoloPark> getAllEoloParks(Pageable pageable) {
-        return eoloParkRepository.findAll(pageable);
+        Page<EoloPark> eoloParks = eoloParkRepository.findAll(pageable);
+
+        // Agregar logs para verificar los parques recuperados
+        System.out.println("Recuperando todos los parques:");
+        for (EoloPark park : eoloParks.getContent()) {
+            System.out.println("ID: " + park.getId() + ", Nombre: " + park.getName() + ", Tipo: " + (park instanceof EoloPark ? "Manual" : "Automático"));
+        }
+
+        return eoloParks;
     }
+
 
     public Page<EoloPark> findEoloParksByOwnerId(Long id, Pageable pageable) {
         if(id == 0){
@@ -66,16 +77,21 @@ public class EoloParkService {
         EoloPark eoloPark = eoloParkRepository.findById(id).get();
 
         eoloPark.setOwner(user);
-
     }
 
-
-    public void save(EoloPark eoloPark){
-        eoloParkRepository.save(eoloPark);
+    public void setOwner(EoloPark eoloPark, User user){
+        eoloPark.setOwner(user);
     }
+
+    public EoloPark save(EoloPark eoloPark) {
+        EoloPark savedPark = eoloParkRepository.save(eoloPark);
+        System.out.println("Parque guardado correctamente: " + savedPark.getName());
+        return savedPark;
+    }
+
 
     //Automatic Creation
-    public EoloPark newAutomaticEoloPark(String name, double area){
+    public @ResponseBody EoloPark newAutomaticEoloPark(String name, double area, User owner){
         //GENERIC NAME FOR AUTOMATIC PARK
         String nameCity = "EoloParque Automatico con ID: "+Math.random()*10;
 
