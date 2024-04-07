@@ -27,6 +27,7 @@ public class Substation {
         this.eoloPark = eoloPark;
     }
 
+
     // Getters y setters
     public Long getId() {
         return id;
@@ -59,5 +60,13 @@ public class Substation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setEoloPark(EoloPark eoloPark){
+        this.eoloPark = eoloPark;
+    }
+
+    public EoloPark getEoloPark(){
+        return eoloPark;
     }
 }

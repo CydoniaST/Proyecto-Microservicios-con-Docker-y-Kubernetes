@@ -60,8 +60,6 @@ public class ApiController {
     @Autowired
     private UserDetailsService userService;
 
-    //para eolopark
-
     @GetMapping("/eolopark")
     public ResponseEntity<Page<EoloPark>> getEoloparks(@RequestParam(name = "page", defaultValue = "0") int page) {
         Page<EoloPark> eoloparksPage = eoloParkService.getAllEoloParks(PageRequest.of(page, PAGE_SIZE));
@@ -81,6 +79,7 @@ public class ApiController {
             .buildAndExpand(savedEolopark.getId()).toUri();
     return ResponseEntity.created(location).body(savedEolopark);
     }
+
     @PostMapping("/eolopark/automatic")
     public ResponseEntity<EoloPark> createEolopark(@RequestBody AutomaticPark requestBody) {
         try {
@@ -95,7 +94,9 @@ public class ApiController {
             //eoloParkService.setEoloParkOwner(automaticEoloPark.getId(),owner);
 
             eoloParkService.setOwner(automaticEoloPark, owner);
+
             // Guardar el parque creado automáticamente en la base de datos
+            eoloParkService.save(automaticEoloPark);
             eoloParkService.save(automaticEoloPark);
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -105,12 +106,6 @@ public class ApiController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
-
-
-
-
-
 
     @PutMapping("/eolopark/{id}")
     public ResponseEntity<EoloPark> updateEolopark(@PathVariable long id, @RequestBody EoloPark newEolopark) {
@@ -134,14 +129,11 @@ public class ApiController {
         }
     }
 
-
-    //para Substation
     @GetMapping("/substation")
     public ResponseEntity<Page<Substation>> getSubstationes(@RequestParam(name = "page", defaultValue = "0") int page) {
         Page<Substation> substationesPage = substationService.getAllSubstations(PageRequest.of(page, PAGE_SIZE));
         return ResponseEntity.ok(substationesPage);
     }
-
 
     @GetMapping("/substation/{id}")
     public ResponseEntity<Substation> getSubstation(@PathVariable long id) {
@@ -151,10 +143,22 @@ public class ApiController {
 
     @PostMapping("/substation")
     public ResponseEntity<Substation> createSubstation(@RequestBody Substation substation) {
-        Substation savedSubstation = subestationrepository.save(substation);
+
+        EoloPark park = eoloParkService.findEoloParkById(substation.getId());
+
+        substation.setEoloPark(park);
+
+        park.setSubstation(substation);
+       
+
+        park = eoloParkService.save(park);
+
+        substation = substationService.save(substation);
+        
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedSubstation.getId()).toUri();
-        return ResponseEntity.created(location).body(savedSubstation);
+        .buildAndExpand(substation.getId()).toUri();
+
+        return ResponseEntity.created(location).body(substation);
     }
 
     @PutMapping("/substation/{id}")
@@ -168,35 +172,21 @@ public class ApiController {
         }
     }
 
-    /*@DeleteMapping("/substation/{id}")
-    public ResponseEntity<Substation> deleteSubstation(@PathVariable long id) {
-        Optional<Substation> substation = subestationrepository.findById(id);
-        if (substation.isPresent()) {
-            subestationrepository.deleteById(id);
-            return ResponseEntity.ok(substation.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }*/
     @DeleteMapping("/substation/{id}")
     public ResponseEntity<Substation> deleteSubstation(@PathVariable long id) {
         Optional<Substation> substationOptional = subestationrepository.findById(id);
         if (substationOptional.isPresent()) {
             Substation substation = substationOptional.get();
 
-            // Recuperar todos los parques eólicos
             List<EoloPark> eoloParks = eoloParksrepository.findAll();
 
-            // Filtrar los parques eólicos que tengan la subestación que deseas eliminar
             for (EoloPark eoloPark : eoloParks) {
                 if (eoloPark.getSubstation() != null && eoloPark.getSubstation().getId() == id) {
-                    // Eliminar la referencia a la subestación en el parque eólico
                     eoloPark.setSubstation(null);
                     eoloParksrepository.save(eoloPark);
                 }
             }
 
-            // Finalmente, eliminar la subestación
             subestationrepository.deleteById(id);
 
             return ResponseEntity.ok(substation);
@@ -206,7 +196,6 @@ public class ApiController {
     }
 
 
-    //  para aerogenerator
     @GetMapping("/aerogenerator")
     public ResponseEntity<Page<Aerogenerator>> getAerogenerators(@RequestParam(name = "page", defaultValue = "0") int page) {
         Page<Aerogenerator> aerogeneratorsPage = aerogeneratorService.getAllAerogenerators(PageRequest.of(page, PAGE_SIZE));
@@ -250,7 +239,6 @@ public class ApiController {
     }
 
 
-   // para User
     @GetMapping("/user")
     public ResponseEntity<Page<User>> getUsers(@RequestParam(name = "page", defaultValue = "0") int page) {
         Page<User> usersPage = userService.getAllUsers(PageRequest.of(page, PAGE_SIZE));

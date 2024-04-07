@@ -4,6 +4,8 @@ package es.codeurjc.eolopark.service;
 import es.codeurjc.eolopark.model.*;
 import es.codeurjc.eolopark.repository.CitiesRepository;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
+import es.codeurjc.eolopark.repository.SubstationRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +25,9 @@ public class EoloParkService {
 
     @Autowired
     private CitiesRepository citiesRepository;
-
+    
     @Autowired
-    private UserDetailsService userDetailsService;
-
+    private SubstationRepository substationRepository;
 
     public EoloParkService(EoloParkRepository eoloParkRepository) {
         this.eoloParkRepository = eoloParkRepository;
@@ -68,6 +69,7 @@ public class EoloParkService {
     public EoloPark findEoloParkById(Long id) {
         return eoloParkRepository.findById(id).orElseThrow(() -> new RuntimeException("Wind Farm not found with ID: " + id));
     }
+    
     //delete park
     public void deleteEoloPark(Long id) {
         eoloParkRepository.deleteById(id);
@@ -144,8 +146,7 @@ public class EoloParkService {
 
     private String getWindSpeed(String city){
 
-        //acceder a base de datos //LEER ESTO CUANDO CONTINUE: HAY QUE BUSCAR EN LA BD LA cityAux Y
-        //QUE EL METODO FINDWINDBYCITY DEVUELVA EL VIENTO DE ESA cityAux
+
         Optional<Cities> wind = citiesRepository.findByName(city);
 
         Cities windSpeedCity;
@@ -196,8 +197,9 @@ public class EoloParkService {
 
 
 
-
-
+    public Page<Substation> getAllSubstations(Pageable pageable) {
+        return substationRepository.findAll(pageable);
+    }
 
 
 }

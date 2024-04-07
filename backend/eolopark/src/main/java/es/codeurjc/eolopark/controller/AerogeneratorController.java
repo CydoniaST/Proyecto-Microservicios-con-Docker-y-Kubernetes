@@ -29,23 +29,7 @@ public class AerogeneratorController {
 
     @Autowired
     private EoloParkService eoloParkService;
-    /*
-     * @GetMapping("/DetallesPark/{id}")
-     * public String infoEoloPark(@PathVariable Long id, Model model) {
-     * // Obtenemos la info del parque por su ID
-     * 
-     * 
-     * model.addAttribute("DetallesPark",
-     * aerogeneratorService.findAerogeneratorById(id));
-     * 
-     * // Obtenemos la info del usuario que creo el parque
-     * //User createdByUser =
-     * userService.findUserById(eoloPark.getCreatedByUserId());
-     * //model.addAttribute("createdBy", createdByUser.getUsername());
-     * 
-     * return "DetallesPark";
-     * }
-     */
+
 
     @PostMapping("/NewAerogenerator/saveNewAerogenerator/{id}")
     public String saveNewAerogenerator(@ModelAttribute Aerogenerator aerogenerator, @PathVariable Long id,

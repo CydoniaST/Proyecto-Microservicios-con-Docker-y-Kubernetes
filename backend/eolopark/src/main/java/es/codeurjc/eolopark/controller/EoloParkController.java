@@ -79,18 +79,18 @@ public class EoloParkController {
         User maria = userRepository.findByName("maria").get(); //test a premium user
         maria.setPremium(true);
         userRepository.save(maria);
-        EoloPark ep3 = new EoloPark("Joselu", "Madrid", 0, 0, 0, TerrainType.DESERT, maria);
-        EoloPark ep4 = new EoloPark("Joseluis","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
-        EoloPark ep5 = new EoloPark("Pepe", "Madrid", 0, 0, 0, TerrainType.DESERT, maria);
-        EoloPark ep6 = new EoloPark("Antonio","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
-        EoloPark ep7 = new EoloPark("Almendra","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
-        EoloPark ep8 = new EoloPark("Macaco","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
-        eoloParkRepository.save(ep3);
-        eoloParkRepository.save(ep4);
-        eoloParkRepository.save(ep5);
-        eoloParkRepository.save(ep6);
-        eoloParkRepository.save(ep7);
-        eoloParkRepository.save(ep8);
+        // EoloPark ep3 = new EoloPark("Joselu", "Madrid", 0, 0, 0, TerrainType.DESERT, maria);
+        // EoloPark ep4 = new EoloPark("Joseluis","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        // EoloPark ep5 = new EoloPark("Pepe", "Madrid", 0, 0, 0, TerrainType.DESERT, maria);
+        // EoloPark ep6 = new EoloPark("Antonio","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        // EoloPark ep7 = new EoloPark("Almendra","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        // EoloPark ep8 = new EoloPark("Macaco","Barcelona", 0, 0, 0, TerrainType.MOUNTAIN, maria);
+        // eoloParkRepository.save(ep3);
+        // eoloParkRepository.save(ep4);
+        // eoloParkRepository.save(ep5);
+        // eoloParkRepository.save(ep6);
+        // eoloParkRepository.save(ep7);
+        // eoloParkRepository.save(ep8);
 
         Cities c1 = new Cities("A Coruña", "A Coruña", 7.2, 43.37, -8.39, 24604, 21);
         Cities c2 = new Cities("Albacete", "Albacete", 6.9, 38.99, -1.85, 17047, 681);
@@ -106,13 +106,6 @@ public class EoloParkController {
 
 
     }
-
-
-
-
-
-
-
 
 
     @GetMapping("/EoloPark")
@@ -176,11 +169,11 @@ public class EoloParkController {
                 return "EoloPark";
             }
         }
-        EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea(),user);
+        eoloPark = eoloParkService.newAutomaticEoloPark(eoloPark.getName(), eoloPark.getArea(),user);
 
-        eoloParkService.save(automaticEoloPark);
-        eoloParkService.setEoloParkOwner(automaticEoloPark.getId(),user);
-        eoloParkService.save(automaticEoloPark);
+        eoloParkService.save(eoloPark);
+        eoloParkService.setEoloParkOwner(eoloPark.getId(),user);
+        eoloParkService.save(eoloPark);
         return "Successfully";
     }
 
@@ -213,24 +206,17 @@ public class EoloParkController {
         aerogeneratorService.save(aerogenerator);
         substationService.save(substation);
 
-        return "Successfully"; // Otra vista para mostrar el éxito de la creación
+        return "Successfully";
     }
 
     @GetMapping("/DetailsPark/{eolo_id}")
     public String infoEoloPark(@PathVariable Long eolo_id, Model model, HttpServletRequest request) {
-        // Obtenemos la info del parque por su ID
+
         EoloPark eoloPark = eoloParkService.findEoloParkById(eolo_id);
+
         model.addAttribute("DetailsPark", eoloPark);
         model.addAttribute("hasSubstation", eoloPark.getSubstation() != null);
         model.addAttribute("hasAerogenerator", eoloPark.getAerogeneratorList() != null);
-        //model.addAttribute("admin", request.isUserInRole("ADMIN"));
-
-        //model.addAttribute("DetallesSubstation", eoloParkService.findSubstationByEoloParkId(id));
-        //model.addAttribute("DetallesAerogenerator", aerogeneratorService.findAerogeneratorByEoloParkId(id));
-         // Obtenemos la info del usuario que creo el
-        // parque
-         //User createdByUser = userService.findUserById(eoloPark.getCreatedByUserId());
-         //model.addAttribute("createdBy", createdByUser.getUsername());
 
         return "DetailsPark";
     }

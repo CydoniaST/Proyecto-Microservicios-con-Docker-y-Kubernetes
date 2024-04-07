@@ -153,12 +153,6 @@ public class EoloPark {
         this.substation = substation;
     }
 
-    /*
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty("owner")
-    public Long getOwnerId() {
-        return (this.owner != null ? this.owner.getId() : null);
-    }
-    */
+ 
 
 }
