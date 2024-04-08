@@ -143,9 +143,17 @@ public class EoloPark {
     public List<Aerogenerator> getAerogeneratorList() {
         return aerogeneratorList;
     }
+
     public void setAerogeneratorList(List<Aerogenerator> aerogeneratorList) {
+
         this.aerogeneratorList = aerogeneratorList;
     }
+
+    public void setAerogenerator(Aerogenerator aerogenerator) {
+        
+        this.aerogeneratorList.add(aerogenerator);
+    }
+
     public Substation getSubstation() {
         return substation;
     }

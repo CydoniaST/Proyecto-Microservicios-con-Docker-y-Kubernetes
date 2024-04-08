@@ -210,10 +210,12 @@ public class ApiController {
 
     @PostMapping("/aerogenerator")
     public ResponseEntity<Aerogenerator> createAerogenerator(@RequestBody Aerogenerator aerogenerator) {
-        Aerogenerator savedaerogenerator = aerogeneratorRepository.save(aerogenerator);
+        
+       Aerogenerator savedAerogenerator = aerogeneratorRepository.save(aerogenerator);
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedaerogenerator.getId()).toUri();
-        return ResponseEntity.created(location).body(savedaerogenerator);
+        .buildAndExpand(savedAerogenerator.getId()).toUri();
+        return ResponseEntity.created(location).body(savedAerogenerator);
     }
 
     @PutMapping("/aerogenerator/{id}")

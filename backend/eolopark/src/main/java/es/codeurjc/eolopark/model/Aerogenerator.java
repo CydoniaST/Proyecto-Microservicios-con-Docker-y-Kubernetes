@@ -59,6 +59,10 @@ public class Aerogenerator {
         return latitude;
     }
 
+    public Long getTrueId() {
+        return id_aerogenerator;
+    }
+
     public double getLongitude(){
         return longitude;
     }
@@ -74,8 +78,13 @@ public class Aerogenerator {
     public double getPower(){
         return power;
     }
+
     public void setId(String identifyer) {
         this.identifyer = identifyer;
+    }
+
+    public void setTrueId(Long id) {
+        this.id_aerogenerator = id;
     }
 
     public void setLatitude(double latitude) {
