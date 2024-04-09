@@ -91,10 +91,10 @@ tecnologías utilizadas en este proyecto:
 ![EoloPark](https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/e54a0219-b13b-4387-8204-d27b70319add)
 
 ## Diagrama de clases y Templates
-
-![java](https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/a6070324-2e59-4250-ab2e-2d2635b9dc55)
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
 
 ## Participación de los miembros
+
 
   - Laura:`HTLMs` `Creación Manual de parques con Eric` `Editar Parque/Subestacion/Aerogenerador` `Crear Subestación/Aerogenerador` `Buscar por ciudad` `Ayudar con BD`
       - Commits Importantes:
