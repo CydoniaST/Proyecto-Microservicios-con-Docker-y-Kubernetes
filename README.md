@@ -83,18 +83,16 @@ tecnologías utilizadas en este proyecto:
 - `DBeaber`: Base de datos
 
 ## Diagrama de Navegación
-
-
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
 
 ## Diagrama de entidades de la Base de Datos
-
-![EoloPark](https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/e54a0219-b13b-4387-8204-d27b70319add)
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/e54a0219-b13b-4387-8204-d27b70319add"  width="600">
 
 ## Diagrama de clases y Templates
 
-![java](https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/a6070324-2e59-4250-ab2e-2d2635b9dc55)
 
 ## Participación de los miembros
+
 
   - Laura:`HTLMs` `Creación Manual de parques con Eric` `Editar Parque/Subestacion/Aerogenerador` `Crear Subestación/Aerogenerador` `Buscar por ciudad` `Ayudar con BD`
       - Commits Importantes:
