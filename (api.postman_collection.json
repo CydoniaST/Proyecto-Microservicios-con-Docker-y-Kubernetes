@@ -1,0 +1,29 @@
+/*Create EOLOPARK{
+    "city":"Almeria",
+    "area": 10.0,
+    "owner": 1
+}*/
+
+/*Create SUBSTATION{
+    "id": 2,
+    "model":3,
+    "power": 999990.0,
+    "voltage": 50000
+}*/
+
+/*Create AEROGENERATOR{
+    "id":"2",
+    "latitude":200,
+    "longitude": 300,
+    "bladeLength": 50,
+    "heigth": 30,
+    "power": 99
+}*/
+
+/*Create USER{
+    "name": "Prueba2",
+    "encodedPassword": "123",
+    "roles":["USER"]
+}*/
+
+Remember: You must to be "ADMIN" to create a new User, ADMIN id = 1, add 1 in your postman URL to be admin.
