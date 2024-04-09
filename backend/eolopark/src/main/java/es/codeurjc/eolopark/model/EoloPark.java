@@ -35,11 +35,12 @@ public class EoloPark {
 
     private TerrainType terrainType;
 
-    //@JsonIdentityReference(alwaysAsId = true) // solo se necesita el ID para la deserialización
+    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Substation substation;
 
@@ -150,7 +151,7 @@ public class EoloPark {
     }
 
     public void setAerogenerator(Aerogenerator aerogenerator) {
-        
+
         this.aerogeneratorList.add(aerogenerator);
     }
 

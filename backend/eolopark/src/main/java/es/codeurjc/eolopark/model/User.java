@@ -26,6 +26,7 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
+    
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EoloPark> eoloParks;
 

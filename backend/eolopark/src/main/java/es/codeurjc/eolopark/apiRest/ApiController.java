@@ -153,12 +153,12 @@ public class ApiController {
 
         park = eoloParkService.save(park);
 
-        substation = substationService.save(substation);
+        Substation substation2 = substationService.save(substation);
         
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(substation.getId()).toUri();
+        .buildAndExpand(substation2.getId()).toUri();
 
-        return ResponseEntity.created(location).body(substation);
+        return ResponseEntity.created(location).body(substation2);
     }
 
     @PutMapping("/substation/{id}")
@@ -208,13 +208,21 @@ public class ApiController {
         return aerogenerator.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/aerogenerator")
-    public ResponseEntity<Aerogenerator> createAerogenerator(@RequestBody Aerogenerator aerogenerator) {
+    @PostMapping("/{id}/aerogenerator")
+    public ResponseEntity<Aerogenerator> createAerogenerator(@RequestBody Aerogenerator aerogenerator, @PathVariable long id) {
         
-       Aerogenerator savedAerogenerator = aerogeneratorRepository.save(aerogenerator);
+        EoloPark park = eoloParkService.findEoloParkById(id);
+
+        aerogenerator.setEoloPark(park);
+
+        park.setAerogenerator(aerogenerator);
+
+        park = eoloParkService.save(park);
+
+        Aerogenerator savedAerogenerator = aerogeneratorRepository.save(aerogenerator);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedAerogenerator.getId()).toUri();
+        .buildAndExpand(savedAerogenerator.getTrueId()).toUri();
         return ResponseEntity.created(location).body(savedAerogenerator);
     }
 
@@ -241,24 +249,50 @@ public class ApiController {
     }
 
 
-    @GetMapping("/user")
-    public ResponseEntity<Page<User>> getUsers(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Page<User> usersPage = userService.getAllUsers(PageRequest.of(page, PAGE_SIZE));
-        return ResponseEntity.ok(usersPage);
+    @GetMapping("/{id}/user")
+    public ResponseEntity<Page<User>> getUsers(@RequestParam(name = "page", defaultValue = "0") int page,@PathVariable long id ) {
+        
+        User userNew = userService.findUserById(id);
+
+        List<String> roles = userNew.getRoles();
+        if(roles.contains("ADMIN")){
+
+            Page<User> usersPage = userService.getAllUsers(PageRequest.of(page, PAGE_SIZE));
+            return ResponseEntity.ok(usersPage);
+
+        }else{
+            throw new RuntimeException("No tienes permisos de administrador.");
+        }
+        
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUser(@PathVariable long id) {
+
         Optional<User> user = userrepository.findById(id);
+        
         return user.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userrepository.save(user);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        .buildAndExpand(savedUser.getId()).toUri();
-        return ResponseEntity.created(location).body(savedUser);
+    @PostMapping("/{id}/user")
+    public ResponseEntity<User> createUser(@RequestBody User user,@PathVariable long id ) {
+
+        User userNew = userService.findUserById(id);
+
+        List<String> roles = userNew.getRoles();
+
+        if(roles.contains("ADMIN")){
+            User savedUser = userrepository.save(user);
+
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+            .buildAndExpand(savedUser.getId()).toUri();
+            return ResponseEntity.created(location).body(savedUser);
+        }else{
+            throw new RuntimeException("No tienes permisos de administrador.");
+        }
+        
+
+        
     }
 
     @PutMapping("/user/{id}")
