@@ -83,15 +83,14 @@ tecnologías utilizadas en este proyecto:
 - `DBeaber`: Base de datos
 
 ## Diagrama de Navegación
-
-
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
 
 ## Diagrama de entidades de la Base de Datos
 
 ![EoloPark](https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/e54a0219-b13b-4387-8204-d27b70319add)
 
 ## Diagrama de clases y Templates
-<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
+
 
 ## Participación de los miembros
 
