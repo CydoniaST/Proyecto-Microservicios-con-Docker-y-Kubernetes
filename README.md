@@ -90,6 +90,7 @@ tecnologías utilizadas en este proyecto:
 
 ## Diagrama de clases y Templates
 
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/d69d8fcc-9170-4026-86bd-7544bc41ed72" width="1080">
 
 ## Participación de los miembros
 
