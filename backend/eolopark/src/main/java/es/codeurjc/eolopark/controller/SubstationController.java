@@ -24,7 +24,7 @@ public class SubstationController {
 
     @GetMapping("/NewSubstation/save/{id}")
     public String substationView(@PathVariable Long id, Model model) {
-        // Pasar el ID del parque al formulario
+
         model.addAttribute("parkId", id);
         return "NewSubstation";
     }
@@ -48,7 +48,7 @@ public class SubstationController {
 
     @GetMapping("/EditSubstation/save/{substation_id}")
     public String editSubstationView(@PathVariable Long substation_id, Model model) {
-        // Pasar el ID del parque al formulario
+
         model.addAttribute("parkId", substation_id);
         return "EditSubstation";
     }

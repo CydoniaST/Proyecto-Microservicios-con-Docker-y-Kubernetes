@@ -36,7 +36,7 @@ public class EoloParkService {
     public Page<EoloPark> getAllEoloParks(Pageable pageable) {
         Page<EoloPark> eoloParks = eoloParkRepository.findAll(pageable);
 
-        // Agregar logs para verificar los parques recuperados
+
         System.out.println("Recuperando todos los parques:");
         for (EoloPark park : eoloParks.getContent()) {
             System.out.println("ID: " + park.getId() + ", Nombre: " + park.getName() + ", Tipo: " + (park instanceof EoloPark ? "Manual" : "Automático"));

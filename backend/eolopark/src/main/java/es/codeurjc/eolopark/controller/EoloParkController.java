@@ -118,14 +118,14 @@ public class EoloParkController {
     @PostMapping("/EditEoloPark/Edit/{id}")
     public String saveEoloPark(@PathVariable Long id, @ModelAttribute("eoloPark") EoloPark updatedEoloPark) {
         EoloPark existingEoloPark = eoloParkService.findEoloParkById(id);
-        // Actualizamos los atributos del parque existente con los valores del formulario
+
         existingEoloPark.setName(updatedEoloPark.getName());
         existingEoloPark.setCity(updatedEoloPark.getCity());
         existingEoloPark.setLatitude(updatedEoloPark.getLatitude());
         existingEoloPark.setLongitude(updatedEoloPark.getLongitude());
         existingEoloPark.setArea(updatedEoloPark.getArea());
         existingEoloPark.setTerrainType(updatedEoloPark.getTerrainType());
-        // Guardamos los cambios en la bbdd
+
         eoloParkService.save(existingEoloPark);
 
         return "editedPark";
@@ -196,7 +196,7 @@ public class EoloParkController {
             return "EoloPark";
         }
 
-        // Si no existe, continuar con la creación del parque
+
         Aerogenerator aerogenerator = new Aerogenerator("null", 0, 0, 0, 0, 0 );
         Substation substation = new Substation("null", 0.0, 0.0,null);
 

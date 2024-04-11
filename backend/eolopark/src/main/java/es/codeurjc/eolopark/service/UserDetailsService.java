@@ -63,7 +63,7 @@ public class UserDetailsService {
         public Page<Aerogenerator> getAllAerogenerators(Pageable pageable) {
             return aerogeneratorRepository.findAll(pageable);
         }        if (userRepository.findByName(username).isPresent()) {
-            // Usuario ya existe
+
             return false;
         }
 

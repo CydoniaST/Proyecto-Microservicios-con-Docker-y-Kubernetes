@@ -88,14 +88,14 @@ public class ApiController {
             Long owner_id =  requestBody.getOwner();
             User owner = userService.findUserById(owner_id);
 
-            // Crear el parque automáticamente utilizando el servicio
+
             EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(cityName, area,owner);
 
             //eoloParkService.setEoloParkOwner(automaticEoloPark.getId(),owner);
 
             eoloParkService.setOwner(automaticEoloPark, owner);
 
-            // Guardar el parque creado automáticamente en la base de datos
+
             eoloParkService.save(automaticEoloPark);
             eoloParkService.save(automaticEoloPark);
 

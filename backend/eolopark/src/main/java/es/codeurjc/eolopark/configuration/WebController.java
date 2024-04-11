@@ -109,11 +109,11 @@ public class WebController {
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-        // Verificar la paginación
-        int currentPage = eoloParkPage.getNumber();
-        model.addAttribute("currentPage", currentPage + 1); // Página actual
 
-        // Añadir botones de paginación
+        int currentPage = eoloParkPage.getNumber();
+        model.addAttribute("currentPage", currentPage + 1);
+
+
         if (currentPage < eoloParkPage.getTotalPages() - 1) {
             int nextPage = currentPage + 1;
             model.addAttribute("hasNextPage", true);

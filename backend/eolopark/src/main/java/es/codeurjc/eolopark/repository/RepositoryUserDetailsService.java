@@ -19,7 +19,7 @@ public class RepositoryUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 
-    @Value("${security.admin}") //Para que lo lea desde el fichero propierties
+    @Value("${security.admin}")
     private String adminUsername;
 
     @Value("${security.adminEncodedPassword}")
@@ -28,16 +28,16 @@ public class RepositoryUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-            if (username.equals(adminUsername)) {  // se comprubea que el nombre que le pasas es el mismo que el del propities si lo es se crea
-                return User.builder() // se crea cogiendolo del propiertir
-                        .username(adminUsername) //variables del value
+            if (username.equals(adminUsername)) {
+                return User.builder()
+                        .username(adminUsername)
                         .password(adminEncodedPassword)
-                        .roles("ADMIN") // le asignas que es el administrador
+                        .roles("ADMIN")
                         .build();
-            }else{	 es.codeurjc.eolopark.model.User user = userRepository.findByName(username) //USER NUESTRO USUARIO
+            }else{	 es.codeurjc.eolopark.model.User user = userRepository.findByName(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-		List<GrantedAuthority> roles = new ArrayList<>();     // Te devuelve los roles
+		List<GrantedAuthority> roles = new ArrayList<>();
 		for (String role : user.getRoles()) {
 			roles.add(new SimpleGrantedAuthority("ROLE_" + role));
 		}
@@ -45,7 +45,7 @@ public class RepositoryUserDetailsService implements UserDetailsService {
         
         
 
-		return new org.springframework.security.core.userdetails.User(user.getName(),   //Guarda el usuario del else
+		return new org.springframework.security.core.userdetails.User(user.getName(),
 				user.getEncodedPassword(), roles);}
 	
 

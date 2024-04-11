@@ -19,7 +19,7 @@ public class Aerogenerator {
    
     // @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "eoloPark_id")
-    //Nuevo
+
     @ManyToOne
     @JoinColumn(name = "eolo_park_id")
     private EoloPark eoloPark;

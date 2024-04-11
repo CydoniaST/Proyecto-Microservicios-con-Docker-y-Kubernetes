@@ -49,13 +49,13 @@ public class EoloPark {
         if (owner != null) {
             return owner.getId();
         } else {
-           return null; // O algún otro valor predeterminado adecuado para el caso de owner nulo
+           return null;
         }
     }
 
 
 
-    // En la clase EoloPark
+
     public void setOwner(User owner) {
         this.owner = owner;
     }
@@ -63,7 +63,7 @@ public class EoloPark {
 
     @JsonSetter("owner")
     public void setOwnerById(Long userId) {
-        this.owner = new User(userId); // Suponiendo que hay un constructor en User que acepta solo un ID
+        this.owner = new User(userId);
     }
 
     public EoloPark(){

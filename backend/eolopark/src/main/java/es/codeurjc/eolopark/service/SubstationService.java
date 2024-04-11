@@ -24,12 +24,12 @@ public class SubstationService {
     }
 
     public Substation save(Substation substation) {
-        // Lógica para agregar una nueva subestación
+
         return substationRepository.save(substation);
     }
 
     public Optional<Substation> findSubstationById(Long id) {
-        // Lógica para buscar una subestación por ID
+
         return substationRepository.findById(id);
     }
 
@@ -42,21 +42,18 @@ public class SubstationService {
         Optional<Substation> existingSubstation = substationRepository.findById(id);
         if (existingSubstation.isPresent()) {
             Substation substation = existingSubstation.get();
-            // Aquí actualizas los atributos de substation con los de updatedSubstation
+
            
             substation.setModel(updatedSubstation.getModel());
            
             return substationRepository.save(substation);
         } else {
-            // Manejar el caso en que la subestación no se encuentra
+
             throw new RuntimeException("Substation not found with id " + id);
         }
     }
 
-    // public void deleteSubstation(Long substation_id) {
-    //     // Lógica para eliminar una subestación
-    //     substationRepository.deleteById(substation_id);
-    // }
+
 
     public boolean deleteSubstation(Long substation_id) {
         try {

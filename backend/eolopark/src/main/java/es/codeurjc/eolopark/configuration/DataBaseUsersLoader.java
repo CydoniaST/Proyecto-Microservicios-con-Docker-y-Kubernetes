@@ -17,17 +17,17 @@ public class DataBaseUsersLoader {
     @Autowired
 	    private PasswordEncoder passwordEncoder;
 
-      @PostConstruct    //te pide que tenga dos usaurios por defecto
+      @PostConstruct    //two user default
     private void initDatabase() {
-        // Aquí puedes añadir la lógica para guardar usuarios en la base de datos
+        // add user in bbdd
         userRepository.save(new User("sandra", passwordEncoder.encode("pass"), "ADMIN"));
         userRepository.save(new User("maria", passwordEncoder.encode("password2"), "USER"));
         }
     
 
-    //guarda lo usuarios en la base de datos 
+    //save users in bbdd
     public void saveUser(String username, String password, String roles) {
-      User user = new User(username, passwordEncoder.encode(password), roles); //hace el usuario es decir el objeto
-      userRepository.save(user); // guarda el usuario en la base de datos
+      User user = new User(username, passwordEncoder.encode(password), roles);
+      userRepository.save(user);
   }
 }
