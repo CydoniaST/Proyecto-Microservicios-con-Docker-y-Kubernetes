@@ -86,7 +86,9 @@ tecnologías utilizadas en este proyecto:
 <img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
 
 ## Diagrama de entidades de la Base de Datos
-<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/e54a0219-b13b-4387-8204-d27b70319add"  width="600">
+
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/a8ee18df-1e1e-47e5-ac0b-dd634015f1a6" width="400">
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/4f319d85-f563-4fe3-bd8b-6b892c297249"  width="500">
 
 ## Diagrama de clases y Templates
 
