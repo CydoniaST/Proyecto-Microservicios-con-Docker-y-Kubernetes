@@ -1,6 +1,5 @@
 package es.codeurjc.eolopark.configuration;
 
-import es.codeurjc.eolopark.apiRest.ApiController;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.User;
 import es.codeurjc.eolopark.repository.UserRepository;
@@ -96,7 +95,7 @@ public class WebController {
         return "redirect:/login";
     }
 
-    @GetMapping("/PaginaPrincipal")
+    @GetMapping("/MainPage")
     public String paginaPrincipal(@RequestParam(required = false) String city,
                                   @PageableDefault(size = 3) Pageable pageable,
                                   Model model, HttpServletRequest request) {
@@ -131,7 +130,7 @@ public class WebController {
             model.addAttribute("hasPreviousPage", false);
         }
 
-        return "PaginaPrincipal";
+        return "MainPage";
     }
 
     @GetMapping("/admin")

@@ -1,6 +1,5 @@
 package es.codeurjc.eolopark.configuration;
 
-import es.codeurjc.eolopark.configuration.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ import es.codeurjc.eolopark.configuration.jwt.UnauthorizedHandlerJwt;
 import es.codeurjc.eolopark.configuration.jwt.JwtRequestFilter;
 
 import es.codeurjc.eolopark.repository.RepositoryUserDetailsService;
-import org.springframework.security.config.Customizer;
 
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -116,7 +114,7 @@ public class SecurityConfiguration {
 
                         // PRIVATE PAGES
                         .requestMatchers("/DetailsPark/**").hasAnyRole("USER","ADMIN")
-                        .requestMatchers("/PaginaPrincipal").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/MainPage").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/EoloPark").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/EoloPark/Automatic").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/EoloPark/Manual").hasAnyRole("USER","ADMIN")
@@ -137,7 +135,7 @@ public class SecurityConfiguration {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/loginerror")
-                        .defaultSuccessUrl("/PaginaPrincipal")
+                        .defaultSuccessUrl("/MainPage")
                         .permitAll()
                 )
                 .logout(logout -> logout
