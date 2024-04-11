@@ -89,7 +89,8 @@ tecnologías utilizadas en este proyecto:
 <img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/e54a0219-b13b-4387-8204-d27b70319add"  width="600">
 
 ## Diagrama de clases y Templates
-<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/blob/b3058d3798e2d2b627336992c3ed63928660e24a/README.md?plain=1#L92" width="600">
+
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/d69d8fcc-9170-4026-86bd-7544bc41ed72" width="1080">
 
 ## Participación de los miembros
 
