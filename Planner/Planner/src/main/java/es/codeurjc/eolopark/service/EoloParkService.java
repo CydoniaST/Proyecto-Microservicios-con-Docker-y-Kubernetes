@@ -99,7 +99,6 @@ public class EoloParkService {
 
         //method to use latitude and longitude of a city from dataBase
 
-
         Optional<Cities> newCity = citiesRepository.findByName(name);
 
         if(newCity.isPresent()){
