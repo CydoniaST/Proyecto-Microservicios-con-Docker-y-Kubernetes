@@ -1,0 +1,16 @@
+<html>
+<body>
+<h1 style="font-family: 'Gill Sans MT'; font-weight: bold">Register Page</h1>
+
+{{#error}}
+<p style="color: red;">{{error}}</p>
+{{/error}}
+<form action="/register" method="post">
+    <label style="font-family: 'Gill Sans MT';">User Name: </label><input type="text" name="name"/><br />
+    <label style="font-family: 'Gill Sans MT';">Password: </label><input type="password" name="encodedPassword" /><br />
+    <input type="submit" value="Save" /><br />
+</form>
+<p></p>
+<a href="/">Back to home</a>
+</body>
+</html>

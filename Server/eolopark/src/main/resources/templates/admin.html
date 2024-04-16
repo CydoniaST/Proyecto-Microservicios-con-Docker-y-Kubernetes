@@ -1,0 +1,20 @@
+<html lang="en">
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title style="font-family: 'Gill Sans MT',serif">Administration Page</title>
+</head>
+<body>
+<h1 style="font-family: 'Gill Sans MT',serif">Administration Page</h1>
+<a href="/MainPage">Back to home</a>
+
+<h2 style="font-family: 'Gill Sans MT',serif">User List</h2>
+<ul>
+    {{#users}}
+    <li style="font-family: 'Gill Sans MT',serif"><a href="/admin/user/{{id}}">{{name}}</a></li>
+    {{/users}}
+</ul>
+
+
+</body>
+</html>

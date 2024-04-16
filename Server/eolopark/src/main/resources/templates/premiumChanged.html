@@ -1,0 +1,9 @@
+<div>
+    {{#errorPremium}}
+    <p style="color: red;">{{errorPremium}}</p>
+    {{/errorPremium}}
+    <h2>User "{{user.name}}" premium status changed</h2>
+
+</div>
+
+<button onclick="location.href='/admin/user/{{user.id}}'">Go Back</button>
