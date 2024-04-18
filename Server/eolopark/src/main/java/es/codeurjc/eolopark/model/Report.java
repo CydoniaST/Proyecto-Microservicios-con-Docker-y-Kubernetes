@@ -11,7 +11,7 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String reportData;
+    private String completed;
     private int progress;
 
     public Report(){
@@ -25,15 +25,15 @@ public class Report {
         return progress;
     }
 
-    public String getReportData() {
-        return reportData;
+    public String getCompleted() {
+        return completed;
     }
 
     public void setProgress(int progress) {
         this.progress = progress;
     }
 
-    public void setReportData(String reportData) {
-        this.reportData = reportData;
+    public void setCompleted(String completed) {
+        this.completed = completed;
     }
 }

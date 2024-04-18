@@ -111,6 +111,13 @@ public class SecurityConfiguration {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/v3/**").permitAll()
+                        .requestMatchers("/index.html").permitAll()
+                        .requestMatchers("/client.js").permitAll()
+                        .requestMatchers("/notifications").permitAll()
+                        .requestMatchers("/creation").permitAll()
+                        .requestMatchers("/park-creation-progress").permitAll()
+                        .requestMatchers("/report-updater.js").permitAll()
+                        .requestMatchers("/create-park").permitAll()
 
                         // PRIVATE PAGES
                         .requestMatchers("/DetailsPark/**").hasAnyRole("USER","ADMIN")

@@ -1,4 +1,4 @@
-package es.codeurjc.eolopark.service;
+package es.codeurjc.eolopark.repository;
 
 import es.codeurjc.eolopark.model.Report;
 import org.springframework.data.jpa.repository.JpaRepository;

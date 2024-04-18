@@ -27,7 +27,6 @@ import java.util.Optional;
 
 @Controller
 public class WebController {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -101,7 +100,7 @@ public class WebController {
     }
 
     @GetMapping("/MainPage")
-    public String paginaPrincipal(@RequestParam(required = false) String city,
+    public String mainPage(@RequestParam(required = false) String city,
                                   @PageableDefault(size = 3) Pageable pageable,
                                   Model model, HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
@@ -113,11 +112,11 @@ public class WebController {
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-
+        // Verificar la paginación
         int currentPage = eoloParkPage.getNumber();
-        model.addAttribute("currentPage", currentPage + 1);
+        model.addAttribute("currentPage", currentPage + 1); // Página actual
 
-
+        // Añadir botones de paginación
         if (currentPage < eoloParkPage.getTotalPages() - 1) {
             int nextPage = currentPage + 1;
             model.addAttribute("hasNextPage", true);
@@ -253,12 +252,15 @@ public class WebController {
     }
 
     @PostMapping("/create-park")
-    public String postMethodName(@RequestParam String reportCreationData) {
+    public String postMethodName(@RequestParam String city, @RequestParam double area,HttpServletRequest request) {
 
-        Report report = reportService.createReport(reportCreationData);
+        String name = request.getUserPrincipal().getName();
+        User user = userRepository.findByName(name).orElseThrow();
+        Report report = reportService.createReport(city,area,user);
 
         return "redirect:park-creation-progress?parkId="+report.getId();
     }
+
 
     @GetMapping("/park-creation-progress")
     public String postMethodName(Model model, @RequestParam String parkId) {
@@ -267,8 +269,6 @@ public class WebController {
 
         return "park-creation-progress";
     }
-
-
 
 
 

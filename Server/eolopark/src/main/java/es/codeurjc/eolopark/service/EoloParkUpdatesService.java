@@ -1,5 +1,6 @@
 package es.codeurjc.eolopark.service;
 
+import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Report;
 import es.codeurjc.eolopark.repository.ReportRepository;
 import org.slf4j.Logger;
@@ -17,13 +18,14 @@ public class EoloParkUpdatesService {
 
     @Autowired
     private ServerService serverService;
+    private EoloPark eoloPark;
 
-    public void eoloParkUpdated(Long eoloParkId, int progress, String reportData) {
+    public void eoloParkUpdated(Long eoloParkId, int progress, String completed) {
 
         Report report = reportRepository.findById(eoloParkId).orElseThrow();
 
         report.setProgress(progress);
-        report.setReportData(reportData);
+        report.setCompleted(completed);
 
         reportRepository.save(report);
 
