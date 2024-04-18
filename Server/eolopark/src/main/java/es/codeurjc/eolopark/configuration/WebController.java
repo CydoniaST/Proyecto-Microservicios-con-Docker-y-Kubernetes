@@ -1,9 +1,11 @@
 package es.codeurjc.eolopark.configuration;
 
 import es.codeurjc.eolopark.model.EoloPark;
+import es.codeurjc.eolopark.model.Report;
 import es.codeurjc.eolopark.model.User;
 import es.codeurjc.eolopark.repository.UserRepository;
 import es.codeurjc.eolopark.service.EoloParkService;
+import es.codeurjc.eolopark.service.ReportService;
 import es.codeurjc.eolopark.service.UserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class WebController {
 
     @Autowired
     private EoloParkService eoloParkService;
+
+    @Autowired
+    ReportService reportService;
 
     @GetMapping("/")
     public String index() {
@@ -240,6 +245,27 @@ public class WebController {
     @GetMapping("/error")
     public String error(){
         return "error";
+    }
+
+    @GetMapping("/creation")
+    public String getIndex() {
+        return "creation";
+    }
+
+    @PostMapping("/create-park")
+    public String postMethodName(@RequestParam String reportCreationData) {
+
+        Report report = reportService.createReport(reportCreationData);
+
+        return "redirect:park-creation-progress?parkId="+report.getId();
+    }
+
+    @GetMapping("/park-creation-progress")
+    public String postMethodName(Model model, @RequestParam String parkId) {
+
+        model.addAttribute("parkId", parkId);
+
+        return "park-creation-progress";
     }
 
 
