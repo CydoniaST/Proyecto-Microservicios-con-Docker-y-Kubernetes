@@ -1,9 +1,11 @@
 package es.codeurjc.eolopark.configuration;
 
 import es.codeurjc.eolopark.model.EoloPark;
+import es.codeurjc.eolopark.model.Report;
 import es.codeurjc.eolopark.model.User;
 import es.codeurjc.eolopark.repository.UserRepository;
 import es.codeurjc.eolopark.service.EoloParkService;
+import es.codeurjc.eolopark.service.ReportService;
 import es.codeurjc.eolopark.service.UserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,6 @@ import java.util.Optional;
 
 @Controller
 public class WebController {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -37,6 +38,9 @@ public class WebController {
 
     @Autowired
     private EoloParkService eoloParkService;
+
+    @Autowired
+    ReportService reportService;
 
     @GetMapping("/")
     public String index() {
@@ -96,7 +100,7 @@ public class WebController {
     }
 
     @GetMapping("/MainPage")
-    public String paginaPrincipal(@RequestParam(required = false) String city,
+    public String mainPage(@RequestParam(required = false) String city,
                                   @PageableDefault(size = 3) Pageable pageable,
                                   Model model, HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
@@ -108,11 +112,11 @@ public class WebController {
         model.addAttribute("username", user.getName());
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-
+        // Verificar la paginación
         int currentPage = eoloParkPage.getNumber();
-        model.addAttribute("currentPage", currentPage + 1);
+        model.addAttribute("currentPage", currentPage + 1); // Página actual
 
-
+        // Añadir botones de paginación
         if (currentPage < eoloParkPage.getTotalPages() - 1) {
             int nextPage = currentPage + 1;
             model.addAttribute("hasNextPage", true);
@@ -242,7 +246,29 @@ public class WebController {
         return "error";
     }
 
+    @GetMapping("/creation")
+    public String getIndex() {
+        return "creation";
+    }
 
+    @PostMapping("/create-park")
+    public String postMethodName(@RequestParam String city, @RequestParam double area,HttpServletRequest request) {
+
+        String name = request.getUserPrincipal().getName();
+        User user = userRepository.findByName(name).orElseThrow();
+        Report report = reportService.createReport(city,area,user);
+
+        return "redirect:park-creation-progress?parkId="+report.getId();
+    }
+
+
+    @GetMapping("/park-creation-progress")
+    public String postMethodName(Model model, @RequestParam String parkId) {
+
+        model.addAttribute("parkId", parkId);
+
+        return "park-creation-progress";
+    }
 
 
 
