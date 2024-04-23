@@ -14,11 +14,11 @@
     {{/errorCreate}}
     <body>
     <h1>New Eolo Park</h1>
-
-       <form action="/EoloPark/Automatic" method="post">
+    <!--<form action="/EoloPark/Automatic" method="post"> -->
+       <form action="/create-park" method="post">
             <h2>Automatic</h2>
-                <label for="name">Ciudad:</label>
-                <input type="text"  name="name" required><br>
+                <label for="city">Ciudad:</label>
+                <input type="text"  name="city" required><br>
 
                 <label for="area">Área(kM):</label>
                 <input type="number" step="0.01" name="area" required><br>

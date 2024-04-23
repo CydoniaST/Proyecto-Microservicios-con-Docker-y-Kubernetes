@@ -8,6 +8,7 @@ public class GeoserviceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GeoserviceApplication.class, args);
+
 	}
 
 }
