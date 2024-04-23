@@ -1,4 +1,4 @@
-package Model;
+package es.codeurjc.geoservice.Model;
 
 public class City {
     private String name;

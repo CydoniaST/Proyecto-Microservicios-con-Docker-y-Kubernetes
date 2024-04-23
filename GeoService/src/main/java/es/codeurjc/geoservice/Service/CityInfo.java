@@ -1,6 +1,6 @@
-package Service;
+package es.codeurjc.geoservice.Service;
 
-import Model.City;
+import es.codeurjc.geoservice.Model.City;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -8,16 +8,16 @@ import java.util.*;
 @Service
 public class CityInfo implements GeoService{
 
-    //private Map<String,City> cities = new HashMap<>();
-    private List<City> cities = new ArrayList<>();
+    private Map<String,City> cities = new HashMap<>();
+
 
     public CityInfo(){
-        cities.add(new City("A Coruña", 43.37012643, -8.39114853, 21));
-        cities.add(new City("Albacete", 38.99588053, -1.85574745, 681));
-        cities.add(new City("Alicante", 38.34548705, -0.4831832, 5));
-        cities.add(new City("Almería", 36.83892362, -2.46413188, 16));
-        cities.add(new City("Ávila", 40.65586958, -4.69771277, 1131));
-        /*cities.put("Badajoz", new City("Badajoz", 38.87874339, -6.97099704, 182));
+        cities.put("A Coruña", new City("A Coruña", 43.37012643, -8.39114853, 21));
+        cities.put("Albacete", new City("Albacete", 38.99588053, -1.85574745, 681));
+        cities.put("Alicante", new City("Alicante", 38.34548705, -0.4831832, 5));
+        cities.put("Almería", new City("Almería", 36.83892362, -2.46413188, 16));
+        cities.put("Ávila", new City("Ávila", 40.65586958, -4.69771277, 1131));
+        cities.put("Badajoz", new City("Badajoz", 38.87874339, -6.97099704, 182));
         cities.put("Barcelona", new City("Barcelona", 41.38424664, 2.17634927, 13));
         cities.put("Bilbao", new City("Vizcaya", 43.25721957, -2.92390606, 6));
         cities.put("Burgos", new City("Burgos", 42.34113004, -3.70419805, 859));
@@ -63,15 +63,19 @@ public class CityInfo implements GeoService{
         cities.put("Vitoria", new City("Álava", 42.85058789, -2.67275685, 539));
         cities.put("Zamora", new City("Zamora", 41.49913956, -5.75494831, 649));
         cities.put("Zaragoza", new City("Zaragoza", 41.65645655, -0.87928652, 208));
-*/
+
 
     }
 
-    public City getCityInfoByName(String cityName){
-        for(City city : cities){
-            if (Objects.equals(city.getName(), cityName)) return city;
+    public City getCityInfoByName(String cityName) {
+        City city = cities.get(cityName);
+        if (city != null) {
+            System.out.println("City found: " + cityName); // Debug: Ciudad encontrada
+            return city;
+        } else {
+            System.out.println("City not found: " + cityName); // Debug: Ciudad no encontrada
+            return null;
         }
-        return null;
     }
     /*@Override
     public List<City> getCityInfoByName(String cityName) {
