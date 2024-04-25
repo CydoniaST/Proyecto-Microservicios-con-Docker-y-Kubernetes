@@ -1,5 +1,6 @@
 package es.codeurjc.eolopark.service;
 
+import es.codeurjc.eolopark.model.City;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Message;
 import es.codeurjc.eolopark.model.Aerogenerator;
@@ -16,6 +17,9 @@ public class EoloParkServiceSend {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    PlannerService plannerService;
 
     private String name; 
     private Double area;
@@ -37,49 +41,51 @@ public class EoloParkServiceSend {
         //GENERIC NAME FOR AUTOMATIC PARK
         String nameAutoPark = "EoloParque Automatico con ID: "+Math.random()*10;
 
-        //method to use latitude and longitude of a city from dataBase
+        //Tengo la información de la ciudad:
+        City city = plannerService.getCityInfo(name);
+        /*method to use latitude and longitude of a city from dataBase
 
-        // Optional<Cities> newCity = citiesRepository.findByName(name);
 
-        // if(newCity.isPresent()){
-        //     Cities cityAux = newCity.get();
 
-        //     String windSpeed = getWindSpeed(name);
+         if(newCity.isPresent()){
+             Cities cityAux = newCity.get();
 
-        //     Aerogenerator.Size size = aerogeneratorSize(windSpeed);
+             String windSpeed = getWindSpeed(name);
 
-        //     //Number of Aerogen that fit in the EoloPark
-        //     int aerogeneratorNum= (int)Math.ceil(area/1.0);
+             Aerogenerator.Size size = aerogeneratorSize(windSpeed);
 
-        //     //create EoloPark based on city and are
-        //     EoloPark automaticEoloPark = new EoloPark(name, area);
+             //Number of Aerogen that fit in the EoloPark
+             int aerogeneratorNum= (int)Math.ceil(area/1.0);
 
-        //     automaticEoloPark.setName(nameAutoPark);
-        //     automaticEoloPark.setLatitude(cityAux.getLatitude());
-        //     automaticEoloPark.setLongitude(cityAux.getLongitude());
+             //create EoloPark based on city and are
+             EoloPark automaticEoloPark = new EoloPark(name, area);
 
-        //     //Substation based on new EoloPark
-        //     Substation newSubstation = new Substation("Model 1",220.0, calculateSubstationPower(aerogeneratorNum),automaticEoloPark);
-        //     automaticEoloPark.setSubstation(newSubstation);
+             automaticEoloPark.setName(nameAutoPark);
+             automaticEoloPark.setLatitude(cityAux.getLatitude());
+             automaticEoloPark.setLongitude(cityAux.getLongitude());
 
-        //     //List of new Aerogens
-        //     List<Aerogenerator> aerogenerators = new ArrayList<>();
-        //     double latitude = cityAux.getLatitude() - 0.5 / 111.0;
-        //     double longitude = cityAux.getLongitude() + 0.5 / 111.0;
-        //     for(int i = 0; i < aerogeneratorNum; i++){
-        //         Aerogenerator aerogenerator = new Aerogenerator(i + "",latitude, longitude, size.getBladeLength(), size.getHeight(), size.getPower());
-        //         aerogenerator.setEoloPark(automaticEoloPark);
-        //         aerogenerators.add(aerogenerator);
-        //         longitude += 1.0/111.0;
-        //     }
+             //Substation based on new EoloPark
+             Substation newSubstation = new Substation("Model 1",220.0, calculateSubstationPower(aerogeneratorNum),automaticEoloPark);
+             automaticEoloPark.setSubstation(newSubstation);
 
-        //     automaticEoloPark.setAerogeneratorList(aerogenerators);
-        //     automaticEoloPark.setTerrainType(TerrainType.PLAIN);
+             //List of new Aerogens
+             List<Aerogenerator> aerogenerators = new ArrayList<>();
+             double latitude = cityAux.getLatitude() - 0.5 / 111.0;
+             double longitude = cityAux.getLongitude() + 0.5 / 111.0;
+             for(int i = 0; i < aerogeneratorNum; i++){
+                 Aerogenerator aerogenerator = new Aerogenerator(i + "",latitude, longitude, size.getBladeLength(), size.getHeight(), size.getPower());
+                 aerogenerator.setEoloPark(automaticEoloPark);
+                 aerogenerators.add(aerogenerator);
+                 longitude += 1.0/111.0;
+             }
 
-        //     return automaticEoloPark;
-        // }else{
-        //     throw new IllegalArgumentException("No se encuentra la ciudad");
-        // }
+             automaticEoloPark.setAerogeneratorList(aerogenerators);
+             automaticEoloPark.setTerrainType(TerrainType.PLAIN);
+
+             return automaticEoloPark;
+         }else{
+             throw new IllegalArgumentException("No se encuentra la ciudad");
+         }*/
 
         return new EoloPark();
     }
