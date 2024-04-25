@@ -1,5 +1,6 @@
 package es.codeurjc.eolopark.service;
 
+import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Message;
 import es.codeurjc.eolopark.model.User;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
  *
  * When a report is updated, reportUpdatesService is used to save the update on database and to notify users
  */
-@Service
+@Component
 public class ReportGenerator {
 
     Logger logger = LoggerFactory.getLogger(ReportGenerator.class);
@@ -29,46 +31,39 @@ public class ReportGenerator {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    @Async
-    protected void createReport(Long parkId, String city, double area, User user) {
+    @Autowired
+    private ProducerParkServer producerParkServer;
 
-        logger.info("createReport: "+parkId);
-        Message data = new Message(parkId,city,area,user);
-        sendData(data);
+    private EoloPark automaticEolopark;
 
-        simulateProcessTime();
-        eoloParkUpdatesService.eoloParkUpdated(parkId, 25, "false");
-
-        simulateProcessTime();
-        eoloParkUpdatesService.eoloParkUpdated(parkId, 50, "false");
-
-        simulateProcessTime();
-        eoloParkUpdatesService.eoloParkUpdated(parkId, 75, "false");
-
-        simulateProcessTime();
-        eoloParkUpdatesService.eoloParkUpdated(parkId, 100, "false");
-
-    }
 
     //LISTENER VICEN
     @RabbitListener(queues="eoloplantCreationProgressNotifications", ackMode = "AUTO")
     public void receivedPark(Message data){
 
-        System.out.println("New automatic Eolo Park: " + data.getEoloPark().getName() + " "+ data.getEoloPark().getArea());
+        System.out.println("Progress: " + data. getProgress());
+        eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted());
+        if(data.getEoloPark() != null){
+            System.out.println("New automatic Eolo Park: " + data.getEoloPark().getName() + " "+ data.getEoloPark().getArea());
+            automaticEolopark = data.getEoloPark();
+        }
+
     }
 
-    //PRODUCER TEST VICEN
-    @Scheduled(fixedRate = 1000)
-    public void sendData(Message data) {
+    @Async
+    protected void createReport(Long parkId, String city, double area, User user) {
+
+        logger.info("createReport: "+parkId);
+        //Message data = new Message(parkId,city,area,user);
+        Message data = new Message(parkId ,city,area);
+
+        //PRODUCER MESSAGE TO PLANNER
+        producerParkServer.sendData(data);
 
 
-
-        //numData++;
-
-        System.out.println("publishToQueue: " + data);
-
-        rabbitTemplate.convertAndSend("eoloplantCreationRequests", data);
     }
+
+
 
 
     private void simulateProcessTime() {

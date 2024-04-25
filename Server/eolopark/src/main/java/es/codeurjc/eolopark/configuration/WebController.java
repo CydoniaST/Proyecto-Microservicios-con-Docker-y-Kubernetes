@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,8 +102,8 @@ public class WebController {
 
     @GetMapping("/MainPage")
     public String mainPage(@RequestParam(required = false) String city,
-                                  @PageableDefault(size = 3) Pageable pageable,
-                                  Model model, HttpServletRequest request) {
+                           @PageableDefault(size = 3) Pageable pageable,
+                           Model model, HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
         User user = userRepository.findByName(name).orElseThrow();
         Page<EoloPark> eoloParkPage = eoloParkService.findEoloParksByOwnerIdAndCity(user.getId(),city, pageable);
@@ -252,7 +253,7 @@ public class WebController {
     }
 
     @PostMapping("/create-park")
-    public String postMethodName(@RequestParam String city, @RequestParam double area,HttpServletRequest request) {
+    public String postMethodName(@RequestParam("reportCreationData") String city, @RequestParam("area") double area,HttpServletRequest request) {
 
         String name = request.getUserPrincipal().getName();
         User user = userRepository.findByName(name).orElseThrow();

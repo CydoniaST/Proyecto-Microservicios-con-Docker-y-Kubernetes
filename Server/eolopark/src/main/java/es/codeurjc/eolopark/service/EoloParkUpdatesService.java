@@ -20,7 +20,7 @@ public class EoloParkUpdatesService {
     private ServerService serverService;
     private EoloPark eoloPark;
 
-    public void eoloParkUpdated(Long eoloParkId, int progress, String completed) {
+    public void eoloParkUpdated(Long eoloParkId, double progress, boolean completed) {
 
         Report report = reportRepository.findById(eoloParkId).orElseThrow();
 

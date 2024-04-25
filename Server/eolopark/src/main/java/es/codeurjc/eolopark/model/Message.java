@@ -1,5 +1,7 @@
 package es.codeurjc.eolopark.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class Message {
     private Long id;
     private Double progress;
@@ -12,19 +14,25 @@ public class Message {
 
     private EoloPark eoloPark;
 
-    public Message(Long id, String city, Double area, User user){
+
+    public Message(Long id, String city, Double area){
         this.id = id;
         this.city = city;
         this.area = area;
-        this.user = user;
     }
-
-    public Message(Long id, Double progress, boolean completed, EoloPark eoloPark){
-        this.id = id;
-        this.progress = progress;
-        this.completed = completed;
-        this.eoloPark = eoloPark;
-    }
+//    public Message(Long id, String city, Double area, User user){
+//        this.id = id;
+//        this.city = city;
+//        this.area = area;
+//        this.user = user;
+//    }
+//
+//    public Message(Long id, Double progress, boolean completed, EoloPark eoloPark){
+//        this.id = id;
+//        this.progress = progress;
+//        this.completed = completed;
+//        this.eoloPark = eoloPark;
+//    }
 
     public Long getId() {
         return id;
@@ -80,5 +88,15 @@ public class Message {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 }

@@ -11,8 +11,25 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String completed;
-    private int progress;
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
+
+    private boolean completed;
+    private double progress;
 
     public Report(){
     }
@@ -21,19 +38,5 @@ public class Report {
         return id;
     }
 
-    public int getProgress() {
-        return progress;
-    }
 
-    public String getCompleted() {
-        return completed;
-    }
-
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
-
-    public void setCompleted(String completed) {
-        this.completed = completed;
-    }
 }
