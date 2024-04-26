@@ -3,7 +3,6 @@ package es.codeurjc.eolopark.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class EoloPark {
 
   
@@ -12,6 +11,7 @@ public class EoloPark {
    
     private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 
+    private  Substation substation;
 
     private String name;
 
@@ -25,19 +25,24 @@ public class EoloPark {
 
     private String terrainType;
 
-    public EoloPark(){
-        System.out.println("Parque de prueba.");
-    }
-
-    public EoloPark(String name, String city, double latitude, double longitude, double area, String terrainType){
-        this.name= name;
-        this.city= city;
-        this.latitude=latitude;
-        this.longitude=longitude;
-        this.area= area;
-        this.terrainType = terrainType;
-
-    }
+//    public EoloPark() {}
+//
+//    public EoloPark(String name, String city, double area){
+//
+//        this.name = name;
+//        this.city = city;
+//        this.area = area;
+//    }
+//
+//    public EoloPark(String name, String city, double latitude, double longitude, double area, String terrainType, Substation substation){
+//        this.name= name;
+//        this.city= city;
+//        this.latitude=latitude;
+//        this.longitude=longitude;
+//        this.area= area;
+//        this.terrainType = terrainType;
+//        this.substation = substation;
+//    }
 
     public EoloPark(String city, double area){
         this.city = city;
@@ -111,6 +116,14 @@ public class EoloPark {
     public void setAerogenerator(Aerogenerator aerogenerator) {
 
         this.aerogeneratorList.add(aerogenerator);
+    }
+
+    public Substation getSubstation() {
+        return substation;
+    }
+
+    public void setSubstation(Substation substation) {
+        this.substation = substation;
     }
 
 }

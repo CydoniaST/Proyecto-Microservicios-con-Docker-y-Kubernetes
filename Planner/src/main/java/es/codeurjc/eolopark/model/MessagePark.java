@@ -1,10 +1,8 @@
 package es.codeurjc.eolopark.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+public class MessagePark {
 
-public class Message {
-    
-    private Long id;
+    private String id;
     private Double progress;
     private boolean completed;
     private Double area;
@@ -14,30 +12,18 @@ public class Message {
     private EoloPark eoloPark;
 
 
-    public Message(Long id, Double progress, boolean completed, EoloPark eoloPark){
+    public MessagePark(String id, Double progress, boolean completed, EoloPark eoloPark){
         this.id = id;
         this.progress = progress;
         this.completed = completed;
         this.eoloPark = eoloPark;
     }
-    public Message(Long id, String city, Double area){
-        this.id = id;
-        this.city = city;
-        this.area = area;
-    }
-    public Message(Long id, double progress, boolean completed){
-        this.id = id;
-        this.progress = progress;
-        this.completed = completed;
-    }
 
-    public Message(){}
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,6 +43,13 @@ public class Message {
         this.completed = completed;
     }
 
+    public EoloPark getEoloPark() {
+        return eoloPark;
+    }
+
+    public void setEoloPark(EoloPark eoloPark) {
+        this.eoloPark = eoloPark;
+    }
 
     public String getCity() {
         return city;
@@ -80,15 +73,5 @@ public class Message {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
-    }
-
-    @Override
-    public String toString() {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(this);
-        } catch (Exception e) {
-            return "Error: " + e.getMessage();
-        }
     }
 }
