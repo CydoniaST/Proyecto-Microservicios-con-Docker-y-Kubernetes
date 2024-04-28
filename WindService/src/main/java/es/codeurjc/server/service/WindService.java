@@ -1,8 +1,9 @@
 
-package es.codeurjc.windservice.service;
+package es.codeurjc.server.service;
 
-import es.codeurjc.WindService.proto.WindRequest;
-import es.codeurjc.WindService.proto.WindResponse;
+
+import es.codeurjc.ProtoService.proto.WindRequest;
+import es.codeurjc.ProtoService.proto.WindResponse;
 import io.grpc.stub.StreamObserver;
 
 public interface WindService {

@@ -1,8 +1,13 @@
 package es.codeurjc.eolopark.service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.stereotype.Service;
-import es.codeurjc.eolopark.model.City;
+import java.io.IOException;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import es.codeurjc.client.WindClientGrpc;
+import es.codeurjc.eolopark.model.City;
+import es.codeurjc.server.GrpcServer;
 
 @Service
 public class PlannerService {
@@ -23,5 +28,18 @@ public class PlannerService {
             System.out.println("Failed to retrieve city info for: " + cityName);
             return null;
         }
+    }
+
+    //getWind (grpc)
+    public Double getWind(String city) throws IOException, InterruptedException{
+       //Arrancamos server
+        GrpcServer server = new GrpcServer();
+        server.startServer();
+
+        //Iniciamos cliente
+        WindClientGrpc client = new WindClientGrpc();
+        Double wind = client.grpcClient(city);
+
+        return wind;
     }
 }

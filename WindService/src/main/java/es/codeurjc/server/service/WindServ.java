@@ -1,12 +1,12 @@
 
-package es.codeurjc.windservice.service;
+package es.codeurjc.server.service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import es.codeurjc.WindService.proto.WindRequest;
-import es.codeurjc.WindService.proto.WindResponse;
-import es.codeurjc.WindService.proto.WindServiceGrpc;
+import es.codeurjc.ProtoService.proto.WindRequest;
+import es.codeurjc.ProtoService.proto.WindResponse;
+import es.codeurjc.ProtoService.proto.WindServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 

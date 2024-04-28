@@ -1,4 +1,4 @@
-package es.codeurjc.windservice.model;
+package es.codeurjc.server.model;
 
 public class Cities {
     

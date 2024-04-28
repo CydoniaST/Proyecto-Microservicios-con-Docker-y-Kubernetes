@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 
-package es.codeurjc.WindService.proto;
+package es.codeurjc.ProtoService.proto;
 
 message WindRequest{
     string name = 1;
