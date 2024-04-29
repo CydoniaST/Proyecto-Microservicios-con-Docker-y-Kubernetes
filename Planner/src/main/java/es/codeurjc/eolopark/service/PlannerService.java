@@ -32,11 +32,11 @@ public class PlannerService {
 
     //getWind (grpc)
     public Double getWind(String city) throws IOException, InterruptedException{
-       //Arrancamos server
+        // Start the gRPC server
         GrpcServer server = new GrpcServer();
         server.startServer();
 
-        //Iniciamos cliente
+        // Start the gRPC client
         WindClientGrpc client = new WindClientGrpc();
         Double wind = client.grpcClient(city);
 
