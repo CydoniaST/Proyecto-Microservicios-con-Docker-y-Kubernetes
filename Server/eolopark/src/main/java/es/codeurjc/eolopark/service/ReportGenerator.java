@@ -43,8 +43,12 @@ public class ReportGenerator {
     @RabbitListener(queues="eoloplantCreationProgressNotifications", ackMode = "AUTO")
     public void receivedPark(Message data)throws IOException, InterruptedException {
 
-        System.out.println("Progress: " + data. getProgress());
-        eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted());
+        if(data != null){
+            System.out.println("Progress: " + data. getProgress());
+            eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted());
+
+        }
+
         if(data.getEoloPark() != null){
             System.out.println("New automatic Eolo Park: " + data.getEoloPark().getName() + " "+ data.getEoloPark().getArea());
             automaticEolopark = data.getEoloPark();

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package es.codeurjc.dad.grpc;
+
+message WindRequest{
+    string name = 1;
+}
+
+message WindResponse{
+    double wind = 2;
+}
+
+service WindService {
+    rpc getWindSpeed(WindRequest) returns (WindResponse);
+}
