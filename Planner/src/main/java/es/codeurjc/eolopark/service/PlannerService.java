@@ -1,19 +1,22 @@
 package es.codeurjc.eolopark.service;
 import java.io.IOException;
 
+import es.codeurjc.eolopark.client.WindClientGrpc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import es.codeurjc.client.WindClientGrpc;
 import es.codeurjc.eolopark.model.City;
-import es.codeurjc.server.GrpcServer;
+
 
 @Service
 public class PlannerService {
 
+    @Autowired
+    private WindClientGrpc windClientGrpc;
+
     private final RestTemplate restTemplate;
-    private final String geoServiceUrl = "http://localhost:8080/api/city/";
+    private final String geoServiceUrl = "http://localhost:8082/api/city/";
 
     public PlannerService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -32,14 +35,7 @@ public class PlannerService {
 
     //getWind (grpc)
     public Double getWind(String city) throws IOException, InterruptedException{
-        // Start the gRPC server
-        GrpcServer server = new GrpcServer();
-        server.startServer();
 
-        // Start the gRPC client
-        WindClientGrpc client = new WindClientGrpc();
-        Double wind = client.grpcClient(city);
-
-        return wind;
+        return windClientGrpc.grpcClient(city);
     }
 }

@@ -20,6 +20,4 @@ public class ProducerParkServer {
 		rabbitTemplate.convertAndSend("eoloplantCreationRequests", data);
 	}
 
-
-
 }

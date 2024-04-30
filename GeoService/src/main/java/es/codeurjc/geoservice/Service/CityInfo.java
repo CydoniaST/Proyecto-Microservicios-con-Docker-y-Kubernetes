@@ -77,17 +77,5 @@ public class CityInfo implements GeoService{
             return null;
         }
     }
-    /*@Override
-    public List<City> getCityInfoByName(String cityName) {
-        List<City> result = new ArrayList<>();
 
-        // Iterate through cities map and add matching cities to result list
-        for (City city : cities.values()) {
-            if (city.getName().equalsIgnoreCase(cityName)) {
-                result.add(city);
-            }
-        }
-
-        return result;
-    }*/
 }

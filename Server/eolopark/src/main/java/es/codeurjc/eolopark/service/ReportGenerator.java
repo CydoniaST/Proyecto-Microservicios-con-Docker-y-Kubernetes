@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 /**
  * This service simulate the report creation
  *
@@ -39,7 +41,7 @@ public class ReportGenerator {
 
     //LISTENER VICEN
     @RabbitListener(queues="eoloplantCreationProgressNotifications", ackMode = "AUTO")
-    public void receivedPark(Message data){
+    public void receivedPark(Message data)throws IOException, InterruptedException {
 
         System.out.println("Progress: " + data. getProgress());
         eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted());
@@ -60,10 +62,7 @@ public class ReportGenerator {
         //PRODUCER MESSAGE TO PLANNER
         producerParkServer.sendData(data);
 
-
     }
-
-
 
 
     private void simulateProcessTime() {

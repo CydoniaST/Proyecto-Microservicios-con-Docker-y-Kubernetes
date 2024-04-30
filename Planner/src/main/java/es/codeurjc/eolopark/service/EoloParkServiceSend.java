@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +21,21 @@ public class EoloParkServiceSend {
     RabbitTemplate rabbitTemplate;
 
     @Autowired
-    PlannerService cityInfo;
-
-    private String name; 
-    private double area;
-    private int numData;
+    PlannerService service;
 
     private EoloPark newEolopark;
+
     private Message progress;
 
     //LISTENER 
     @RabbitListener(queues="eoloplantCreationRequests", ackMode = "AUTO")
-    public void received(Message data){
-        newEolopark = testEoloPark(data);
+    public void received(Message data) throws IOException, InterruptedException {
+
+        if(data != null){
+            System.out.println(data.toString());
+            newEolopark = testEoloPark(data);
+        }
+
 
         if (newEolopark != null) {
             System.out.println("New Park recived. "+ data);
@@ -41,7 +44,7 @@ public class EoloParkServiceSend {
     }
 
     //PRODUCER
-    public void sendDataProgress(Message progress) {
+    public void sendDataProgress(Message progress) throws IOException, InterruptedException {
 
         Message progressMessage = new Message(progress.getId(), progress.getProgress(), progress.getCompleted());
 
@@ -60,7 +63,7 @@ public class EoloParkServiceSend {
         rabbitTemplate.convertAndSend("eoloplantCreationProgressNotifications", automaticPark);
     }
 
-    public EoloPark testEoloPark(Message data){
+    public EoloPark testEoloPark(Message data) throws IOException, InterruptedException {
 
         EoloPark newEolopark = new EoloPark(data.getCity(),data.getArea());
 
@@ -92,72 +95,95 @@ public class EoloParkServiceSend {
         return newEolopark;
     }
 
+
     //Automatic Creation
-    public EoloPark newAutomaticEoloPark(String name, double area){
+    public EoloPark newAutomaticEoloPark(Message data) throws IOException, InterruptedException {
         //GENERIC NAME FOR AUTOMATIC PARK
         String nameAutoPark = "EoloParque Automatico con ID: "+Math.random()*10;
+        String wind;
 
-        //method to use latitude and longitude of a city from dataBase
+        //create EoloPark based on city and are
+        EoloPark automaticEoloPark = new EoloPark(data.getCity(), data.getArea());
 
-        // Optional<Cities> newCity = citiesRepository.findByName(name);
+        //Geoservice response with info about the city
+        City city = service.getCityInfo(data.getCity());
+        System.out.println(city);
+        simulateProcessTime();
+        progress = new Message(1L, 25.0, false);
+        sendDataProgress(progress);
+
+        if(city != null){
+            //WindService response with city wind info
+            Double windSpeed = service.getWind(data.getCity());
+            simulateProcessTime();
+            progress = new Message(1L, 50.0, false);
+            sendDataProgress(progress);
+
+            if(windSpeed <= 7.06){
+                wind = "LOW";
+            } else if ((windSpeed >= 7.06)&&(windSpeed < 7.63)) {
+                wind = "MEDIUM";
+            }else{
+                wind = "HIGH";
+            }
+            Aerogenerator.Size size = aerogeneratorSize(wind);
+
+            //Number of Aerogen that fit in the EoloPark
+            int aerogeneratorNum= (int)Math.ceil(data.getArea());
 
 
-        // if(newCity.isPresent()){
-        //     Cities cityAux = newCity.get();
 
-        //     String windSpeed = getWindSpeed(name);
+            automaticEoloPark.setName(nameAutoPark);
+            automaticEoloPark.setLatitude(city.getLatitude());
+            automaticEoloPark.setLongitude(city.getLongitude());
 
-        //     Aerogenerator.Size size = aerogeneratorSize(windSpeed);
 
-        //     //Number of Aerogen that fit in the EoloPark
-        //     int aerogeneratorNum= (int)Math.ceil(area/1.0);
+             //List of new Aerogens
+            List<Aerogenerator> aerogenerators = new ArrayList<>();
+            double latitude = city.getLatitude() - 0.5 / 111.0;
+            double longitude = city.getLongitude() + 0.5 / 111.0;
+             for(int i = 0; i < aerogeneratorNum; i++){
+                Aerogenerator aerogenerator = new Aerogenerator(i + "",latitude, longitude, size.getBladeLength(), size.getHeight(), size.getPower());
+                aerogenerator.setEoloPark(automaticEoloPark);
+                aerogenerators.add(aerogenerator);
+                longitude += 1.0/111.0;
+            }
 
-        //     //create EoloPark based on city and are
-        //     EoloPark automaticEoloPark = new EoloPark(name, area);
+             //All Aerogenerator placed
+            simulateProcessTime();
+            progress = new Message(1L, 75.0, false);
+            sendDataProgress(progress);
 
-        //     automaticEoloPark.setName(nameAutoPark);
-        //     automaticEoloPark.setLatitude(cityAux.getLatitude());
-        //     automaticEoloPark.setLongitude(cityAux.getLongitude());
+            automaticEoloPark.setAerogeneratorList(aerogenerators);
+            automaticEoloPark.setTerrainType(TerrainType.PLAIN.toString());
 
-        //     //Substation based on new EoloPark
-        //     Substation newSubstation = new Substation("Model 1",220.0, calculateSubstationPower(aerogeneratorNum),automaticEoloPark);
-        //     automaticEoloPark.setSubstation(newSubstation);
+            //Substation based on new EoloPark
+            Substation newSubstation = new Substation("Model 1",220.0, calculateSubstationPower(aerogeneratorNum),automaticEoloPark);
+            automaticEoloPark.setSubstation(newSubstation);
 
-        //     //List of new Aerogens
-        //     List<Aerogenerator> aerogenerators = new ArrayList<>();
-        //     double latitude = cityAux.getLatitude() - 0.5 / 111.0;
-        //     double longitude = cityAux.getLongitude() + 0.5 / 111.0;
-        //     for(int i = 0; i < aerogeneratorNum; i++){
-        //         Aerogenerator aerogenerator = new Aerogenerator(i + "",latitude, longitude, size.getBladeLength(), size.getHeight(), size.getPower());
-        //         aerogenerator.setEoloPark(automaticEoloPark);
-        //         aerogenerators.add(aerogenerator);
-        //         longitude += 1.0/111.0;
-        //     }
+            //Automatic EoloPark Completed
+            simulateProcessTime();
+            Message newPark = new Message(1L, 100.0, true, automaticEoloPark);
+            sendDataProgress(newPark);
+            sendDataPark(automaticEoloPark);
 
-        //     automaticEoloPark.setAerogeneratorList(aerogenerators);
-        //     automaticEoloPark.setTerrainType(TerrainType.PLAIN);
+            return automaticEoloPark;
+        }else{
+            throw new IllegalArgumentException("No se encuentra la ciudad");
+        }
 
-        //     return automaticEoloPark;
-        // }else{
-        //     throw new IllegalArgumentException("No se encuentra la ciudad");
-        // }
-
-        return new EoloPark(name, area);
+        //return new EoloPark(name, area);
     }
 
 
     
     private Aerogenerator.Size aerogeneratorSize(String windSpeed){
-        switch(windSpeed) {
-            case "LOW":
-                return Aerogenerator.Size.SMALL;
-            case "MEDIUM":
-                return Aerogenerator.Size.MEDIUM;
-            case "HIGH":
-                return Aerogenerator.Size.BIG;
-            default:
-                throw new IllegalArgumentException("Unknown wind speed: " + windSpeed);
-        }
+        return switch (windSpeed) {
+            case "LOW" -> Aerogenerator.Size.SMALL;
+            case "MEDIUM" -> Aerogenerator.Size.MEDIUM;
+            case "HIGH" -> Aerogenerator.Size.BIG;
+            default -> throw new IllegalArgumentException("Unknown wind speed: " + windSpeed);
+        };
     }
 
     private double calculateSubstationPower(int aerogeneratorNum){
