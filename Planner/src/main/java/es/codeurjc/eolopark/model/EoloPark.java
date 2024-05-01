@@ -25,24 +25,6 @@ public class EoloPark {
 
     private String terrainType;
 
-//    public EoloPark() {}
-//
-//    public EoloPark(String name, String city, double area){
-//
-//        this.name = name;
-//        this.city = city;
-//        this.area = area;
-//    }
-//
-//    public EoloPark(String name, String city, double latitude, double longitude, double area, String terrainType, Substation substation){
-//        this.name= name;
-//        this.city= city;
-//        this.latitude=latitude;
-//        this.longitude=longitude;
-//        this.area= area;
-//        this.terrainType = terrainType;
-//        this.substation = substation;
-//    }
 
     public EoloPark(String city, double area){
         this.city = city;
@@ -126,4 +108,18 @@ public class EoloPark {
         this.substation = substation;
     }
 
+    @Override
+    public String toString() {
+        return "EoloPark{" +
+                "id=" + id +
+                ", aerogeneratorList=" + aerogeneratorList +
+                ", substation=" + substation +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", area=" + area +
+                ", terrainType='" + terrainType + '\'' +
+                '}';
+    }
 }

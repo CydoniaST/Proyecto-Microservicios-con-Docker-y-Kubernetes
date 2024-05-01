@@ -2,6 +2,7 @@ package es.codeurjc.eolopark.service;
 
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Message;
+import es.codeurjc.eolopark.model.MessagePark;
 import es.codeurjc.eolopark.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +42,12 @@ public class ReportGenerator {
 
     //LISTENER VICEN
     @RabbitListener(queues="eoloplantCreationProgressNotifications", ackMode = "AUTO")
-    public void receivedPark(Message data)throws IOException, InterruptedException {
+    public void receivedPark(MessagePark data)throws IOException, InterruptedException {
 
         if(data != null){
-            System.out.println("Progress: " + data. getProgress());
+            System.out.println("Progress: " + data.getProgress());
+            System.out.println("getId(): " + data.getId());
+            System.out.println("getCompleted(): " + data.getCompleted());
             eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted());
 
         }
@@ -54,6 +57,7 @@ public class ReportGenerator {
             automaticEolopark = data.getEoloPark();
         }
 
+        System.out.println("New automatic park recibed: " + data);
     }
 
     @Async

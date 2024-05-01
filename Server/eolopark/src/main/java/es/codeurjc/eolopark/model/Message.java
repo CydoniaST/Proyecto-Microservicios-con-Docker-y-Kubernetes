@@ -27,12 +27,12 @@ public class Message {
 //        this.user = user;
 //    }
 //
-//    public Message(Long id, Double progress, boolean completed, EoloPark eoloPark){
-//        this.id = id;
-//        this.progress = progress;
-//        this.completed = completed;
-//        this.eoloPark = eoloPark;
-//    }
+    public Message(Long id, Double progress, boolean completed, EoloPark eoloPark){
+        this.id = id;
+        this.progress = progress;
+        this.completed = completed;
+        this.eoloPark = eoloPark;
+    }
 
     public Long getId() {
         return id;
@@ -58,13 +58,7 @@ public class Message {
         this.completed = completed;
     }
 
-    public EoloPark getEoloPark() {
-        return eoloPark;
-    }
 
-    public void setEoloPark(EoloPark eoloPark) {
-        this.eoloPark = eoloPark;
-    }
 
     public String getCity() {
         return city;
@@ -90,6 +84,14 @@ public class Message {
         this.completed = completed;
     }
 
+    public EoloPark getEoloPark() {
+        return eoloPark;
+    }
+
+    public void setEoloPark(EoloPark eoloPark) {
+        this.eoloPark = eoloPark;
+    }
+    
     @Override
     public String toString() {
         ObjectMapper mapper = new ObjectMapper();
