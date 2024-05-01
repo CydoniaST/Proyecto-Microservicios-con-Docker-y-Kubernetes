@@ -8,8 +8,6 @@ public class Aerogenerator {
 
     private String identifyer = String.valueOf(id_aerogenerator);
 
-   
-    private EoloPark eoloPark;
 
     private double latitude;
 
@@ -35,8 +33,6 @@ public class Aerogenerator {
         this.power= power;
 
     }
-
-
 
     public String getId() {
         return identifyer;
@@ -89,16 +85,6 @@ public class Aerogenerator {
     }
     public void setPower(double power) {
         this.power = power;
-    }
-
-
-    //New
-    public EoloPark getEoloPark() {
-        return eoloPark;
-    }
-
-    public void setEoloPark(EoloPark eoloPark) {
-        this.eoloPark = eoloPark;
     }
 
     public static class Size {

@@ -9,16 +9,13 @@ public class Substation {
     private Double voltage;
 
 
-    private EoloPark eoloPark;
-
     public Substation() {
     }
 
-    public Substation(String model, Double power, Double voltage,EoloPark eoloPark) {
+    public Substation(String model, Double power, Double voltage) {
         this.model = model;
         this.power = power;
         this.voltage = voltage;
-        this.eoloPark = eoloPark;
     }
 
 
@@ -55,11 +52,4 @@ public class Substation {
         this.id = id;
     }
 
-    public void setEoloPark(EoloPark eoloPark){
-        this.eoloPark = eoloPark;
-    }
-
-    public EoloPark getEoloPark(){
-        return eoloPark;
-    }
 }

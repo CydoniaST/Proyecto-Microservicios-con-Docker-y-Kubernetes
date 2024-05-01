@@ -66,9 +66,10 @@ public class EoloParkServiceSend {
             if(progress2.getProgress() == 100){
                 System.out.println("Envio de Parque completo" );
 
-                parkCompleted = new MessagePark(progress2.getId(), progress2.getProgress(), progress2.getCompleted(), progress2.getEoloPark());
-                System.out.println("Eolopark: " + parkCompleted.getEoloPark());
+                parkCompleted = new MessagePark(progress2.getId(), 100.0, progress2.getCompleted(), progress2.getEoloPark());
                 rabbitTemplate.convertAndSend("eoloplantCreationProgressNotifications", parkCompleted);
+                System.out.println("Eolopark: " + parkCompleted.getEoloPark());
+
             }else{
                 rabbitTemplate.convertAndSend("eoloplantCreationProgressNotifications", progressMessagePlanner);
             }
@@ -174,7 +175,7 @@ public class EoloParkServiceSend {
              for(int i = 0; i < aerogeneratorNum; i++){
                 Aerogenerator aerogenerator = new Aerogenerator(i + "",latitude, longitude, size.getBladeLength(), size.getHeight(), size.getPower());
                 aerogenerators.add(aerogenerator);
-                aerogenerator.setEoloPark(automaticEoloPark);
+                //aerogenerator.setEoloPark(automaticEoloPark);
                 longitude += 1.0/111.0;
             }
 
@@ -188,7 +189,7 @@ public class EoloParkServiceSend {
             automaticEoloPark.setTerrainType(TerrainType.PLAIN.toString());
 
             //Substation based on new EoloPark
-            Substation newSubstation = new Substation("Model 1",220.0, calculateSubstationPower(aerogeneratorNum),automaticEoloPark);
+            Substation newSubstation = new Substation("Model 1",220.0, calculateSubstationPower(aerogeneratorNum));
             automaticEoloPark.setSubstation(newSubstation);
 
             //Automatic EoloPark Completed
