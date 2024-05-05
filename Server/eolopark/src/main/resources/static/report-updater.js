@@ -2,7 +2,8 @@ window.addEventListener('load', (event) => {
 
     console.log("WebSocket")
 
-    let socket = new WebSocket("wss://"+window.location.host+"/notifications?parkId="+parkId);
+    let protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    let socket = new WebSocket(protocol + window.location.host + "/notifications?parkId="+parkId);
 
     socket.onmessage = function (event) {
 
@@ -11,10 +12,10 @@ window.addEventListener('load', (event) => {
         let report = JSON.parse(event.data);
 
         let progressElem = document.getElementById('progress');
-        let reportDataElem = document.getElementById('report-data');
+        let reportDataElem = document.getElementById('completed');
 
         progressElem.textContent = report.progress + '%';
-        reportDataElem.textContent = report.reportData;
+        reportDataElem.textContent = String(report.completed);
 
     };
 
