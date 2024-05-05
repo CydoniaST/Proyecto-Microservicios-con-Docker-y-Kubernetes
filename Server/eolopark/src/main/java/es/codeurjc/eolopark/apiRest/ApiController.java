@@ -91,8 +91,6 @@ public class ApiController {
 
             EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(cityName, area,owner);
 
-            //eoloParkService.setEoloParkOwner(automaticEoloPark.getId(),owner);
-
             eoloParkService.setOwner(automaticEoloPark, owner);
 
 

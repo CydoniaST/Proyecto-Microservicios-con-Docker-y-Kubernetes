@@ -20,14 +20,14 @@ public class ServerApplication {
 	@Bean
 	public Queue creationQueue() {
 
-		System.out.println("Cola creada.");
+		System.out.println("Queue created.");
 		return new Queue("eoloplantCreationRequests", false);
 	}
 
 	@Bean
 	public Queue ResponseQueue() {
 
-		System.out.println("Cola creada.");
+		System.out.println("Queue created.");
 		return new Queue("eoloplantCreationProgressNotifications", false);
 	}
 

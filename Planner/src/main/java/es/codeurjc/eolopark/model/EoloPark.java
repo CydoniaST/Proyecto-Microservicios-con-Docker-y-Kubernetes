@@ -11,7 +11,7 @@ public class EoloPark {
    
     private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
 
-    private  Substation substation;
+    private Substation substation;
 
     private String name;
 

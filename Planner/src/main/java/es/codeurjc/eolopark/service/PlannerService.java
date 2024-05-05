@@ -21,7 +21,6 @@ public class PlannerService {
     public PlannerService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-    //Llamar a getCityInfo al recibir el Rabbit
     public City getCityInfo(String cityName) {
         String url = geoServiceUrl + cityName;
         ResponseEntity<City> response = restTemplate.getForEntity(url, City.class);
@@ -33,7 +32,6 @@ public class PlannerService {
         }
     }
 
-    //getWind (grpc)
     public Double getWind(String city) throws IOException, InterruptedException{
 
         return windClientGrpc.grpcClient(city);
