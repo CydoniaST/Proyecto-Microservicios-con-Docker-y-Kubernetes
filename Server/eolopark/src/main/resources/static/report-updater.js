@@ -13,9 +13,12 @@ window.addEventListener('load', (event) => {
 
         let progressElem = document.getElementById('progress');
         let reportDataElem = document.getElementById('completed');
+        let tusmuelasElem = document.getElementById('eolopark');
+
 
         progressElem.textContent = report.progress + '%';
         reportDataElem.textContent = String(report.completed);
+        tusmuelasElem.textContent = String(report.eolopark);
 
     };
 

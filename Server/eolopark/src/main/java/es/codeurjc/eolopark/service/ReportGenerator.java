@@ -4,7 +4,8 @@ import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Message;
 import es.codeurjc.eolopark.model.MessagePark;
 import es.codeurjc.eolopark.model.User;
-import es.codeurjc.eolopark.repository.EoloParkRepository;
+import es.codeurjc.eolopark.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -41,18 +42,21 @@ public class ReportGenerator {
     @Autowired
     private EoloParkService eoloParkService;
 
+    /*@Autowired
+    private UserRepository userRepository;*/
+
     private EoloPark automaticEolopark;
 
 
     //LISTENER VICEN
     @RabbitListener(queues="eoloplantCreationProgressNotifications", ackMode = "AUTO")
-    public void receivedPark(MessagePark data)throws IOException, InterruptedException {
+    public void receivedPark(MessagePark data/*, HttpServletRequest request*/)throws IOException, InterruptedException {
 
         if(data != null){
             System.out.println("Progress: " + data.getProgress());
             System.out.println("getId(): " + data.getId());
             System.out.println("getCompleted(): " + data.getCompleted());
-            eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted());
+            eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted(),data.getEoloPark());
 
         }
 
@@ -60,6 +64,12 @@ public class ReportGenerator {
 
             System.out.println("New automatic Eolo Park: " + data.getEoloPark().getName() + " "+ data.getEoloPark().getArea());
             automaticEolopark = data.getEoloPark();
+
+            /*String name = request.getUserPrincipal().getName();
+            User user = userRepository.findByName(name).orElseThrow();
+            automaticEolopark.setOwner(user);*/
+
+            System.out.println("JOSELITOOOO "+automaticEolopark.toString());
             eoloParkService.save(automaticEolopark);
         }
 

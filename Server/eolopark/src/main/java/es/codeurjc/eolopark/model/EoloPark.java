@@ -35,10 +35,6 @@ public class EoloPark {
 
     private TerrainType terrainType;
 
-    private int progress;
-
-    private String eoloParkData;
-
     //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
@@ -56,9 +52,6 @@ public class EoloPark {
            return null;
         }
     }
-
-
-
 
     public void setOwner(User owner) {
         this.owner = owner;
@@ -164,22 +157,6 @@ public class EoloPark {
     }
     public void setSubstation(Substation substation) {
         this.substation = substation;
-    }
-
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
-
-    public int getProgress() {
-        return progress;
-    }
-
-    public void setEoloParkData(String eoloParkData) {
-        this.eoloParkData = eoloParkData;
-    }
-
-    public String getEoloParkData() {
-        return eoloParkData;
     }
  
 

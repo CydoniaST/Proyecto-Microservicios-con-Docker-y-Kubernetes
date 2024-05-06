@@ -18,14 +18,14 @@ public class EoloParkUpdatesService {
 
     @Autowired
     private ServerService serverService;
-    private EoloPark eoloPark;
 
-    public void eoloParkUpdated(Long eoloParkId, double progress, boolean completed) {
+    public void eoloParkUpdated(Long eoloParkId, double progress, boolean completed, EoloPark eoloPark) {
 
         Report report = reportRepository.findById(eoloParkId).orElseThrow();
 
         report.setProgress(progress);
         report.setCompleted(completed);
+        report.setEoloPark(eoloPark);
 
         reportRepository.save(report);
 
