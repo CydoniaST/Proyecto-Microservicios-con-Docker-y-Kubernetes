@@ -4,6 +4,7 @@ import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Message;
 import es.codeurjc.eolopark.model.MessagePark;
 import es.codeurjc.eolopark.model.User;
+import es.codeurjc.eolopark.repository.EoloParkRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -37,6 +38,9 @@ public class ReportGenerator {
     @Autowired
     private ProducerParkServer producerParkServer;
 
+    @Autowired
+    private EoloParkService eoloParkService;
+
     private EoloPark automaticEolopark;
 
 
@@ -53,8 +57,10 @@ public class ReportGenerator {
         }
 
         if(data.getEoloPark() != null){
+
             System.out.println("New automatic Eolo Park: " + data.getEoloPark().getName() + " "+ data.getEoloPark().getArea());
             automaticEolopark = data.getEoloPark();
+            eoloParkService.save(automaticEolopark);
         }
 
         System.out.println("New automatic park recibed: " + data);
