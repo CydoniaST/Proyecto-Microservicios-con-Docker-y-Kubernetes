@@ -1,5 +1,6 @@
 package es.codeurjc.eolopark.service;
 
+import es.codeurjc.eolopark.model.AutomaticPark;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Report;
 import es.codeurjc.eolopark.repository.ReportRepository;
@@ -19,13 +20,13 @@ public class EoloParkUpdatesService {
     @Autowired
     private ServerService serverService;
 
-    public void eoloParkUpdated(Long eoloParkId, double progress, boolean completed, EoloPark eoloPark) {
+    public void eoloParkUpdated(Long eoloParkId, double progress, boolean completed, EoloPark automaticPark) {
 
         Report report = reportRepository.findById(eoloParkId).orElseThrow();
 
         report.setProgress(progress);
         report.setCompleted(completed);
-        report.setEoloPark(eoloPark);
+        report.setEoloPark(automaticPark);
 
         reportRepository.save(report);
 

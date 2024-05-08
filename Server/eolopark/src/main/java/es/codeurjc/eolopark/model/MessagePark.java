@@ -1,5 +1,9 @@
 package es.codeurjc.eolopark.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class MessagePark {
 
     private Long id;
@@ -76,4 +80,14 @@ public class MessagePark {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
 }

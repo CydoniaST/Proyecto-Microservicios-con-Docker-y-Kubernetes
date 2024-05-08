@@ -55,8 +55,8 @@ public class EoloParkServiceSend {
 
             if(progress2.getProgress() == 100){
                 System.out.println("Complete Park Delivery" );
-
-                parkCompleted = new MessagePark(progress2.getId(), 100.0, progress2.getCompleted(), progress2.getEoloPark());
+                progressMessagePlanner.setEoloPark(progress2.getEoloPark());
+                parkCompleted = new MessagePark(progress2.getId(), 100.0, progress2.getCompleted(), progressMessagePlanner.getEoloPark());
                 rabbitTemplate.convertAndSend("eoloplantCreationProgressNotifications", parkCompleted);
                 System.out.println("Eolopark: " + parkCompleted.getEoloPark());
 
@@ -88,21 +88,21 @@ public class EoloParkServiceSend {
 
         //create EoloPark based on city and are
         EoloPark automaticEoloPark = new EoloPark(data.getCity(), data.getArea());
-
-        automaticEoloPark.setId(data.getId());
+        Long id = data.getId();
+        automaticEoloPark.setId(id);
 
         //Geoservice response with info about the city
         City city = service.getCityInfo(data.getCity());
         System.out.println(data.getCity());
         simulateProcessTime();
-        progress = new MessagePlanner(1L, 25.0, false);
+        progress = new MessagePlanner(id, 25.0, false);
         sendDataProgress(progress);
 
         if(city != null){
             //WindService response with city wind info
             Double windSpeed = service.getWind(data.getCity());
             simulateProcessTime();
-            progress = new MessagePlanner(1L, 50.0, false);
+            progress = new MessagePlanner(id, 50.0, false);
             sendDataProgress(progress);
 
 
@@ -134,7 +134,7 @@ public class EoloParkServiceSend {
 
              //All Aerogenerator placed
             simulateProcessTime();
-            progress = new MessagePlanner(1L, 75.0, false);
+            progress = new MessagePlanner(id, 75.0, false);
             sendDataProgress(progress);
 
             automaticEoloPark.setAerogeneratorList(aerogenerators);
@@ -147,8 +147,9 @@ public class EoloParkServiceSend {
             //Automatic EoloPark Completed
             simulateProcessTime();
 
-            progress = new MessagePlanner(1L, 100.0, true);
+            progress = new MessagePlanner(id, 100.0, true);
             progress.setEoloPark(automaticEoloPark);
+            data.setEoloPark(automaticEoloPark);
             sendDataProgress(progress);
 
 

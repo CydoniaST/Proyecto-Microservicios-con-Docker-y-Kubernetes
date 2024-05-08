@@ -54,4 +54,6 @@ public class Report {
     public void setEoloPark(EoloPark eoloPark) {
         this.eoloPark = eoloPark;
     }
+
+
 }

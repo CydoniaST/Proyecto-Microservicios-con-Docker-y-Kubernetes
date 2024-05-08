@@ -1,10 +1,6 @@
 package es.codeurjc.eolopark.service;
 
-import es.codeurjc.eolopark.model.EoloPark;
-import es.codeurjc.eolopark.model.Message;
-import es.codeurjc.eolopark.model.MessagePark;
-import es.codeurjc.eolopark.model.User;
-import es.codeurjc.eolopark.repository.UserRepository;
+import es.codeurjc.eolopark.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +8,11 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This service simulate the report creation
@@ -42,38 +38,54 @@ public class ReportGenerator {
     @Autowired
     private EoloParkService eoloParkService;
 
-    /*@Autowired
-    private UserRepository userRepository;*/
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    private EoloPark automaticEolopark;
+    HttpServletRequest request;
 
 
     //LISTENER VICEN
-    @RabbitListener(queues="eoloplantCreationProgressNotifications", ackMode = "AUTO")
-    public void receivedPark(MessagePark data/*, HttpServletRequest request*/)throws IOException, InterruptedException {
+    @RabbitListener(queues="eoloplantCreationProgressNotifications")
+    public void receivedPark(MessagePark data)throws IOException, InterruptedException {
+
+        System.out.println(data.toString());
 
         if(data != null){
             System.out.println("Progress: " + data.getProgress());
             System.out.println("getId(): " + data.getId());
             System.out.println("getCompleted(): " + data.getCompleted());
-            eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted(),data.getEoloPark());
+            if(data.getEoloPark() == null) eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted(),null);
 
+
+            if(data.getEoloPark() != null){
+
+                //AutoEoloPark recivePark = data.getAutoEoloPark();
+                EoloPark automaticEolopark = data.getEoloPark();
+
+                System.out.println("JOSELITOOOO "+ automaticEolopark.toString());
+                automaticEolopark.setOwner(userDetailsService.findByUsername2("sandra"));
+
+                eoloParkService.save(automaticEolopark);
+
+                List<Aerogenerator> aerogenerators = new ArrayList<>();
+                aerogenerators = automaticEolopark.getAerogeneratorList();
+                automaticEolopark.setAerogeneratorList(aerogenerators);
+                eoloParkService.save(automaticEolopark);
+
+                Substation substation = automaticEolopark.getSubstation();
+                automaticEolopark.setSubstation(substation);
+
+                eoloParkService.save(automaticEolopark);
+
+                eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted(),automaticEolopark);
+
+            }
         }
 
-        if(data.getEoloPark() != null){
 
-            System.out.println("New automatic Eolo Park: " + data.getEoloPark().getName() + " "+ data.getEoloPark().getArea());
-            automaticEolopark = data.getEoloPark();
 
-            /*String name = request.getUserPrincipal().getName();
-            User user = userRepository.findByName(name).orElseThrow();
-            automaticEolopark.setOwner(user);*/
 
-            System.out.println("JOSELITOOOO "+automaticEolopark.toString());
-            eoloParkService.save(automaticEolopark);
-        }
-
-        System.out.println("New automatic park recibed: " + data);
+        System.out.println("New automatic park recibed: " + data.getEoloPark());
     }
 
     @Async
@@ -87,7 +99,6 @@ public class ReportGenerator {
         producerParkServer.sendData(data);
 
     }
-
 
     private void simulateProcessTime() {
         try {

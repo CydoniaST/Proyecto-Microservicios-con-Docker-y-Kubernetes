@@ -88,6 +88,10 @@ public class UserDetailsService {
         return userRepository.findByName(username);
     }
 
+    public User findByUsername2(String username) {
+        return userRepository.findByName(username).orElseThrow();
+    }
+
     public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
     }

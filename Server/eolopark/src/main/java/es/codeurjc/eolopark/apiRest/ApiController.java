@@ -80,30 +80,6 @@ public class ApiController {
     return ResponseEntity.created(location).body(savedEolopark);
     }
 
-    @PostMapping("/eolopark/automatic")
-    public ResponseEntity<EoloPark> createEolopark(@RequestBody AutomaticPark requestBody) {
-        try {
-            String cityName = requestBody.getCity();
-            double area = requestBody.getArea();
-            Long owner_id =  requestBody.getOwner();
-            User owner = userService.findUserById(owner_id);
-
-
-            EoloPark automaticEoloPark = eoloParkService.newAutomaticEoloPark(cityName, area,owner);
-
-            eoloParkService.setOwner(automaticEoloPark, owner);
-
-
-            eoloParkService.save(automaticEoloPark);
-            eoloParkService.save(automaticEoloPark);
-
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(automaticEoloPark.getId()).toUri();
-            return ResponseEntity.created(location).body(automaticEoloPark);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
 
     @PutMapping("/eolopark/{id}")
     public ResponseEntity<EoloPark> updateEolopark(@PathVariable long id, @RequestBody EoloPark newEolopark) {

@@ -1,7 +1,9 @@
 package es.codeurjc.eolopark.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class MessagePlanner {
     
     private Long id;
