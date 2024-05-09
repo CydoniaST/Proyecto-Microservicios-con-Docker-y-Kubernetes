@@ -114,7 +114,7 @@ tecnologías utilizadas en este proyecto:
      - Commits Importantes:
        1. 'grpc changes'
        2. 'grpc completed'
-  - Sandra:`Comunicación por REST del GeoService con el Planner`
+  - Sandra:`Comunicación por REST del GeoService con el Planner` `Creación de los diagramas de clases`
      - Commits Importantes:
        1. 'GeoService REST'
        2. 'Merge branch 'main' of https://github.com/CodeURJC-DAD-2023-24/webapp06'
