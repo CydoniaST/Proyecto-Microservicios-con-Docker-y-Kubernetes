@@ -26,6 +26,8 @@ public class EoloPark {
     private String terrainType;
 
 
+
+
     public EoloPark(String city, double area){
         this.city = city;
         this.area = area;

@@ -8,8 +8,6 @@ public class Message {
     private boolean completed;
     private Double area;
 
-    private User user;
-
     private String city;
 
     private EoloPark eoloPark;
@@ -20,13 +18,7 @@ public class Message {
         this.city = city;
         this.area = area;
     }
-//    public Message(Long id, String city, Double area, User user){
-//        this.id = id;
-//        this.city = city;
-//        this.area = area;
-//        this.user = user;
-//    }
-//
+
     public Message(Long id, Double progress, boolean completed, EoloPark eoloPark){
         this.id = id;
         this.progress = progress;

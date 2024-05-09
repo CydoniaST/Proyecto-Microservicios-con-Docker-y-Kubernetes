@@ -5,9 +5,7 @@ public class MessagePark {
     private Long id;
     private Double progress;
     private boolean completed;
-    private Double area;
 
-    private String city;
 
     private EoloPark eoloPark;
 
@@ -53,21 +51,7 @@ public class MessagePark {
         this.eoloPark = eoloPark;
     }
 
-    public String getCity() {
-        return city;
-    }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public Double getArea() {
-        return area;
-    }
-
-    public void setArea(Double area) {
-        this.area = area;
-    }
 
     public boolean isCompleted() {
         return completed;

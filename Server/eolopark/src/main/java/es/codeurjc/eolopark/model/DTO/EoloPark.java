@@ -1,17 +1,21 @@
-package es.codeurjc.eolopark.model;
+package es.codeurjc.eolopark.model.DTO;
+
+import es.codeurjc.eolopark.model.Aerogenerator;
+import es.codeurjc.eolopark.model.Substation;
+import es.codeurjc.eolopark.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutoEoloPark {
+public class EoloPark {
 
-
+  
     private Long id;
 
+   
+    private List<es.codeurjc.eolopark.model.Aerogenerator> aerogeneratorList = new ArrayList<>();
 
-    private List<Aerogenerator> aerogeneratorList = new ArrayList<>();
-
-    private Substation substation;
+    private es.codeurjc.eolopark.model.Substation substation;
 
     private String name;
 
@@ -25,8 +29,7 @@ public class AutoEoloPark {
 
     private String terrainType;
 
-
-    public AutoEoloPark(String city, double area){
+    public EoloPark(String city, double area){
         this.city = city;
         this.area = area;
     }
@@ -86,11 +89,11 @@ public class AutoEoloPark {
 
 
     //New
-    public List<Aerogenerator> getAerogeneratorList() {
+    public List<es.codeurjc.eolopark.model.Aerogenerator> getAerogeneratorList() {
         return aerogeneratorList;
     }
 
-    public void setAerogeneratorList(List<Aerogenerator> aerogeneratorList) {
+    public void setAerogeneratorList(List<es.codeurjc.eolopark.model.Aerogenerator> aerogeneratorList) {
 
         this.aerogeneratorList = aerogeneratorList;
     }
@@ -100,7 +103,7 @@ public class AutoEoloPark {
         this.aerogeneratorList.add(aerogenerator);
     }
 
-    public Substation getSubstation() {
+    public es.codeurjc.eolopark.model.Substation getSubstation() {
         return substation;
     }
 

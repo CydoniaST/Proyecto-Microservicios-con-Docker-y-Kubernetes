@@ -13,12 +13,13 @@ window.addEventListener('load', (event) => {
 
         let progressElem = document.getElementById('progress');
         let reportDataElem = document.getElementById('completed');
-        let tusmuelasElem = document.getElementById('eolopark');
+        let newParkElem = document.getElementById('eoloPark');
+
 
 
         progressElem.textContent = report.progress + '%';
         reportDataElem.textContent = String(report.completed);
-        tusmuelasElem.textContent = String(report.eolopark);
+        newParkElem.textContent = JSON.stringify(report.eoloPark);
 
     };
 

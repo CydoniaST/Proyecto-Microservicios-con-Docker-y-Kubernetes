@@ -43,7 +43,7 @@ public class EoloParkServiceSend {
     }
 
     //PRODUCER
-    @JsonIgnore
+    //@JsonIgnore
     public void sendDataProgress(MessagePlanner progress2) throws IOException, InterruptedException {
 
           MessagePlanner progressMessagePlanner;
@@ -56,6 +56,8 @@ public class EoloParkServiceSend {
             if(progress2.getProgress() == 100){
                 System.out.println("Complete Park Delivery" );
                 progressMessagePlanner.setEoloPark(progress2.getEoloPark());
+                progressMessagePlanner.getEoloPark().setAerogeneratorList(progress2.getEoloPark().getAerogeneratorList());
+                progressMessagePlanner.getEoloPark().setSubstation(progress2.getEoloPark().getSubstation());
                 parkCompleted = new MessagePark(progress2.getId(), 100.0, progress2.getCompleted(), progressMessagePlanner.getEoloPark());
                 rabbitTemplate.convertAndSend("eoloplantCreationProgressNotifications", parkCompleted);
                 System.out.println("Eolopark: " + parkCompleted.getEoloPark());
@@ -70,15 +72,6 @@ public class EoloParkServiceSend {
         //rabbitTemplate.convertAndSend("eoloplantCreationProgressNotifications", progressMessage);
     }
 
-    //PRODUCER
-    @JsonIgnore
-    public void sendDataPark(MessagePark park) {
-
-
-        MessagePark parkCompleted = new MessagePark(park.getId(), park.getProgress(), park.getCompleted(), park.getEoloPark());
-
-        rabbitTemplate.convertAndSend("eoloplantCreationProgressNotifications", parkCompleted);
-    }
 
     //Automatic Creation
     public void newAutomaticEoloPark(MessagePlanner data) throws IOException, InterruptedException {

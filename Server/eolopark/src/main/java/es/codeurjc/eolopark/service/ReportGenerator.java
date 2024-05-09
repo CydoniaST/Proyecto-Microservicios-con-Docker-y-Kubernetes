@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This service simulate the report creation
@@ -42,48 +44,49 @@ public class ReportGenerator {
     private UserDetailsService userDetailsService;
 
     HttpServletRequest request;
-
+    @Autowired
+    private AerogeneratorService aerogeneratorService;
 
     //LISTENER VICEN
-    @RabbitListener(queues="eoloplantCreationProgressNotifications")
+    @RabbitListener(queues="eoloplantCreationProgressNotifications", ackMode = "AUTO")
     public void receivedPark(MessagePark data)throws IOException, InterruptedException {
 
         System.out.println(data.toString());
 
-        if(data != null){
-            System.out.println("Progress: " + data.getProgress());
-            System.out.println("getId(): " + data.getId());
-            System.out.println("getCompleted(): " + data.getCompleted());
-            if(data.getEoloPark() == null) eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted(),null);
-
-
-            if(data.getEoloPark() != null){
+            if(data.getEoloPark() == null){
+                eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted(),null);
+            }else{
 
                 //AutoEoloPark recivePark = data.getAutoEoloPark();
-                EoloPark automaticEolopark = data.getEoloPark();
+                es.codeurjc.eolopark.model.DTO.EoloPark eoloPark = data.getEoloPark();
+                EoloPark automaticEolopark = new EoloPark();
+                //Map<Aerogenerator, Long> aerogenerators = new HashMap<>();
+                List<Aerogenerator> aerogeneratorList = new ArrayList<>(eoloPark.getAerogeneratorList());
 
-                System.out.println("JOSELITOOOO "+ automaticEolopark.toString());
+
                 automaticEolopark.setOwner(userDetailsService.findByUsername2("sandra"));
 
-                eoloParkService.save(automaticEolopark);
+                automaticEolopark.setName(eoloPark.getName());
+                automaticEolopark.setCity(eoloPark.getCity());
+                automaticEolopark.setArea(eoloPark.getArea());
+                automaticEolopark.setId(eoloPark.getId());
+                automaticEolopark.setLatitude(eoloPark.getLatitude());
+                automaticEolopark.setLongitude(eoloPark.getLongitude());
+                automaticEolopark.setAerogeneratorList(aerogeneratorList);
 
-                List<Aerogenerator> aerogenerators = new ArrayList<>();
-                aerogenerators = automaticEolopark.getAerogeneratorList();
-                automaticEolopark.setAerogeneratorList(aerogenerators);
-                eoloParkService.save(automaticEolopark);
+                for(Aerogenerator aerogenerator : automaticEolopark.getAerogeneratorList()){
+                    aerogenerator.setEoloPark(automaticEolopark);
+                }
 
-                Substation substation = automaticEolopark.getSubstation();
-                automaticEolopark.setSubstation(substation);
+                String terrain = eoloPark.getTerrainType();
+                automaticEolopark.setTerrainType(TerrainType.valueOf(terrain));
+                automaticEolopark.setSubstation(eoloPark.getSubstation());
 
                 eoloParkService.save(automaticEolopark);
 
                 eoloParkUpdatesService.eoloParkUpdated(data.getId(), data.getProgress(), data.getCompleted(),automaticEolopark);
 
             }
-        }
-
-
-
 
         System.out.println("New automatic park recibed: " + data.getEoloPark());
     }

@@ -1,6 +1,5 @@
 package es.codeurjc.eolopark.service;
 
-import es.codeurjc.eolopark.model.AutomaticPark;
 import es.codeurjc.eolopark.model.EoloPark;
 import es.codeurjc.eolopark.model.Report;
 import es.codeurjc.eolopark.repository.ReportRepository;

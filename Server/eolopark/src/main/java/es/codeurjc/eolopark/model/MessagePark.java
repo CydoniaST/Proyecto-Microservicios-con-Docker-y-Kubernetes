@@ -2,6 +2,7 @@ package es.codeurjc.eolopark.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
+import es.codeurjc.eolopark.model.DTO.EoloPark;
 
 @Configuration
 public class MessagePark {
