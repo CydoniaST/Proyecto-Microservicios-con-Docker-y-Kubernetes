@@ -92,7 +92,15 @@ tecnologías utilizadas en este proyecto:
 
 ## Diagrama de clases y Templates
 
-<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/d69d8fcc-9170-4026-86bd-7544bc41ed72" width="1080">
+<h3>Server</h3>
+
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/8266dbed-7451-482f-8559-ff185f31dff4" >
+
+<h3>Planner</h3>
+
+<h3>WindService</h3>
+
+<h3>GeoService</h3>
 
 ## Participación de los miembros
 
