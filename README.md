@@ -81,6 +81,8 @@ tecnologías utilizadas en este proyecto:
 - `Spring Boot 3`: Herramienta de desarrollo
 - `VSCode/IntelliJ`: El framework web utilizado
 - `DBeaber`: Base de datos
+- `Maven`
+- `RabbitMQ`: Broker para el paso de mensajes entre servicios
 
 ## Diagrama de Navegación
 <img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
