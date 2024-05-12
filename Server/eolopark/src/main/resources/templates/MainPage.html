@@ -7,8 +7,8 @@
 </head>
 
 <body>
-    <h1>Listado de Parques Eólicos</h1>
-    <h3>Bienvenido/a {{username}}</h3>
+    <h1 style="font-family: 'Gill Sans MT';font-weight: bold">Listado de Parques Eólicos</h1>
+    <h3 style="font-family: 'Gill Sans MT';font-weight: normal">Bienvenido/a {{username}}</h3>
     <a href="/login"><button>Logout</button></a>
 
     <form method="get">
@@ -18,13 +18,13 @@
     <br>
     <table>
         <tr>
-            <th>Nombre</th>
-            <th>Ciudad</th>
+            <th style="font-family: 'Gill Sans MT';font-weight: normal">Nombre</th>
+            <th style="font-family: 'Gill Sans MT';font-weight: normal">Ciudad</th>
         </tr>
         {{#eoloParks}}
         <tr>
-            <td>Nombre del Parque: <a href="/DetailsPark/{{id}}">{{name}}</a></td>
-            <td>Ciudad: {{city}}</td>
+            <td style="font-family: 'Gill Sans MT';font-weight: normal">Nombre del Parque: <a href="/DetailsPark/{{id}}">{{name}}</a></td>
+            <td style="font-family: 'Gill Sans MT';font-weight: normal">Ciudad: {{city}}</td>
         </tr>
         {{/eoloParks}}
     </table>
