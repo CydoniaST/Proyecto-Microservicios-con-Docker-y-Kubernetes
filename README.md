@@ -85,7 +85,7 @@ tecnologías utilizadas en este proyecto:
 - `RabbitMQ`: Broker para el paso de mensajes entre servicios
 
 ## Diagrama de Navegación
-<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/6948895f-f178-40c6-b1fc-8e0cb958a07b"  width="2000">
 
 ## Diagrama de entidades de la Base de Datos
 
