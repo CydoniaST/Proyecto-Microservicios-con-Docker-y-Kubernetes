@@ -81,9 +81,11 @@ tecnologías utilizadas en este proyecto:
 - `Spring Boot 3`: Herramienta de desarrollo
 - `VSCode/IntelliJ`: El framework web utilizado
 - `DBeaber`: Base de datos
+- `Maven`
+- `RabbitMQ`: Broker para el paso de mensajes entre servicios
 
 ## Diagrama de Navegación
-<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/9c3aa094-534a-4f7b-ae1d-03416fecc5ae"  width="2000">
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/145440108/6948895f-f178-40c6-b1fc-8e0cb958a07b"  width="2000">
 
 ## Diagrama de entidades de la Base de Datos
 
@@ -92,25 +94,41 @@ tecnologías utilizadas en este proyecto:
 
 ## Diagrama de clases y Templates
 
-<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/d69d8fcc-9170-4026-86bd-7544bc41ed72" width="1080">
+<h3>Server</h3>
+
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/8266dbed-7451-482f-8559-ff185f31dff4" >
+
+<h3>Planner</h3>
+
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/dc8ecf5a-63f9-425f-bcf0-52f972d1ab6c">
+
+<h3>WindService</h3>
+
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/cf0beb52-4cd4-480f-afff-4a8026c955c1" width="600">
+
+<h3>GeoService</h3>
+
+<img src="https://github.com/CodeURJC-DAD-2023-24/webapp06/assets/118891317/11450467-c65c-47a4-ae26-f2d6a467b8a5">
 
 ## Participación de los miembros
 
-
-  - Laura:`HTLMs` `Creación Manual de parques con Eric` `Editar Parque/Subestacion/Aerogenerador` `Crear Subestación/Aerogenerador` `Buscar por ciudad` `Ayudar con BD`
-      - Commits Importantes:
-       1. Commit de Editar Parque: clases de EoloParkController.java, SecurityConfiguration.java.
-       2. Commit del Aerogenerador: clases de AerogeneratorController.java, AerogeneratorRepository.java, Aerogenerator.java, AerogeneratorSerice.java
-       3. Commit de Busqueda de ciudad: clases de EoloParkController.java, EoloParkRepository.java.
-  - Sandra:`ApiRest` `Paginación` `Seguridad`
+  - Laura:`Comunicación por gRPC del WindService con el Planner` `Creación de los ficheros relacionados con la comunicación por gRPC en el WindService y en el Planner` 
      - Commits Importantes:
-       1. Commit de Paginación: clases de EoloParkController.java, EoloParkService.java.
-       2. Commit de ApiRest: clases de ApiController.java, SecurityConfiguration.java.
-       3. Commit de Security: clases de SecurityConfiguration.java.
-  - Vicente:`Usuario/Admin` `HTML de error y Success` `Relación de entidades de la BD` 
-  - Eric: `Creación inicial de la base de datos con entidades y relaciones` `Despiegue de Docker` `Certificado SSL autofirmado` `Algoritmo de creacion automática de parques` `Ayudar con algunos HTMLs` `Creación de ReadMe` 
-    - Commits Importantes:
-       1. Commit del EoloPark: clases de EoloParkController.java, EoloParkRepository.java, EoloPark.java, EoloParkSerice.java,  SecurityConfiguration.java,
-       2. Commit del Certificado SSL
-       3. Commit de la creacion automática del parque: clases de Cities.java, CitiesRepository.java, CitiesService,java, etc,  SecurityConfiguration.java.
+       1. 'grpc changes'
+       2. 'grpc completed'
+  - Sandra:`Comunicación por REST del GeoService con el Planner` `Creación de los diagramas de clases`
+     - Commits Importantes:
+       1. 'GeoService REST'
+       2. 'Merge branch 'main' of https://github.com/CodeURJC-DAD-2023-24/webapp06'
+  - Vicente:`Comunicación por WebSockets con el cliente desde el Server` `Implementación de javascript para mostrar al cliente en HTML el progreso de creación y el parque resultante`
+     - Commits Importantes:
+       1. 'WebSocket Starting_V2'
+       2. 'Save New Automatic Park in DB'
+       3. 'Test MessagePark data'
+  - Eric: `Comunicación por RabbitMQ desde el Planner al Server` `Implementación del algoritmo automático usando RabbitMQ` `Métodos Send y Listener`
+     - Commits Importantes:
+       1. 'planner with rabitmq'
+       2. 'RabbitMQ fixed'
+       3. 'Last release'
 
+Además, se ha realizado la documentación y se han corregido errores de la práctica entre todos los miembros del equipo.
