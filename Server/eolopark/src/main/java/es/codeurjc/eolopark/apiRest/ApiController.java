@@ -1,17 +1,20 @@
 package es.codeurjc.eolopark.apiRest;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import es.codeurjc.eolopark.configuration.WebController;
 import es.codeurjc.eolopark.model.*;
+import es.codeurjc.eolopark.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,10 +30,7 @@ import es.codeurjc.eolopark.repository.AerogeneratorRepository;
 import es.codeurjc.eolopark.repository.EoloParkRepository;
 import es.codeurjc.eolopark.repository.SubstationRepository;
 import es.codeurjc.eolopark.repository.UserRepository;
-import es.codeurjc.eolopark.service.AerogeneratorService;
-import es.codeurjc.eolopark.service.EoloParkService;
-import es.codeurjc.eolopark.service.SubstationService;
-import es.codeurjc.eolopark.service.UserDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -60,6 +60,9 @@ public class ApiController {
     @Autowired
     private UserDetailsService userService;
 
+    @Autowired
+    private ReportService reportService;
+
     @GetMapping("/eolopark")
     public ResponseEntity<Page<EoloPark>> getEoloparks(@RequestParam(name = "page", defaultValue = "0") int page) {
         Page<EoloPark> eoloparksPage = eoloParkService.getAllEoloParks(PageRequest.of(page, PAGE_SIZE));
@@ -78,6 +81,24 @@ public class ApiController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
             .buildAndExpand(savedEolopark.getId()).toUri();
     return ResponseEntity.created(location).body(savedEolopark);
+    }
+
+    @PostMapping("/eolopark/automatic")
+    public ResponseEntity<Report> createEoloparkAuto(@RequestBody EoloParkAutomatic eoloParkAutomatic, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+        User user;
+        if (principal != null) {
+            String nameUser = request.getUserPrincipal().getName();
+            user = userrepository.findByName(nameUser).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        } else {
+            user = userrepository.findByName("sandra").orElseThrow(() -> new UsernameNotFoundException("Default user not found"));
+        }
+        Report createdReport = reportService.createReport(eoloParkAutomatic.getName(),eoloParkAutomatic.getArea(),user);
+        //EoloPark savedEolopark = eoloParkService.newAutomaticEoloPark(eoloParkAutomatic.getName(), eoloParkAutomatic.getArea(), null);
+
+        /*savedEolopark.setOwner(user);
+        savedEolopark = eoloParksrepository.save(savedEolopark);*/
+        return ResponseEntity.ok().body(createdReport);
     }
 
 
