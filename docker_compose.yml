@@ -1,0 +1,74 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+    volumes:
+      - ./dato:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    ports:
+      - '3306:3306'
+
+  broker:
+    image: rabbitmq:3.13-management
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "node_health_check"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 5
+    ports:
+      - "15672:15672"
+
+  geoservice:
+    image: cydoniast/geo-service:latest
+
+  windservice:
+    image: cydoniast/windservice:latest
+    ports:
+      - "8084:8084"
+
+
+  server:
+    image: cydoniast/server:latest
+    depends_on:
+      db:
+        condition: service_healthy
+      broker:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db/test
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_RABBITMQ_PORT: 15672
+      SPRING_RABBITMQ_HOST: broker
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SERVER_PORT: 443
+      SERVER_ENABLED: true
+    ports:
+      - "443:443"
+
+  planner:
+    image: cydoniast/planner:latest
+    depends_on:
+      - geoservice
+      - windservice
+    environment:
+      SPRING_RABBITMQ_HOST: broker
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      WINDSERVICE_HOST: windservice
+      WINDSERVICE_PORT: 8084
+      GEOSERVICE_HOST: geo-service
+      GEOSERVICE_PORT: 8082
+    command: ["./wait-for-it.sh", "geoservice:8082", "windservice:8084"]
+
+
+
