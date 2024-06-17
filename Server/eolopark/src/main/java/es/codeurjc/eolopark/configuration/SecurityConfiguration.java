@@ -118,6 +118,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/park-creation-progress").permitAll()
                         .requestMatchers("/report-updater.js").permitAll()
                         .requestMatchers("/create-park").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
 
                         // PRIVATE PAGES
                         .requestMatchers("/DetailsPark/**").hasAnyRole("USER","ADMIN")
