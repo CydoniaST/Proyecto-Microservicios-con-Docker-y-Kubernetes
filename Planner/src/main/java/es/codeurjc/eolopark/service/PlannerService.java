@@ -15,8 +15,10 @@ public class PlannerService {
     @Autowired
     private WindClientGrpc windClientGrpc;
 
+    @Value("${geo.service.url}")
+    private String geoServiceURL;
+
     private final RestTemplate restTemplate;
-    private final String geoServiceUrl = "http://localhost:8082/api/city/";
 
     public PlannerService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

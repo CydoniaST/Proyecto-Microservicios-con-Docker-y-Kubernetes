@@ -5,7 +5,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: test
     volumes:
-      - ./dato:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -46,12 +46,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db/test
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
-      SPRING_RABBITMQ_PORT: 15672
+      SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_HOST: broker
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
       SERVER_PORT: 443
-      SERVER_ENABLED: true
+      SERVER_SSL_ENABLED: true
     ports:
       - "443:443"
 

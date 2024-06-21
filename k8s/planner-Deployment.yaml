@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planner
+spec:
+  selector:
+    matchLabels:
+      app: planner
+  template:
+    metadata:
+      labels:
+        app: planner
+    spec:
+      containers:
+      - name: planner
+        image: cydoniast/planner
+        env:
+        - name: SERVER_PORT
+          value: "443" 
+        - name: SPRING_RABBITMQ_HOST
+          value: "rabbitmq"
+        - name: SPRING_RABBITMQ_PORT
+          value: "5672"
+        - name: SPRING_RABBITMQ_USERNAME
+          value: "guest"
+        - name: SPRING_RABBITMQ_PASSWORD
+          value: "guest"
+
+        - name: WINDSERVICE_HOST
+          value: "windservice"
+        - name: WINDSERVICE_PORT
+          value: "8084"
+        - name: GEOSERVICE_HOST
+          value: "geoservice"
+        - name: GEOSERVICE_PORT
+          value: "8082"
+        ports:
+        - containerPort: 8080
+        
+     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: planner
+spec:
+  type: ClusterIP
+  selector:
+    app: planner
+  ports:
+  - name: planner-port
+    port: 8080
+    targetPort: 8080
