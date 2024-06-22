@@ -12,11 +12,14 @@ FROM eclipse-temurin:17-jdk
 # Set the working directory
 WORKDIR /usr/src/app/
 
+
+# Optionally, include the wait-for-it script
+RUN curl -LJO https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
+    && chmod +x /usr/src/app/wait-for-it.sh
+
 # Copy the packaged application from the builder stage
 COPY --from=builder /project/target/*.jar /usr/src/app/
 
-# Optionally, include the wait-for-it script
-RUN curl -LJO https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && chmod +x /usr/src/app/wait-for-it.sh
 # Expose the application port
 EXPOSE 8080
 

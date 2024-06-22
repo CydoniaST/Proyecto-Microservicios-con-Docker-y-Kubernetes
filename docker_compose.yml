@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   db:
     image: mysql:8.0
@@ -25,18 +24,7 @@ services:
       start_period: 10s
       retries: 5
     ports:
-      - "15672:15672"
       - "5672:5672"
-
-  geoservice:
-    image: cydoniast/geo-service:latest
-    ports:
-      - "8082:8082"
-
-  windservice:
-    image: cydoniast/windservice:latest
-    ports:
-      - "8084:8084"
 
   server:
     image: cydoniast/server:latest
@@ -61,10 +49,8 @@ services:
   planner:
     image: cydoniast/planner:latest
     depends_on:
-      - broker
       - geoservice
       - windservice
-
     environment:
       SPRING_RABBITMQ_HOST: broker
       SPRING_RABBITMQ_USERNAME: guest
@@ -73,4 +59,14 @@ services:
       WINDSERVICE_PORT: 8084
       GEOSERVICE_HOST: geoservice
       GEOSERVICE_PORT: 8082
-    command: ["./wait-for-it.sh", "geoservice:8082", "windservice:8084", "broker:5672","--", "java", "-jar", "eolopark-0.0.1-SNAPSHOT.jar"]
+    command: ["./wait-for-it.sh", "geoservice:8082", "windservice:8084", "--", "java", "-jar", "eolopark-0.0.1-SNAPSHOT.jar"]
+
+  geoservice:
+    image: cydoniast/geo-service:latest
+    ports:
+      - "8082:8082"
+
+  windservice:
+    image: cydoniast/windservice:latest
+    ports:
+      - "8084:8084"

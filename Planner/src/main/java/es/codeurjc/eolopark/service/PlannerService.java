@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import es.codeurjc.eolopark.model.City;
+import org.springframework.beans.factory.annotation.Value;
 
 
 @Service
@@ -27,7 +28,7 @@ public class PlannerService {
         this.restTemplate = restTemplate;
     }
     public City getCityInfo(String cityName) {
-        String url = "http://" + geoserviceHost + ":" + geoservicePort + "/api/city/" + city;
+        String url = "http://" + geoserviceHost + ":"+ geoservicePort  + "/api/city/" + cityName;
 
         ResponseEntity<City> response = restTemplate.getForEntity(url, City.class);
         if (response.getStatusCode().is2xxSuccessful()) {

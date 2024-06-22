@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 public class WindClientGrpc {
 
     public Double grpcClient(String city){
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8084)
+        String windServiceHost = System.getenv("WINDSERVICE_HOST");
+        int windServicePort = Integer.parseInt(System.getenv("WINDSERVICE_PORT"));
+
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(windServiceHost, windServicePort)
             .usePlaintext()
             .build();
 
