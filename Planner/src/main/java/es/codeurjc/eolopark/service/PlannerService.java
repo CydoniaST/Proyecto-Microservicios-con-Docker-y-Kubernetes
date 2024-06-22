@@ -15,8 +15,11 @@ public class PlannerService {
     @Autowired
     private WindClientGrpc windClientGrpc;
 
-    @Value("${geo.service.url}")
-    private String geoServiceURL;
+    @Value("${GEOSERVICE_HOST}")
+    private String geoserviceHost;
+
+    @Value("${GEOSERVICE_PORT}")
+    private String geoservicePort;
 
     private final RestTemplate restTemplate;
 
@@ -24,7 +27,8 @@ public class PlannerService {
         this.restTemplate = restTemplate;
     }
     public City getCityInfo(String cityName) {
-        String url = geoServiceUrl + cityName;
+        String url = "http://" + geoserviceHost + ":" + geoservicePort + "/api/city/" + city;
+
         ResponseEntity<City> response = restTemplate.getForEntity(url, City.class);
         if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();

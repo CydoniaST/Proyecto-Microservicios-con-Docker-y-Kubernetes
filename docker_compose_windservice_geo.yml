@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  geoService:
+    image: cydoniast/geo-service:latest
+    ports:
+      - "8082:8082"
+    
+    networks:
+
+      - webapp06_default
+
+  windService:
+    image: cydoniast/windservice:latest
+    ports:
+      - "8084:8084"
+    networks:
+
+      - webapp06_default
+
+networks:
+  webapp06_default:
+    external: true
