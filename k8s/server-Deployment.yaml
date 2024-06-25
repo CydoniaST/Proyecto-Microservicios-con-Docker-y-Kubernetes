@@ -26,12 +26,12 @@ spec:
         - name: SPRING_RABBITMQ_PASSWORD
           value: "guest"
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://db:3306/posts"   
+          value: "jdbc:mysql://db:3306/posts"
         - name: SPRING_DATASOURCE_USERNAME
           value: "root"
         - name: SPRING_DATASOURCE_PASSWORD
           value: "password"
-        - name: SERVER_SSL_ENABLED
+        - name: SERVER_ENABLED
           value: "false"
         ports:
         - containerPort: 443
