@@ -254,19 +254,58 @@ tecnologías utilizadas en este proyecto:
      - Commits Importantes:
        1. 'grpc changes'
        2. 'grpc completed'
+           Para la parte de despliegues:
+          -  Creación de imagen de windservice: archivo windservice.Dockerfile.
+          -  Despliegue 1:
+              -  Archivo Docker_compose.yml con sus servicios.
+              -  Archivo .bat para contruir las imagenes y publicarlas en la cuenta de gruipo de DockerHub.
+          -  Despliegue 2:
+              - Deployments necesarios para kubernetes (Con ayuda de Eric) : + geoservice-Deployment.yaml + ingress.yaml +planner-Deployment.yaml +rabbitmq.yaml +server-Deployment.yaml +windservice-Deployment.yaml
+          -  Despliegue 3:
+              -  Creacion de Maquinas virtuales necesarias apra cada uno de los 3 despliegues con sus respectivas caracteristicas, indicadas en el enunciado.
+              -  Creación de los grupos de seguridad con los puertos necesarios para cada servicio.
+              -  Levantamiento de maquinas e instalacion de herramientas necesarias en cada una de ellas, como kubernetes o clonado de repositorios.
+              -  Archivo Kubeconfig
+              -  Archivo claveSSHOpenStack.pem para poder conectarme a las maquinas de forma segura.
   - Sandra:`Comunicación por REST del GeoService con el Planner` `Creación de los diagramas de clases`
      - Commits Importantes:
        1. 'GeoService REST'
        2. 'Merge branch 'main' of https://github.com/CodeURJC-DAD-2023-24/webapp06'
+        Para la parte de despliegues:
+          -  Creación de imagen de Geoservice: archivo de Spring Buildpacks para geoservice.
+          -  Documentacion: Readme de github con todos las caracteristicas a tener en cuenta sobre esta parte, especificando cada configuración utilizada y pasos a seguir para despliegues y demás.
   - Vicente:`Comunicación por WebSockets con el cliente desde el Server` `Implementación de javascript para mostrar al cliente en HTML el progreso de creación y el parque resultante`
      - Commits Importantes:
        1. 'WebSocket Starting_V2'
        2. 'Save New Automatic Park in DB'
        3. 'Test MessagePark data'
+          Para la parte de despliegues:
+          -  Creación de imagen de server: archivo jib de server.
+
+          -  Despliegue 3:
+              - Archivos docker-compose para el desplieue multinodo en openStack.  
+              - Instalacion de herramientas necesarias para las maquinas de multinodo, como clonado de repositorios.
   - Eric: `Comunicación por RabbitMQ desde el Planner al Server` `Implementación del algoritmo automático usando RabbitMQ` `Métodos Send y Listener`
      - Commits Importantes:
        1. 'planner with rabitmq'
        2. 'RabbitMQ fixed'
        3. 'Last release'
+          Para la parte de despliegues:  (Muchas partes estan repetidas con las de Laura ya que las hicimos a la vez juntos)
+          -  Creación de imagen de planner: archivo Planner.Dockerfile.
+          -  Despliegue 1:
+              -  Archivo Docker_compose.yml con sus servicios.
+              -  Creacion de DockerHub con credenciales para el grupo
+              -  Archivo .bat para contruir las imagenes y publicarlas en la cuenta de gruipo de DockerHub.
+          -  Despliegue 2:
+              - Deployments necesarios para kubernetes (Con ayuda de Laura) : + geoservice-Deployment.yaml + ingress.yaml +planner-Deployment.yaml +rabbitmq.yaml +server-Deployment.yaml +windservice-Deployment.yaml
+          -  Despliegue 3:
+              -  Creacion de Maquinas virtuales necesarias apra cada uno de los 3 despliegues con sus respectivas caracteristicas, indicadas en el enunciado.
+              -  Creación de los grupos de seguridad con los puertos necesarios para cada servicio.
+              -  Levantamiento de maquinas e instalacion de herramientas necesarias en cada una de ellas, como kubernetes o clonado de repositorios.
+              -  Archivo Kubeconfig
+              -  Archivo claveSSHOpenStack.pem para poder conectarme a las maquinas de forma segura.
+                
+          
+        
 
 Además, se ha realizado la documentación y se han corregido errores de la práctica entre todos los miembros del equipo.
