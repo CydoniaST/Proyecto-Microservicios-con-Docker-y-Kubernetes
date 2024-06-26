@@ -68,7 +68,127 @@
     - **Descripción rápida**:
       - Conectarse al repositorio de GitHub mediante la etensión "GitHu Repositories" y desde una terminal de VSCode escribir el comando "git pull .".
         De esta forma se podrá bajar el proyecto del repositorio remoto. El resto de pasos una vez hecho el "pull" se puede seguir desde el paso 4.
-  
+        
+  <h4 align="center">
+🛠️ Guía de construccion y despligue de contenedores
+</h4>
+
+  -SECCIÓN DE INSTRUCCIONES
+Despliegues y empaquetados 
+Creacion de imagentes para los distintos servicios
+Server: Tenica utilizada-->JIB Plugin
+Pasos:
+1) agregamos el JIB al archivo pom.xml
+2)configurar lo necesario para crear la imagen en configuracion
+3)Ejecutar el comando: mvn compile jib:build
+Planner: Tecnica utilizada--> Multistage Dockerfile
+1) crear un docker file con multiples etapas
+2) En la primera etapa, construir el jar
+3) En la segunda etapa, copiar dicho jar en una imagen base 
+4) construir la imagen con el siguiente comando: docker build -t planner-image .
+WindService: Tecnica utilizada--> Multistage Dockerfile
+Igual que el planner
+Georservice: Tecnica utilizada--> Spring Buildpacks
+1)Nos aseguramos de que la aplicacion este configurada como una aplicacion Spring Boot
+2)Ejecutar el comando Spring Boot para crear la imagen de Buildpacks: ./mvnw spring-boot:build-image
+
+
+Una vez creadas las imagenes se ejecutura el script--> create_dcoker-images.bat
+comando para ejecutar dicho script: Nos aseguraremos de proporcionar la ruta completa donde se encuentra el script y luego ejecutaremos ---> .\create_dcoker-images.bat
+
+DESPLIGUE DE LA APLICACION  
+--Despligue docker compose
+Una vez que las imagenes estan subidas al docker hub realizaremos los dockerfile del Planner y del Winservice
+Dockerfile Planner
+Primera parte--> construccion del contenedor
+1) Base Image: se usa Maven con JDK 17 y se etiqueta como 'builder'-->FROM maven:3.9.0-eclipse-temurin-17 as builder
+2) Work Directory: Establece el directorio de trabajo en /project 
+3) Copiar pom.xml: copia el pom.xml al directorio de trabajo del contenedor
+4) Compilar proyecto: para compilar el proyecto sin detenerse en errores--> mvn clean compile
+5) Copiar Código Fuente: copia el directorio src al directorio de trabajo del contenedor
+6) Empaquetar Proyecyo : empaqueta y crea el JAR pero además, carga las dependencias necesarias y omite la pruebas--> mvn package -DskipTests
+
+Segunda parte--> contenedor de aplicacion
+1) Base Image: Usa JDK 17
+2) Work Directory: Establece el directorio de trabajo en -->/usr/src/app/
+3) wait-for-it Script: Descarga y da permisos de ejecucion al script wait-for-it, el cual es opcional para esperar otros servicios
+4) Copiar JAR: Copia el JAR generador en el contendor de construccion al directorio de trabajo el contenedor de la aplicacion
+5) Exponer Puerto: Expone el puerto 8080
+6) Definir Entrypoint: Define el comando de inicio para ejecutar la aplicacion java con el JAR copiado anteriormente
+
+Dockerfile WindService
+Primera parte--> construccion del contenedor
+1) Base Image: se usa Maven con JDK 17 y se etiqueta como 'builder'-->FROM maven:3.9.0-eclipse-temurin-17 as builder
+2) Work Directory: Establece el directorio de trabajo en /WindService
+3) Copiar pom.xml: copia el pom.xml del servicio WindService al directorio de trabajo del contenedor
+4) Compilar proyecto: Ejecuta -->mvn clean verify para limpiar y verificar el proyecyo, la opcion --fail-never hace que el comando no falle si hay errores
+5) Copiar Código Fuente: copia el directorio src del servicio WindService al directorio de trabajo del contenedor
+6) Empaquetar Proyecyo : empaqueta y crea el JAR pero además, carga las dependencias necesarias y omite la pruebas--> mvn package -DskipTests
+
+Segunda parte--> contenedor de aplicacion
+1) Base Image: Usa JDK 17
+2) Work Directory: Establece el directorio de trabajo en -->/usr/src/app/
+3) wait-for-it Script: Descarga y da permisos de ejecucion al script wait-for-it, el cual es opcional para esperar otros servicios
+4) Copiar JAR: Copia el JAR generador en el contendor de construccion al directorio de trabajo el contenedor de la aplicacion
+5) Exponer Puerto: Expone el puerto 8084
+6) Definir Entrypoint: Define el comando de inicio para ejecutar la aplicacion java con el JAR copiado anteriormente
+
+Una vez tenemos los dockerfile haremos el archivo dockercompose.yml, este configura y define servicios Docker, como un servidor de RabbitMQ, una base de datos MySQL
+y varias aplicaciones java, para facilitar el despliegue y la gestion conjunta de los servicios, especificando sus imagnenes, variables de entorno, puertos y dependencias
+Además, incluye verificaciones que nos asegura que los servicios esten funcionando antes de iniciar otros servicios que dependan de otros.
+
+Por ultimo el comando para ejecutarlo-->  docker-compose -f docker_compose.yml up
+
+
+
+--Desplieque con Kubernetes
+1) iniciamos MiniKube: minikube start
+2) se realiza la configuracion de kubernetes: kubectl apply -f k8s/
+3) una vez finalizado el despliegue hacemos un --> minikube tunnel
+4) minikube service server, con esto se empezara a a levantar todos los servicios de la web, es decir Planner, Geoservice, WindService y Server
+5) una vez se levantan los servicios en el navegador de la maquina ponemos la ip que da como el resultado cuando hacemos el comando--> minikube tunnel, haciendo al server y como consecuencia a la web
+
+
+
+--Despligue con openStak
+Primero debemos acceder a OpenStack con las claves disponibles y levantar la instancia webapp06, tambien 
+debemos conectarnos a la VM usando -->ssh -i claveSSHOpenStack.pem ubuntu@10.100.139.6, clona el repositorio con git clone
+
+Despliegue 1: Mono-nodo con docker-compose:
+1) obtenemos IP Flotante, que se encuentran dentro de las imagenes de OpenStack
+2) configuramos los grupos de seguridad segun los puertos que necesite la maquina
+3) Accedemos a la instancias utilizando el siguiente comando-->ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
+4)Una vez dentro de la instancia navegamos a la carpeta de la aplicacion: cd webapp06
+5) Desplegamos la aplicacion con Docker Compose--> sudo docker-compose up
+
+Despliegue 2: Multi-nodo con docker-compose:
+1) Acceder a la instancia con IP Flotante --> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
+2) Acceder a otras instancias sin IP Flotante--> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpMaquinaVirtual>
+3) En cada instancia navegamos a la carpeta de la aplicacion: cd webapp6
+4) Ejecutamos Docker Compose en cada instancia con --> sudo docker-compose -f docker-compose-xxx.yml up
+
+Despligue 3: kubernetes
+
+-estar en la carpeta de kubeconfig, abrir powershell
+
+1) kubectl delete service,deployment,ingress --all para limpiar si algo falla, solo si falla
+2) kubectl apply -f msql-pv.yaml
+3) kubectl apply -f k8s/msql-pvc.yaml
+4) kubectl create -f .\k8s\msql.yaml
+5) kubectl create -f .\k8s\server-Deployment.yaml
+6) kubectl create -f .\k8s\geoservice-Deployment.yaml
+7) kubectl create -f .\k8s\windservice-Deployment.yaml
+8) kubectl create -f .\k8s\planner-Deployment.yaml
+9)  kubectl create -f .\k8s\ingress.yaml
+10)  kubectl create -f .\k8s\rabbitmq.yaml
+Tambien se puede hacer directamente --> kubectl create -f k8s/, pero si algo falla seguimos los pasos comentadas anteriormente
+11) revisamos que este todo bien con  kubectl get services y kubectl get pods
+12) Por ultimo para levantar la web uso kubectl port-forward server-65d9cd874f-t5t4j 443:443
+
+Revisar que el nombre del pod del server este bien si falla y ya en la web tirar localhost:443
+
+
+
 ## Tecnologias utilizadas
 
 <h4 align="center">
