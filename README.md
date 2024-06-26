@@ -254,6 +254,7 @@ tecnologías utilizadas en este proyecto:
      - Commits Importantes:
        1. 'grpc changes'
        2. 'grpc completed'
+          
            Para la parte de despliegues:
           -  Creación de imagen de windservice: archivo windservice.Dockerfile.
           -  Despliegue 1:
@@ -271,6 +272,7 @@ tecnologías utilizadas en este proyecto:
      - Commits Importantes:
        1. 'GeoService REST'
        2. 'Merge branch 'main' of https://github.com/CodeURJC-DAD-2023-24/webapp06'
+          
         Para la parte de despliegues:
           -  Creación de imagen de Geoservice: archivo de Spring Buildpacks para geoservice.
           -  Documentacion: Readme de github con todos las caracteristicas a tener en cuenta sobre esta parte, especificando cada configuración utilizada y pasos a seguir para despliegues y demás.
@@ -279,6 +281,7 @@ tecnologías utilizadas en este proyecto:
        1. 'WebSocket Starting_V2'
        2. 'Save New Automatic Park in DB'
        3. 'Test MessagePark data'
+          
           Para la parte de despliegues:
           -  Creación de imagen de server: archivo jib de server.
 
@@ -290,6 +293,7 @@ tecnologías utilizadas en este proyecto:
        1. 'planner with rabitmq'
        2. 'RabbitMQ fixed'
        3. 'Last release'
+          
           Para la parte de despliegues:  (Muchas partes estan repetidas con las de Laura ya que las hicimos a la vez juntos)
           -  Creación de imagen de planner: archivo Planner.Dockerfile.
           -  Despliegue 1:
