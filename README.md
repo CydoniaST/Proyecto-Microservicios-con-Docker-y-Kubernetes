@@ -158,6 +158,7 @@ Primero debemos acceder a OpenStack con las claves disponibles y levantar la ins
 debemos conectarnos a la VM usando -->ssh -i claveSSHOpenStack.pem ubuntu@10.100.139.6, clona el repositorio con git clone
 
 ### Despliegue 1: [Mono-nodo con docker-compose](https://clea.etsii.urjc.es/horizon/project/instances/87861c61-084d-471a-b73b-0471e92b28cb/)
+URL: [https://clea.etsii.urjc.es/horizon/project/instances/87861c61-084d-471a-b73b-0471e92b28cb/](https://clea.etsii.urjc.es/horizon/project/instances/87861c61-084d-471a-b73b-0471e92b28cb/)
 1) obtenemos IP Flotante, que se encuentran dentro de las imagenes de OpenStack
 2) configuramos los grupos de seguridad segun los puertos que necesite la maquina
 3) Accedemos a la instancias utilizando el siguiente comando-->ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
@@ -165,12 +166,14 @@ debemos conectarnos a la VM usando -->ssh -i claveSSHOpenStack.pem ubuntu@10.100
 5) Desplegamos la aplicacion con Docker Compose--> sudo docker-compose up
 
 ### Despliegue 2: [Multi-nodo con docker-compose](https://clea.etsii.urjc.es/horizon/project/instances/606fd4c5-a20d-453e-b16c-ba3a643dda79/)
+URL: [https://clea.etsii.urjc.es/horizon/project/instances/606fd4c5-a20d-453e-b16c-ba3a643dda79/](https://clea.etsii.urjc.es/horizon/project/instances/606fd4c5-a20d-453e-b16c-ba3a643dda79/)
 1) Acceder a la instancia con IP Flotante --> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
 2) Acceder a otras instancias sin IP Flotante--> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpMaquinaVirtual>
 3) En cada instancia navegamos a la carpeta de la aplicacion: cd webapp6
 4) Ejecutamos Docker Compose en cada instancia con --> sudo docker-compose -f docker-compose-xxx.yml up
 
-### Despliegue 3: [Kubernetes](https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/))
+### Despliegue 3: [Kubernetes](https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/)
+URL: [https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/](https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/)
 
 -estar en la carpeta de kubeconfig, abrir powershell
 
