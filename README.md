@@ -183,8 +183,8 @@ URL: [10.100.139.131](10.100.139.131)
 3) En cada instancia navegamos a la carpeta de la aplicacion: cd webapp6
 4) Ejecutamos Docker Compose en cada instancia con --> sudo docker-compose -f docker-compose-xxx.yml up
 
-## Despliegue 3: [Kubernetes](10.100.139.84)
-URL: [10.100.139.84](10.100.139.84)
+## Despliegue 3: [Kubernetes](https://localhost:443)
+URL: [https://localhost:443](https://localhost:443)
 
 
 -estar en la carpeta de kubeconfig, abrir powershell
