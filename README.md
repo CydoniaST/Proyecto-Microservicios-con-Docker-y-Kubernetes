@@ -284,7 +284,8 @@ tecnologías utilizadas en este proyecto:
           
           Para la parte de despliegues:
           -  Creación de imagen de server: archivo jib de server.
-
+           -  Despliegue 2:
+              - Deployments necesarios para kubernetes (Con ayuda de Laura) : +msql.yaml
           -  Despliegue 3:
               - Archivos docker-compose para el desplieue multinodo en openStack.  
               - Instalacion de herramientas necesarias para las maquinas de multinodo, como clonado de repositorios.
