@@ -80,11 +80,13 @@ SECCIÓN DE INSTRUCCIONES 📄
 Despliegues y empaquetados |  
 Creación de imágenes para los distintos servicios | 
 Server: Técnica utilizada => JIB Plugin
-<h4>Pasos: </h4>
-1) agregamos el JIB al archivo pom.xml
-2)configurar lo necesario para crear la imagen en configuracion
-3)Ejecutar el comando: mvn compile jib:build
-Planner: Tecnica utilizada--> Multistage Dockerfile
+### Pasos:
+
+1) Agregamos el JIB al archivo pom.xml
+2) Configurar lo necesario para crear la imagen en configuración
+3) Ejecutar el comando: mvn compile jib:build
+   
+  Planner: Tecnica utilizada--> Multistage Dockerfile
 1) crear un docker file con multiples etapas
 2) En la primera etapa, construir el jar
 3) En la segunda etapa, copiar dicho jar en una imagen base 
@@ -96,13 +98,19 @@ Georservice: Tecnica utilizada--> Spring Buildpacks
 2)Ejecutar el comando Spring Boot para crear la imagen de Buildpacks: ./mvnw spring-boot:build-image
 
 
-Una vez creadas las imagenes se ejecutura el script--> create_dcoker-images.bat
-comando para ejecutar dicho script: Nos aseguraremos de proporcionar la ruta completa donde se encuentra el script y luego ejecutaremos ---> .\create_dcoker-images.bat
+Una vez creadas las imagenes se ejecutura el script--> create_docker-images.bat
+comando para ejecutar dicho script: Nos aseguraremos de proporcionar la ruta completa donde se encuentra el script y luego ejecutaremos ---> .\create_docker-images.bat
 
-<h3>DESPLIGUE DE LA APLICACION</h3>  
-<h4>Despligue docker compose</h4>
-Una vez que las imagenes estan subidas al docker hub realizaremos los dockerfile del Planner y del Winservice
-Dockerfile Planner
+<h3>DESPLIEGUE DE LA APLICACION</h3>  
+
+# Despligue docker compose
+
+URL: https://localhost:443 
+
+Una vez que las imágenes están subidas al docker hub realizaremos los dockerfile del Planner y del Winservice
+
+## Dockerfile Planner
+
 Primera parte--> construccion del contenedor
 1) Base Image: se usa Maven con JDK 17 y se etiqueta como 'builder'-->FROM maven:3.9.0-eclipse-temurin-17 as builder
 2) Work Directory: Establece el directorio de trabajo en /project 
@@ -119,7 +127,8 @@ Segunda parte--> contenedor de aplicacion
 5) Exponer Puerto: Expone el puerto 8080
 6) Definir Entrypoint: Define el comando de inicio para ejecutar la aplicacion java con el JAR copiado anteriormente
 
-Dockerfile WindService
+## Dockerfile WindService
+
 Primera parte--> construccion del contenedor
 1) Base Image: se usa Maven con JDK 17 y se etiqueta como 'builder'-->FROM maven:3.9.0-eclipse-temurin-17 as builder
 2) Work Directory: Establece el directorio de trabajo en /WindService
@@ -144,7 +153,9 @@ Por ultimo el comando para ejecutarlo-->  docker-compose -f docker_compose.yml u
 
 
 
-<h4>Desplieque con Kubernetes</h4>
+# Desplieque con Kubernetes
+URL: https://127.0.0.1
+
 1) iniciamos MiniKube: minikube start
 2) se realiza la configuracion de kubernetes: kubectl apply -f k8s/
 3) una vez finalizado el despliegue hacemos un --> minikube tunnel
@@ -153,27 +164,28 @@ Por ultimo el comando para ejecutarlo-->  docker-compose -f docker_compose.yml u
 
 
 
-<h4>Despligue con openStack</h4>
+# Despligue con openStack
 Primero debemos acceder a OpenStack con las claves disponibles y levantar la instancia webapp06, tambien 
 debemos conectarnos a la VM usando -->ssh -i claveSSHOpenStack.pem ubuntu@10.100.139.6, clona el repositorio con git clone
 
-### Despliegue 1: [Mono-nodo con docker-compose](https://clea.etsii.urjc.es/horizon/project/instances/87861c61-084d-471a-b73b-0471e92b28cb/)
-URL: [https://clea.etsii.urjc.es/horizon/project/instances/87861c61-084d-471a-b73b-0471e92b28cb/](https://clea.etsii.urjc.es/horizon/project/instances/87861c61-084d-471a-b73b-0471e92b28cb/)
+## Despliegue 1: [Mono-nodo con docker-compose](10.100.139.6)
+URL: [10.100.139.6](10.100.139.6)
 1) obtenemos IP Flotante, que se encuentran dentro de las imagenes de OpenStack
 2) configuramos los grupos de seguridad segun los puertos que necesite la maquina
 3) Accedemos a la instancias utilizando el siguiente comando-->ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
 4)Una vez dentro de la instancia navegamos a la carpeta de la aplicacion: cd webapp06
 5) Desplegamos la aplicacion con Docker Compose--> sudo docker-compose up
 
-### Despliegue 2: [Multi-nodo con docker-compose](https://clea.etsii.urjc.es/horizon/project/instances/606fd4c5-a20d-453e-b16c-ba3a643dda79/)
-URL: [https://clea.etsii.urjc.es/horizon/project/instances/606fd4c5-a20d-453e-b16c-ba3a643dda79/](https://clea.etsii.urjc.es/horizon/project/instances/606fd4c5-a20d-453e-b16c-ba3a643dda79/)
+## Despliegue 2: [Multi-nodo con docker-compose](10.100.139.131)
+URL: [10.100.139.131](10.100.139.131)
 1) Acceder a la instancia con IP Flotante --> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
 2) Acceder a otras instancias sin IP Flotante--> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpMaquinaVirtual>
 3) En cada instancia navegamos a la carpeta de la aplicacion: cd webapp6
 4) Ejecutamos Docker Compose en cada instancia con --> sudo docker-compose -f docker-compose-xxx.yml up
 
-### Despliegue 3: [Kubernetes](https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/)
-URL: [https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/](https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/)
+## Despliegue 3: [Kubernetes](10.100.139.84)
+URL: [10.100.139.84](10.100.139.84)
+
 
 -estar en la carpeta de kubeconfig, abrir powershell
 
@@ -195,7 +207,7 @@ Revisar que el nombre del pod del server este bien si falla y ya en la web tirar
 
 
 
-## Tecnologias utilizadas
+### Tecnologias utilizadas
 
 <h2 align="center">
 🛠️ Tecnologías utilizadas
