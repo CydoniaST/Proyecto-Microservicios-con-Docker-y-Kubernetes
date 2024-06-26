@@ -1,9 +1,9 @@
 
 -  # EoloPark - webapp06
 
-<h4 align="center">
+<h2 align="center">
 :construction: Proyecto en construcción :construction:
-</h4>
+</h2>
 
 ![Badge en Desarollo](https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green)
 
@@ -34,50 +34,53 @@
 
 ## Guía de ejecución en Windows
 
-<h4 align="center">
+<h2 align="center">
 📁 Acceso al proyecto
-</h4>
+</h2>
 
 - `1º Paso`: Una vez en el proyecto dentro de github se podrá descargar el .zip del proyecto, para ello:
   - En la pestaña ![Badge en Desarollo](https://img.shields.io/badge/<>CODE-black?color=green) aparecerá una opción "Download ZIP", desde la que se podrá descargar un zip comprimido con el proyecto completo.
 - `2º Paso`: Descomprimir el .zip en una carpeta vacia.
   
-<h4 align="center">
+<h2 align="center">
 🛠️ Abre y ejecuta el proyecto
-</h4>
+</h2>
 
 - `3º Paso`: Iniciar VSCode o IntelliJ y abrir la carpeta del proyecto descomprimido.
 - `4º Paso`: Desde la clase "EoloParkApplication.java" ejecutar mediante "Run" o click derecho sobre la clase y darle a la opción "Run Java".
 - `5º Paso`: Desde el navegador en la barra de busqueda superior introducir "https://localhost:8443/"
 - `6º Paso`: Aparecerá la página del login y desde aqui ya se podrá navegar en la página web. 
 
-<h4 align="center">
+<h2 align="center">
 🛠️ Requisitos
-</h4>
+</h2>
 
 - `Version de SpringBoot`: 3.2.2
 - `Version de Java`: 21
 - `Dependencias de JPA`: spring-boot-starter-data-jpa
 - `Dependencias de MySQL`: mysql-connector-j
   
-<h4 align="center">
+<h2 align="center">
 🛠️ Referente a problemas de instalación
-</h4>
+</h2>
 
   - Si aparece algún problema al descargar el proyecto, existe una forma alternativa de acceder a el.
     - **Descripción rápida**:
       - Conectarse al repositorio de GitHub mediante la etensión "GitHu Repositories" y desde una terminal de VSCode escribir el comando "git pull .".
         De esta forma se podrá bajar el proyecto del repositorio remoto. El resto de pasos una vez hecho el "pull" se puede seguir desde el paso 4.
         
-  <h4 align="center">
+  <h2 align="center">
 🛠️ Guía de construccion y despligue de contenedores
-</h4>
+</h2>
 
-  -SECCIÓN DE INSTRUCCIONES
-Despliegues y empaquetados 
-Creacion de imagentes para los distintos servicios
-Server: Tenica utilizada-->JIB Plugin
-Pasos:
+<h3 align="center">
+SECCIÓN DE INSTRUCCIONES 📄
+</h3>
+  
+Despliegues y empaquetados |  
+Creación de imágenes para los distintos servicios | 
+Server: Técnica utilizada => JIB Plugin
+<h4>Pasos: </h4>
 1) agregamos el JIB al archivo pom.xml
 2)configurar lo necesario para crear la imagen en configuracion
 3)Ejecutar el comando: mvn compile jib:build
@@ -96,8 +99,8 @@ Georservice: Tecnica utilizada--> Spring Buildpacks
 Una vez creadas las imagenes se ejecutura el script--> create_dcoker-images.bat
 comando para ejecutar dicho script: Nos aseguraremos de proporcionar la ruta completa donde se encuentra el script y luego ejecutaremos ---> .\create_dcoker-images.bat
 
-DESPLIGUE DE LA APLICACION  
---Despligue docker compose
+<h3>DESPLIGUE DE LA APLICACION</h3>  
+<h4>Despligue docker compose</h4>
 Una vez que las imagenes estan subidas al docker hub realizaremos los dockerfile del Planner y del Winservice
 Dockerfile Planner
 Primera parte--> construccion del contenedor
@@ -141,7 +144,7 @@ Por ultimo el comando para ejecutarlo-->  docker-compose -f docker_compose.yml u
 
 
 
---Desplieque con Kubernetes
+<h4>Desplieque con Kubernetes</h4>
 1) iniciamos MiniKube: minikube start
 2) se realiza la configuracion de kubernetes: kubectl apply -f k8s/
 3) una vez finalizado el despliegue hacemos un --> minikube tunnel
@@ -150,24 +153,24 @@ Por ultimo el comando para ejecutarlo-->  docker-compose -f docker_compose.yml u
 
 
 
---Despligue con openStak
+<h4>Despligue con openStack</h4>
 Primero debemos acceder a OpenStack con las claves disponibles y levantar la instancia webapp06, tambien 
 debemos conectarnos a la VM usando -->ssh -i claveSSHOpenStack.pem ubuntu@10.100.139.6, clona el repositorio con git clone
 
-Despliegue 1: Mono-nodo con docker-compose:
+### Despliegue 1: [Mono-nodo con docker-compose](https://clea.etsii.urjc.es/horizon/project/instances/87861c61-084d-471a-b73b-0471e92b28cb/)
 1) obtenemos IP Flotante, que se encuentran dentro de las imagenes de OpenStack
 2) configuramos los grupos de seguridad segun los puertos que necesite la maquina
 3) Accedemos a la instancias utilizando el siguiente comando-->ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
 4)Una vez dentro de la instancia navegamos a la carpeta de la aplicacion: cd webapp06
 5) Desplegamos la aplicacion con Docker Compose--> sudo docker-compose up
 
-Despliegue 2: Multi-nodo con docker-compose:
+### Despliegue 2: [Multi-nodo con docker-compose](https://clea.etsii.urjc.es/horizon/project/instances/606fd4c5-a20d-453e-b16c-ba3a643dda79/)
 1) Acceder a la instancia con IP Flotante --> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpFlotanteMaquinaVirtual>
 2) Acceder a otras instancias sin IP Flotante--> ssh -i <ubicacion/clave/Privada> <usuarioMaquinaVirtual>@<IpMaquinaVirtual>
 3) En cada instancia navegamos a la carpeta de la aplicacion: cd webapp6
 4) Ejecutamos Docker Compose en cada instancia con --> sudo docker-compose -f docker-compose-xxx.yml up
 
-Despligue 3: kubernetes
+### Despliegue 3: [Kubernetes](https://clea.etsii.urjc.es/horizon/project/instances/9843792d-efd4-47f3-9773-0ebb5ab92a7c/))
 
 -estar en la carpeta de kubeconfig, abrir powershell
 
@@ -191,9 +194,9 @@ Revisar que el nombre del pod del server este bien si falla y ya en la web tirar
 
 ## Tecnologias utilizadas
 
-<h4 align="center">
+<h2 align="center">
 🛠️ Tecnologías utilizadas
-</h4>
+</h2>
 
 tecnologías utilizadas en este proyecto:
 
