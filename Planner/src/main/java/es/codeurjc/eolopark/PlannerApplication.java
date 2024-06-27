@@ -30,6 +30,7 @@ public class PlannerApplication {
 		return new Queue("eoloplantCreationProgressNotifications", false);
 	}
 
+
 	@Bean
 	public MessageConverter messageConverter() {
 
