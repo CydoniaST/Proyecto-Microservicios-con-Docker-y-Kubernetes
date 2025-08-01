@@ -5,14 +5,23 @@ services:
       SPRING_RABBITMQ_HOST: 192.168.17.125
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
-      WINDSERVICE_HOST: 192.168.17.96
+      WINDSERVICE_HOST: windService
       WINDSERVICE_PORT: 8084
       GEOSERVICE_HOST: 192.168.17.96
       GEOSERVICE_PORT: 8082
-    command: ["./wait-for-it.sh", "192.168.17.96:8082", "192.168.17.96:8084", "--", "java", "-jar", "eolopark-0.0.1-SNAPSHOT.jar"]
+    command: ["./wait-for-it.sh", "192.168.17.96:8082", "windService:8084", "--", "java", "-jar", "eolopark-0.0.1-SNAPSHOT.jar"]
     networks:
       - webapp06_default
 
 networks:
   webapp06_default:
     external: true
+
+
+  windService:
+    image: cydoniast/windservice:latest
+    ports:
+      - "8084:8084"
+    networks:
+
+      - webapp06_default

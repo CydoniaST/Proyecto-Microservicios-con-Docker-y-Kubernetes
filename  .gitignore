@@ -1,0 +1,15 @@
+# Ignorar archivos de MySQL y binarios temporales
+dato/
+*.sock
+*.pid
+*.err
+*.log
+*.cnf
+*.ibd
+*.frm
+*.MYD
+*.MYI
+
+# Opcional: ignorar archivos del sistema
+.DS_Store
+Thumbs.db

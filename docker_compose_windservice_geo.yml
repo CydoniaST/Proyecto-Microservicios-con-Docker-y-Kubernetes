@@ -9,13 +9,6 @@ services:
 
       - webapp06_default
 
-  windService:
-    image: cydoniast/windservice:latest
-    ports:
-      - "8084:8084"
-    networks:
-
-      - webapp06_default
 
 networks:
   webapp06_default:
