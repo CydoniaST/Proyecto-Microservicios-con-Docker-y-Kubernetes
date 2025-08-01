@@ -1,11 +1,7 @@
 
 -  # EoloPark - webapp06
 
-<h2 align="center">
-:construction: Proyecto en construcción :construction:
-</h2>
-
-![Badge en Desarollo](https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green)
+![Badge en Desarollo](https://img.shields.io/badge/STATUS-Finalizado-purple)
 
 
 
